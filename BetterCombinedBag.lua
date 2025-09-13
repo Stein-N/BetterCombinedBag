@@ -53,7 +53,7 @@ local function CalcHeight(itemHeight, container)
         rows = CalcRows(container)
     end
 
-    return math.floor(90 + (rows * itemHeight) + (rows * itemPadding))
+    return math.floor(90 + (rows * itemHeight) + ((rows - 1)* itemPadding))
 end
 
 local function RenderItemButton(itemButton, container, xPos, yPos)
@@ -106,7 +106,8 @@ function BetterCombinedBag:UpdateSplittedItemLayout(container)
         local containerSlots = C_Container.GetContainerNumSlots(bagId)
 
         local xPos = borderPadding
-        for _, itemButton in ipairs(items) do
+        for index = #items, 1, -1 do
+            local itemButton = items[index]
             if itemButton.bagID == bagId then
                 RenderItemButton(itemButton, container, xPos, yPos)
 
