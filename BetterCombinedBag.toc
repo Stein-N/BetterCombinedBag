@@ -4,5 +4,12 @@
 ## Author: xStopho
 ## Category: UI
 ## Notes: A Simple and Lightweight Bag AddOn for WoW Retail
+## SavedVariables: BetterCombinedBagDB
+
+BetterCombinedBagData.lua
+
+BetterCombinedBagSettings.lua
 
 BetterCombinedBag.lua
+
+BetterCombinedBagCore.lua
