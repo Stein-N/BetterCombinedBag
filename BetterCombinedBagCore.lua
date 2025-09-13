@@ -15,3 +15,15 @@ frame:SetScript("OnEvent", function(self, event, ...)
     local func = handler[event]
     if func then return func(...) end
 end)
+
+hooksecurefunc(ContainerFrameCombinedBags, "UpdateFrameSize", function(self)
+    BetterCombinedBag:ResizeCombinedFrame(self)
+end)
+
+hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
+    if BetterCombinedBagDB["Bag_Toogle_Backpack_Split"] then
+        BetterCombinedBag:UpdateSplittedItemLayout(self)
+    else
+        BetterCombinedBag:UpdateItemLayout(self)
+    end
+end)
