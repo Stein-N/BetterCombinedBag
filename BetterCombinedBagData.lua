@@ -76,18 +76,5 @@ BetterCombinedBagOptions = {
             name = "Item Padding",
             tooltip = "Change the Padding between Items"
         }
-    },
-
-    backpackPadding = {
-        key = "Bag_Backpack_Padding",
-        default = 5,
-        deDE = {
-            name = "Abstand zwischen Rucksäcken",
-            tooltip = "Verändere den Abstand zwischen den Rucksäcken"
-        },
-        enEN = {
-            name = "Backpack Padding",
-            tooltip = "Change the Padding between each Backpack"
-        }
     }
 }
