@@ -6,7 +6,7 @@ $sourceFiles = @(
     "BetterCombinedBag.lua",
     "BetterCombinedBagCore.lua",
     "BetterCombinedBagData.lua",
-    "BetterCombinedBagSettings.lus"
+    "BetterCombinedBagSettings.lua"
 )
 
 $destinationFolder = "./build"
