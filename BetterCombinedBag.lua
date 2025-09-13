@@ -1,59 +1,46 @@
 BetterCombinedBag = {}
-local yBase = -65
 
-local function GetBackItemsList(container)
-    local buttons = {}
+local function CollectItems(container)
+    local items = {}
+    local itemsByBag = { [0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
+    local itemSize = 0
+
     for _, itemButton in container:EnumerateValidItems() do
-        table.insert(buttons, itemButton)
+        table.insert(items, itemButton)
+        table.insert(itemsByBag[itemButton.bagID], itemButton)
+        if itemSize == 0 then
+            itemSize = itemButton:GetSize()
+        end
     end
 
-    return buttons
-end
-
-local function GetItemSize(container)
-    for _, itemButton in container:EnumerateValidItems() do
-        return itemButton:GetSize()
+    for index = 0, 4 do
+        table.sort(itemsByBag[index], function(a, b) return a:GetID() < b:GetID() end)
     end
+
+    return items, itemSize, itemsByBag
 end
 
-local function CalcRows(container)
-    local columns = BetterCombinedBagDB["Bag_Backpack_Columns"]
-    local items = #GetBackItemsList(container)
+local function CalculateFrameSize(itemSize, numItems)
+    local db = BetterCombinedBagDB
+    local columns = db["Bag_Backpack_Columns"]
+    local borderPadding = db["Bag_Border_Padding"]
+    local itemPadding = db["Bag_Item_Padding"]
 
-    return math.ceil(items / columns)
-end
+    local width = math.floor((columns * itemSize) + ((columns - 1) * itemPadding) + (2 * borderPadding))
 
-local function CalcSplittedRows()
-    local columns = BetterCombinedBagDB["Bag_Backpack_Columns"]
     local rows = 0
-
-    for bagId = 0, 4 do
-        local slots = C_Container.GetContainerNumSlots(bagId)
-        rows = rows + math.ceil(slots / columns)
-    end
-
-    return rows
-end
-
-local function CalcWidth(itemWidth)
-    local columns = BetterCombinedBagDB["Bag_Backpack_Columns"]
-    local borderPadding = BetterCombinedBagDB["Bag_Border_Padding"]
-    local itemPadding = BetterCombinedBagDB["Bag_Item_Padding"]
-
-    return math.floor((columns * itemWidth) + ((columns - 1) * itemPadding) + (2 * borderPadding))
-end
-
-local function CalcHeight(itemHeight, container)
-    local itemPadding = BetterCombinedBagDB["Bag_Item_Padding"]
-
-    local rows
-    if BetterCombinedBagDB["Bag_Toogle_Backpack_Split"] then
-        rows = CalcSplittedRows()
+    if db["Bag_Toogle_Backpack_Split"] then
+        for bagId = 0, 4 do
+            local slots = C_Container.GetContainerNumSlots(bagId)
+            rows = rows + math.ceil(slots / columns)
+        end
     else
-        rows = CalcRows(container)
+        rows = math.ceil(numItems / columns)
     end
 
-    return math.floor(90 + (rows * itemHeight) + ((rows - 1)* itemPadding))
+    local height = math.floor(90 + (rows * itemSize) + ((rows - 1)* itemPadding))
+
+    return width, height
 end
 
 local function RenderItemButton(itemButton, container, xPos, yPos)
@@ -63,64 +50,80 @@ local function RenderItemButton(itemButton, container, xPos, yPos)
     itemButton:SetPoint("TOPLEFT", container, "TOPLEFT", xPos, yPos)
 end
 
-function BetterCombinedBag:ResizeCombinedFrame(container)
-    local itemSize = GetItemSize(container)
-    local frameWidth = CalcWidth(itemSize)
-    local frameHeight = CalcHeight(itemSize, container)
+local function UpdateCombinedLayout(container, items, itemSize)
+    local db = BetterCombinedBagDB
+    local borderPadding = db["Bag_Border_Padding"]
+    local itemPadding = db["Bag_Item_Padding"]
+    local columns, counter = db["Bag_Backpack_Columns"], 0
 
-    container:SetSize(frameWidth, frameHeight)
-end
-
-function BetterCombinedBag:UpdateItemLayout(container)
-    local items = GetBackItemsList(container)
-    local borderPadding = BetterCombinedBagDB["Bag_Border_Padding"]
-    local itemPadding = BetterCombinedBagDB["Bag_Item_Padding"]
-    local itemSize = GetItemSize(container)
-    local containerWidth, _ = container:GetSize()
-
-    local xPos, yPos = BetterCombinedBagDB["Bag_Border_Padding"], yBase
+    local xPos = borderPadding
+    local yPos = -65
 
     for index = #items, 1, -1 do
         local itemButton = items[index]
         RenderItemButton(itemButton, container, xPos, yPos)
 
-        if (xPos + itemPadding + borderPadding + itemSize) < containerWidth then
+        counter = counter + 1
+        if counter < columns then
             xPos = xPos + itemSize + itemPadding
         else
             yPos = yPos - itemSize - itemPadding
             xPos = borderPadding
+            counter = 0
         end
     end
 end
 
-function BetterCombinedBag:UpdateSplittedItemLayout(container)
-    local items = GetBackItemsList(container)
-    local borderPadding = BetterCombinedBagDB["Bag_Border_Padding"]
-    local itemPadding = BetterCombinedBagDB["Bag_Item_Padding"]
-    local itemSize = GetItemSize(container)
-    local containerWidth, _ = container:GetSize()
-    local columns = BetterCombinedBagDB["Bag_Backpack_Columns"]
+local function UpdateSplittedLayout(container, itemsByBag, itemSize)
+    local db = BetterCombinedBagDB
+    local borderPadding = db["Bag_Border_Padding"]
+    local itemPadding = db["Bag_Item_Padding"]
+    local columns = db["Bag_Backpack_Columns"]
 
-    local yPos = yBase
+    local yPos = -65
+
     for bagId = 0, 4 do
-        local containerSlots = C_Container.GetContainerNumSlots(bagId)
+        local bagItems = itemsByBag[bagId]
+        if #bagItems > 0 then
+            local xPos = borderPadding
+            local counter = 0
 
-        local xPos = borderPadding
-        for index = #items, 1, -1 do
-            local itemButton = items[index]
-            if itemButton.bagID == bagId then
+            for index = 1, #bagItems do
+                local itemButton = bagItems[index]
                 RenderItemButton(itemButton, container, xPos, yPos)
 
-                if (xPos + itemPadding + borderPadding + itemSize) <= containerWidth then
+                counter = counter + 1
+                if counter < columns then
                     xPos = xPos + itemSize + itemPadding
                 else
                     yPos = yPos - itemSize - itemPadding
                     xPos = borderPadding
+                    counter = 0
                 end
             end
+            if counter ~= 0 then
+                yPos = yPos - itemSize - itemPadding
+            end
         end
-        if (containerSlots / columns) ~= 2 then
-            yPos = yPos - itemSize - itemPadding
-        end
+    end
+end
+
+function BetterCombinedBag:UpdateFrameSize(container)
+    if not container then return end
+
+    local items, itemSize, _ = CollectItems(container)
+    local width, height = CalculateFrameSize(itemSize, #items)
+    container:SetSize(width, height)
+end
+
+function BetterCombinedBag:UpdateItemLayout(container)
+    if not container then return end
+
+    local items, itemSize, itemsByBag = CollectItems(container)
+
+    if BetterCombinedBagDB["Bag_Toogle_Backpack_Split"] then
+        UpdateSplittedLayout(container, itemsByBag, itemSize)
+    else
+        UpdateCombinedLayout(container, items, itemSize)
     end
 end

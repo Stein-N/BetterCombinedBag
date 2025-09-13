@@ -17,13 +17,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 end)
 
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateFrameSize", function(self)
-    BetterCombinedBag:ResizeCombinedFrame(self)
+    if not BetterCombinedBagDB["Bag_Toggle"] then return end
+
+    BetterCombinedBag:UpdateFrameSize(self)
 end)
 
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
-    if BetterCombinedBagDB["Bag_Toogle_Backpack_Split"] then
-        BetterCombinedBag:UpdateSplittedItemLayout(self)
-    else
-        BetterCombinedBag:UpdateItemLayout(self)
-    end
+    if not BetterCombinedBagDB["Bag_Toggle"] then return end
+
+    BetterCombinedBag:UpdateItemLayout(self)
 end)
