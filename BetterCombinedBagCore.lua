@@ -9,7 +9,12 @@ function handler.ADDON_LOADED(name)
     end
 end
 
+function handler.PLAYER_ENTERING_WORLD()
+    BetterCombinedBag:RefreshBagSlots()
+end
+
 frame:RegisterEvent("ADDON_LOADED")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 frame:SetScript("OnEvent", function(self, event, ...)
     local func = handler[event]
@@ -26,4 +31,8 @@ hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
     if not BetterCombinedBagDB["Bag_Toggle"] then return end
 
     BetterCombinedBag:UpdateItemLayout(self)
+end)
+
+hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
+    BetterCombinedBag:UpdateItemLevels(self)
 end)
