@@ -216,9 +216,6 @@ function BetterCombinedBag:UpdateFrameSize(container)
     if not container then return end
     local items, itemSize, _ = CollectItems(container)
     local width, height = CalculateFrameSize(itemSize, #items)
-
-    print(width, height)
-
     container:SetSize(width, height)
 end
 
