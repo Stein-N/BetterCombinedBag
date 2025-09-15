@@ -1,20 +1,13 @@
 # --- Konfiguration ---
 $addonName = "BetterCombinedBag"
-$tocFile = "./BetterCombinedBag.toc"
-$sourceFiles = @(
-    "BetterCombinedBag.toc",
-    "BetterCombinedBag.lua",
-    "BetterCombinedBagCore.lua",
-    "BetterCombinedBagData.lua",
-    "BetterCombinedBagSettings.lua"
-)
+$sourceFiles = Get-ChildItem -Path . -Recurse -Include *.lua, *.toc -File
 
 $destinationFolder = "./build"
 
-Write-Host "Lese Version aus '$tocFile'..."
+Write-Host "Lese Version aus '$addonName.toc'..."
 $version = ""
 try {
-    $versionLine = Get-Content $tocFile | Where-Object { $_ -match "^\s*##\s*Version:" }
+    $versionLine = Get-Content "$addonName.toc" | Where-Object { $_ -match "^\s*##\s*Version:" }
 
     if ($versionLine) {
         $version = ($versionLine -split ":")[1].Trim()
@@ -25,7 +18,7 @@ try {
     }
 } catch {
     $version = "error-no-toc-found"
-    Write-Error "Fehler beim Lesen der .toc-Datei unter '$tocFile'. Breche ab."
+    Write-Error "Fehler beim Lesen der .toc-Datei unter '$addonName.toc'. Breche ab."
     return
 }
 
