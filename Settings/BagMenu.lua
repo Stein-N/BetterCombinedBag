@@ -1,4 +1,4 @@
-BetterCombinedBagSettings = {}
+BagMenu = {}
 local langCode = GetLocale()
 
 -- ====================== --
@@ -28,14 +28,14 @@ end
 
 -- Loads the Option and Lang Object from the Database
 local function GetOption(optionKey)
-    local option = BetterCombinedBagOptions[optionKey]
+    local option = BagSettings[optionKey]
     local lang = option[langCode] or option["enEN"]
     return option, lang
 end
 
 -- Load all PlayerInfo Header
 local function GetHeader()
-    local header = BetterCombinedBagData["optionHeader"]
+    local header = BagData["optionHeader"]
     return header[langCode] or header["enEN"]
 end
 
@@ -69,11 +69,11 @@ end
 -- ==  Option Menu Builder  == --
 -- =========================== --
 
-function BetterCombinedBagSettings:BuildOptionsMenu()
-    local general, generalLayout = Settings.RegisterVerticalLayoutCategory(BetterCombinedBagData.addonName)
+function BagMenu:BuildOptionsMenu()
+    local general, generalLayout = Settings.RegisterVerticalLayoutCategory(BagData.addonName)
 
-    for _, key in ipairs(BetterCombinedBagOptions) do
-        SetDefault(BetterCombinedBagOptions[key])
+    for _, key in ipairs(BagSettings) do
+        SetDefault(BagSettings[key])
     end
 
     local headers = GetHeader()

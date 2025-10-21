@@ -6,10 +6,14 @@
 ## Notes: A Simple and Lightweight Bag AddOn for WoW Retail
 ## SavedVariables: BetterCombinedBagDB
 
-BetterCombinedBagData.lua
+## Data
+Data/BagData.lua
+Settings/BagSettings.lua
 
-BetterCombinedBagSettings.lua
+## Util classes
+Bag/BagCache.lua
+Bag/BagUtils.lua
+Settings/BagMenu.lua
 
-BetterCombinedBag.lua
-
-BetterCombinedBagCore.lua
+## Core Logic
+BagCore.lua

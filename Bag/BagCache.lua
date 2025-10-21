@@ -1,14 +1,14 @@
 BagCache = {}
 
--- Cache Items by BagsIds
+-- Cache Bag Sizes per Id
+local _bagSlots = {[0] = 0, [1] = 0, [2] = 0, [3] = 0, [4] = 0}
+
+-- Cache ItemData by bagId and slot
 local _itemsByBag = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
 local _itemLevelCache = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
 
 -- Cache if Item is equipable
 local _equipableCache = {}
-
--- Cache Bag Sizes per Id
-local _bagSlots = {[0] = 0, [1] = 0, [2] = 0, [3] = 0, [4] = 0}
 
 -- Refresh the complete Player Bag Cache
 function BagCache:RefreshCache()

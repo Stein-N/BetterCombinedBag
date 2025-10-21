@@ -1,18 +1,4 @@
-BetterCombinedBagData = {
-    addonName = "BetterCombinedBag",
-    optionHeader = {
-        deDE = {
-            general = "Allgemein",
-            frameOptions = "Fenster Optionen"
-        },
-        enEN = {
-            general = "General",
-            frameOptions = "Frame Options"
-        }
-    }
-}
-
-BetterCombinedBagOptions = {
+BagSettings = {
     toggleBetterBag = {
         key = "Bag_Toggle",
         default = true,
