@@ -8,37 +8,11 @@ local _eqipmentCache = setmetatable({}, { __mode = "k"})
 -- Caches Back Slot count
 local _bagSlots = { [0]=0, [1]=0, [2]=0, [3]=0, [4]=0 }
 
-function BetterCombinedBag:RefreshBagSlots()
-    for bagId = 0, 4 do
-        _bagSlots[bagId] = C_Container.GetContainerNumSlots(bagId)
-    end
-end
 
-local function WipeItems()
-    table.wipe(_items)
-    for bagId = 0, 4 do
-        table.wipe(_itemsByBag[bagId])
-    end
-end
 
-local function CollectItems(container)
-    WipeItems()
 
-    local itemSize = 0
-    local index = 0
 
-    for _, itemButton in container:EnumerateValidItems() do
-        index = index + 1
-        _items[index] = itemButton
 
-        local slot = itemButton:GetID()
-        _itemsByBag[itemButton.bagID][slot] = itemButton
-
-        if itemSize == 0 then itemSize = itemButton:GetSize() end
-    end
-
-    return _items, itemSize, _itemsByBag
-end
 
 local function CalculateFrameSize(itemSize, numItems)
     local db = BetterCombinedBagDB
@@ -63,37 +37,16 @@ local function CalculateFrameSize(itemSize, numItems)
     return width, height
 end
 
-local function IsItemEquipableByItemID(itemId)
-    local cached = _eqipmentCache[itemId]
-    if cached ~= nil then return cached end
 
-    local _, _, _, equipLoc = C_Item.GetItemInfoInstant(itemId)
-    local equip = (equipLoc ~= nil and equipLoc ~= "" and equipLoc ~= "INVTYPE_NON_EQUIP_IGNORE") or false
-    _eqipmentCache[itemId] = equip
 
-    return equip
-end
 
-local function IsItemEquipable(itemButton)
-    local itemLoc = ItemLocation:CreateFromBagAndSlot(itemButton.bagID, itemButton:GetID())
-    if C_Item.DoesItemExist(itemLoc) then
-        local itemId = C_Item.GetItemID(itemLoc)
-        if itemId then
-            return IsItemEquipableByItemID(itemId)
-        end
-    end
 
-    return false
-end
 
-local function GetItemLevel(itemButton)
-    local itemLoc = ItemLocation:CreateFromBagAndSlot(itemButton.bagID, itemButton:GetID())
-    if C_Item.DoesItemExist(itemLoc) then
-        return C_Item.GetCurrentItemLevel(itemLoc)
-    end
 
-    return nil
-end
+
+
+
+
 
 local function HideItemLevel(itemButton)
     local text = itemButton.BagItemLevel
