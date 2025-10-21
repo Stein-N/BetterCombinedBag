@@ -8,34 +8,38 @@ local _eqipmentCache = setmetatable({}, { __mode = "k"})
 -- Caches Back Slot count
 local _bagSlots = { [0]=0, [1]=0, [2]=0, [3]=0, [4]=0 }
 
+function BetterCombinedBag:RefreshBagSlots()
+    for bagId = 0, 4 do
+        _bagSlots[bagId] = C_Container.GetContainerNumSlots(bagId)
+    end
+end
 
+local function WipeItems()
+    table.wipe(_items)
+    for bagId = 0, 4 do
+        table.wipe(_itemsByBag[bagId])
+    end
+end
 
+local function CollectItems(container)
+    WipeItems()
 
+    local itemSize = 0
+    local index = 0
 
+    for _, itemButton in container:EnumerateValidItems() do
+        index = index + 1
+        _items[index] = itemButton
 
+        local slot = itemButton:GetID()
+        _itemsByBag[itemButton.bagID][slot] = itemButton
 
-local function CalculateFrameSize(itemSize, numItems)
-    local db = BetterCombinedBagDB
-    local columns = db["Bag_Backpack_Columns"]
-    local borderPadding = db["Bag_Border_Padding"]
-    local itemPadding = db["Bag_Item_Padding"]
-
-    local width = (columns * itemSize) + ((columns - 1) * itemPadding) + (2 * borderPadding)
-
-    local rows = 0
-    if db["Bag_Toogle_Backpack_Split"] then
-        for bagId = 0, 4 do
-            local slots = (_bagSlots[bagId] or 0)
-            rows = rows + math.ceil(slots / columns)
-        end
-    else
-        rows = math.ceil(numItems / columns)
+        if itemSize == 0 then itemSize = itemButton:GetSize() end
     end
 
-    local height = 90 + (rows * itemSize) + ((rows - 1) * itemPadding)
-
-    return width, height
+    return _items, itemSize, _itemsByBag
 end
+
 
 
 
