@@ -6,16 +6,23 @@ local handler = {}
 function handler.ADDON_LOADED(name)
     if name == BagData.addonName then
         BagMenu:BuildOptionsMenu()
+        BagUtils:UpdateSettings()
     end
 end
 
 function handler.PLAYER_ENTERING_WORLD()
     -- refresh BagCache
-    print("Player joined")
+    BagCache:RefreshCache()
+end
+
+function handler.BAG_UPDATE()
+    -- refresh BagCache
+    BagCache:RefreshCache()
 end
 
 frame:RegisterEvent("ADDON_LOADED")
 frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+frame:RegisterEvent("BAG_UPDATE")
 
 frame:SetScript("OnEvent", function(self, event, ...)
     local func = handler[event]
@@ -30,10 +37,15 @@ end)
 
 -- hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
 --     if not BetterCombinedBagDB["Bag_Toggle"] then return end
-
---     BetterCombinedBag:UpdateItemLayout(self)
 -- end)
 
--- hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
---     BetterCombinedBag:UpdateItemLevels(self)
--- end)
+hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
+    BagCache:RefreshCache()
+
+    for _, itemButton in self:EnumerateValidItems() do
+        if itemButton ~= nil then
+            BagUtils:AddItemLevelComponent(itemButton)
+            BagUtils:UpdateItemLevel(itemButton)
+        end
+    end
+end)
