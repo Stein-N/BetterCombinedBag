@@ -38,7 +38,11 @@ function BagCache:UpdateBagItems()
         -- Collect all ItemInfos for the BagId
         if slots > 0 then
             for slot = 1, slots do
+                -- GetContainerItemInfo gives a nil value
                 local itemInfo = C_Container.GetContainerItemInfo(bagId, slot)
+
+                if not itemInfo then print("item is nil when cached") end
+
                 if itemInfo and itemInfo.itemID then
                     -- Request Data
                     local itemId = itemInfo.itemID
@@ -62,6 +66,7 @@ function BagCache:UpdateBagItems()
 end
 
 -- return ItemInfo
+---@return ContainerItemInfo? containerInfo
 function BagCache:GetItemInfo(bagId, slot)
     if _itemsByBag[bagId] then
         return _itemsByBag[bagId][slot]
@@ -69,13 +74,38 @@ function BagCache:GetItemInfo(bagId, slot)
 end
 
 -- return ItemLevel
+---@param bagId integer
+---@param slot integer
+---@return integer
 function BagCache:GetItemLevel(bagId, slot)
     if _itemLevelCache[bagId] then
         return _itemLevelCache[bagId][slot]
     else return 0 end
 end
 
+-- return BagSize
+---@param bagId integer
+---@return integer
+function BagCache:GetBagSize(bagId)
+    if _bagSlots[bagId] then
+        return _bagSlots[bagId]
+    else return 0 end
+end
+
+-- get the size of all Player Bags excluding the reagents bag
+---@return integer
+function BagCache:GetFullBagSize()
+    local slots = 0
+    for bagId = 0, 4 do
+        slots = slots + BagCache:GetBagSize(bagId)
+    end
+
+    return slots
+end
+
 -- check if ItemId is equipable
+---@param itemId number
+---@return boolean
 function BagCache:IsEquipable(itemId)
     return _equipableCache[itemId] or false
 end
