@@ -2,6 +2,7 @@ BagCache = {}
 
 -- Cache Items by BagsIds
 local _itemsByBag = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
+local _itemLevelCache = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
 
 -- Cache if Item is equipable
 local _equipableCache = {}
@@ -31,6 +32,7 @@ function BagCache:UpdateBagItems()
     for bagId = 0, 4 do
         -- Wipe old data
         table.wipe(_itemsByBag[bagId])
+        table.wipe(_itemLevelCache[bagId])
         local slots = _bagSlots[bagId]
 
         -- Collect all ItemInfos for the BagId
@@ -38,13 +40,18 @@ function BagCache:UpdateBagItems()
             for slot = 1, slots do
                 local itemInfo = C_Container.GetContainerItemInfo(bagId, slot)
                 if itemInfo and itemInfo.itemID then
+                    -- Request Data
+                    local itemId = itemInfo.itemID
+                    local _, _, _, level, _, _, _, _, equipLoc = C_Item.GetItemInfo(itemInfo.hyperlink)
+
                     -- Save ItemInfo
                     _itemsByBag[bagId][slot] = itemInfo
-                    local itemId = itemInfo.itemID
 
-                    -- Check if Item is equipable but only if the itemId wasnt cached before
+                    -- Cache ItemLevel
+                    _itemLevelCache[bagId][slot] = level or 0
+
+                    -- Cache if item is equipable
                     if _equipableCache[itemId] == nil then
-                        local _, _, _, equipLoc = C_Item.GetItemInfoInstant(itemId)
                         local equipable = equipLoc ~= nil and equipLoc ~= "" and equipLoc ~= "INVTYPE_NON_EQUIP_IGNORE"
                         _equipableCache[itemId] = equipable
                     end
@@ -59,6 +66,13 @@ function BagCache:GetItemInfo(bagId, slot)
     if _itemsByBag[bagId] then
         return _itemsByBag[bagId][slot]
     else return nil end
+end
+
+-- return ItemLevel
+function BagCache:GetItemLevel(bagId, slot)
+    if _itemLevelCache[bagId] then
+        return _itemLevelCache[bagId][slot]
+    else return 0 end
 end
 
 -- check if ItemId is equipable
