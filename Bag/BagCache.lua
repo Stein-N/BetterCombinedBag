@@ -4,7 +4,7 @@ BagCache = {}
 local _bagSlots = {[0] = 0, [1] = 0, [2] = 0, [3] = 0, [4] = 0}
 
 -- Cache ItemData by bagId and slot
-local _itemsByBag = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
+local _itemBagCache = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
 local _itemLevelCache = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
 
 -- Cache if Item is equipable
@@ -28,7 +28,7 @@ end
 function BagCache:UpdateBagItems()
     for bagId = 0, 4 do
         -- Wipe old data
-        table.wipe(_itemsByBag[bagId])
+        table.wipe(_itemBagCache[bagId])
         local slots = _bagSlots[bagId]
 
         -- Collect all ItemInfos for the BagId
@@ -43,7 +43,7 @@ function BagCache:UpdateBagItems()
                     local _, _, _, level, _, _, _, _, equipLoc = C_Item.GetItemInfo(itemInfo.hyperlink)
 
                     -- Save ItemInfo
-                    _itemsByBag[bagId][slot] = itemInfo
+                    _itemBagCache[bagId][slot] = itemInfo
 
                     -- Cache ItemLevel
                     _itemLevelCache[bagId][slot] = level or 0
@@ -62,8 +62,8 @@ end
 -- return ItemInfo
 ---@return ContainerItemInfo? containerInfo
 function BagCache:GetItemInfo(bagId, slot)
-    if _itemsByBag[bagId] then
-        return _itemsByBag[bagId][slot]
+    if _itemBagCache[bagId] then
+        return _itemBagCache[bagId][slot]
     else return nil end
 end
 
