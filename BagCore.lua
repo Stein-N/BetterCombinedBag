@@ -28,18 +28,21 @@ frame:SetScript("OnEvent", function(self, event, ...)
     if func then return func(...) end
 end)
 
+-- Apply the correct Size to the BagFrame
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateFrameSize", function(self)
     if not BetterCombinedBagDB["Bag_Toggle"] then return end
 
     BagUtils:UpdateFrameSize(self)
 end)
 
+-- Apply the Correct Layout to the Bag
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
     if not BetterCombinedBagDB["Bag_Toggle"] then return end
 
     BagUtils:UpdateLayout(self)
 end)
 
+-- Add ItemLevelConponent and update the ItemLevel when anything is changed inside the Bag
 hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
     for _, itemButton in self:EnumerateValidItems() do
         if itemButton ~= nil then
