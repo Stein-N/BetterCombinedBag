@@ -71,3 +71,53 @@ function BagUtils:UpdateItemLevel(itemButton)
         itemButton.BagItemLevel:Hide()
     end
 end
+
+-- collect the itemButtons in the correct order
+function BagUtils:CollectButtons(container)
+    local buttons = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
+    for _, itemButton in container:EnumerateValidItems() do
+        buttons[itemButton.bagID][itemButton:GetID()] = itemButton
+    end
+
+    return buttons
+end
+
+-- update the Bag Layout based in the Settings
+function BagUtils:UpdateLayout(container)
+    local buttons = BagUtils:CollectButtons(container)
+    local yPos = -65
+    local xPos = borderPadding
+    local offset = itemPadding + buttons[0][1]:GetSize()
+
+    for bagId = 0, 4 do
+        -- start a new row if the bag should be splitted
+        if splitBackpack then
+            xPos = borderPadding
+            xPos = yPos - offset
+        end
+
+        local bagItems = buttons[bagId]
+        for _, itemButton in ipairs(bagItems) do
+            if itemButton then
+                itemButton:ClearAllPoints()
+                itemButton:SetPoint("TOPLEFT", container, "TOPLEFT", xPos, yPos)
+
+                if itemButton:GetID() < columns then
+                    xPos = xPos + offset
+                else
+                    yPos = yPos - offset
+                    xPos = borderPadding
+                end
+            end
+        end
+    end
+end
+
+function BagUtils:UpdateFrameSize(container)
+    if not container then return end
+    local buttons = BagUtils:CollectButtons(container)
+    local size = buttons[0][1]:GetSize()
+    local width, height = BagUtils:CalcFrameSize(size)
+
+    container:SetSize(width, height)
+end
