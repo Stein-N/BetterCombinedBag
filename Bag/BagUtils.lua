@@ -5,6 +5,8 @@ local borderPadding;
 local itemPadding;
 local splitBackpack;
 
+local _buttons = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
+
 function BagUtils:UpdateSettings()
     local db = BetterCombinedBagDB
     borderPadding = db["Bag_Border_Padding"]
@@ -74,27 +76,23 @@ end
 
 -- collect the itemButtons in the correct order
 function BagUtils:CollectButtons(container)
-    local buttons = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
     for _, itemButton in container:EnumerateValidItems() do
-        buttons[itemButton.bagID][itemButton:GetID()] = itemButton
+        _buttons[itemButton.bagID][itemButton:GetID()] = itemButton
     end
-
-    return buttons
 end
 
 -- update the Bag Layout based in the Settings
 function BagUtils:UpdateLayout(container)
-    local buttons = BagUtils:CollectButtons(container)
     local yPos = -60
     local xPos = borderPadding
-    local offset = itemPadding + buttons[0][1]:GetSize()
+    local offset = itemPadding + _buttons[0][1]:GetSize()
 
     -- only to track the current columns
     local counter = 0
 
     for bagId = 0, 4 do
         local maxSlots = BagCache:GetBagSize(bagId)
-        local bagItems = buttons[bagId]
+        local bagItems = _buttons[bagId]
         for slot = 1, maxSlots do
             local itemButton = bagItems[slot]
             if itemButton then
@@ -123,8 +121,7 @@ end
 
 function BagUtils:UpdateFrameSize(container)
     if not container then return end
-    local buttons = BagUtils:CollectButtons(container)
-    local size = buttons[0][1]:GetSize()
+    local size = _buttons[0][1]:GetSize()
     local width, height = BagUtils:CalcFrameSize(size)
 
     container:SetSize(width, height)
