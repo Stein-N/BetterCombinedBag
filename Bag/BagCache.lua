@@ -14,6 +14,7 @@ local _equipableCache = {}
 function BagCache:RefreshCache()
     BagCache:UpdateBagSlots()
     BagCache:UpdateBagItems()
+    BagCache:UpdateItemLevels()
 end
 
 -- Refresh the sizes of all Bags
@@ -26,6 +27,8 @@ end
 
 -- Collect ItemInfos
 function BagCache:UpdateBagItems()
+    table.wipe(_equipableCache)
+
     for bagId = 0, 4 do
         -- Wipe old data
         table.wipe(_itemBagCache[bagId])
@@ -39,14 +42,10 @@ function BagCache:UpdateBagItems()
 
                 if itemInfo and itemInfo.itemID then
                     -- Request Data
-                    local itemId = itemInfo.itemID
-                    local _, _, _, level, _, _, _, _, equipLoc = C_Item.GetItemInfo(itemInfo.hyperlink)
+                    local itemId, _, _, equipLoc = C_Item.GetItemInfoInstant(itemInfo.itemID)
 
                     -- Save ItemInfo
                     _itemBagCache[bagId][slot] = itemInfo
-
-                    -- Cache ItemLevel
-                    _itemLevelCache[bagId][slot] = level or 0
 
                     -- Cache if item is equipable
                     if _equipableCache[itemId] == nil then
@@ -54,6 +53,19 @@ function BagCache:UpdateBagItems()
                         _equipableCache[itemId] = equipable
                     end
                 end
+            end
+        end
+    end
+end
+
+function BagCache:UpdateItemLevels()
+    for bagId = 0, 4 do
+        local slots = _bagSlots[bagId]
+        for slot = 1, slots do
+            local itemLoc = ItemLocation:CreateFromBagAndSlot(bagId, slot)
+            if C_Item.DoesItemExist(itemLoc) then
+                local itemLevel = C_Item.GetCurrentItemLevel(itemLoc)
+                _itemLevelCache[bagId][slot] = itemLevel
             end
         end
     end

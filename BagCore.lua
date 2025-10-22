@@ -32,6 +32,7 @@ end)
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateFrameSize", function(self)
     if not BetterCombinedBagDB["Bag_Toggle"] then return end
 
+    BagUtils:CollectButtons(self)
     BagUtils:UpdateFrameSize(self)
 end)
 
