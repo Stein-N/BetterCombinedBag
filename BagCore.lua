@@ -15,14 +15,13 @@ function handler.PLAYER_ENTERING_WORLD()
     BagCache:RefreshCache()
 end
 
-function handler.BAG_UPDATE()
-    -- refresh BagCache
+function handler:BAG_UPDATE_DELAYED()
     BagCache:RefreshCache()
 end
 
 frame:RegisterEvent("ADDON_LOADED")
 frame:RegisterEvent("PLAYER_ENTERING_WORLD")
-frame:RegisterEvent("BAG_UPDATE")
+frame:RegisterEvent("BAG_UPDATE_DELAYED")
 
 frame:SetScript("OnEvent", function(self, event, ...)
     local func = handler[event]
@@ -35,16 +34,17 @@ end)
 --     BetterCombinedBag:UpdateFrameSize(self)
 -- end)
 
--- hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
---     if not BetterCombinedBagDB["Bag_Toggle"] then return end
--- end)
-
-hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
-    BagCache:RefreshCache()
-
+hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
     for _, itemButton in self:EnumerateValidItems() do
         if itemButton ~= nil then
             BagUtils:AddItemLevelComponent(itemButton)
+        end
+    end
+end)
+
+hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
+    for _, itemButton in self:EnumerateValidItems() do
+        if itemButton ~= nil then
             BagUtils:UpdateItemLevel(itemButton)
         end
     end

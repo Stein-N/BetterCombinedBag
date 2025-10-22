@@ -59,14 +59,13 @@ end
 -- updates the ItemLevelComponent if the item is equipable
 function BagUtils:UpdateItemLevel(itemButton)
     local text = itemButton.BagItemLevel
-    local bagId = itemButton.bagId
+    local bagId = itemButton.bagID
     local slot = itemButton:GetID()
     local itemInfo = BagCache:GetItemInfo(bagId, slot)
 
     if itemInfo and BagCache:IsEquipable(itemInfo.itemID) then
         local itemLevel = BagCache:GetItemLevel(bagId, slot)
-        print(itemLevel)
-        text:SetText("Test")
+        text:SetText(itemLevel)
         itemButton.BagItemLevel:Show()
     else
         itemButton.BagItemLevel:Hide()

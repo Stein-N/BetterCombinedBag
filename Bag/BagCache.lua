@@ -26,13 +26,9 @@ end
 
 -- Collect ItemInfos
 function BagCache:UpdateBagItems()
-    -- Wipe equipable cache
-    table.wipe(_equipableCache)
-
     for bagId = 0, 4 do
         -- Wipe old data
         table.wipe(_itemsByBag[bagId])
-        table.wipe(_itemLevelCache[bagId])
         local slots = _bagSlots[bagId]
 
         -- Collect all ItemInfos for the BagId
@@ -40,8 +36,6 @@ function BagCache:UpdateBagItems()
             for slot = 1, slots do
                 -- GetContainerItemInfo gives a nil value
                 local itemInfo = C_Container.GetContainerItemInfo(bagId, slot)
-
-                if not itemInfo then print("item is nil when cached") end
 
                 if itemInfo and itemInfo.itemID then
                     -- Request Data
