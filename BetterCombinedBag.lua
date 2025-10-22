@@ -8,93 +8,9 @@ local _eqipmentCache = setmetatable({}, { __mode = "k"})
 -- Caches Back Slot count
 local _bagSlots = { [0]=0, [1]=0, [2]=0, [3]=0, [4]=0 }
 
-function BetterCombinedBag:RefreshBagSlots()
-    for bagId = 0, 4 do
-        _bagSlots[bagId] = C_Container.GetContainerNumSlots(bagId)
-    end
-end
-
-local function WipeItems()
-    table.wipe(_items)
-    for bagId = 0, 4 do
-        table.wipe(_itemsByBag[bagId])
-    end
-end
-
-local function CollectItems(container)
-    WipeItems()
-
-    local itemSize = 0
-    local index = 0
-
-    for _, itemButton in container:EnumerateValidItems() do
-        index = index + 1
-        _items[index] = itemButton
-
-        local slot = itemButton:GetID()
-        _itemsByBag[itemButton.bagID][slot] = itemButton
-
-        if itemSize == 0 then itemSize = itemButton:GetSize() end
-    end
-
-    return _items, itemSize, _itemsByBag
-end
 
 
 
-
-
-
-
-
-
-
-
-
-
-local function HideItemLevel(itemButton)
-    local text = itemButton.BagItemLevel
-    if text then text:Hide() end
-end
-
-local function UpdateItemLevel(itemButton, itemLevel)
-    local text = itemButton.BagItemLevel
-    if text then
-        text:SetText(itemLevel)
-        text:Show()
-    end
-end
-
-local function AddItemLevel(itemButton)
-    local itemLevel = GetItemLevel(itemButton)
-    if not itemLevel then return end
-
-    if itemButton.BagItemLevel then
-        if itemButton.__lastItemLevel ~= itemLevel then
-            UpdateItemLevel(itemButton, itemLevel)
-            itemButton.__lastItemLevel = itemLevel
-        else
-            itemButton.BagItemLevel:Show()
-        end
-
-        return
-    end
-
-    local text = itemButton:CreateFontString(nil, "OVERLAY", "GameFontNormalOutline")
-    text:SetPoint("BOTTOMRIGHT", itemButton, "BOTTOMRIGHT", 0, 0)
-    text:SetTextColor(1, 1, 1, 1)
-    text:SetScale(1.3)
-    itemButton.BagItemLevel = text
-
-    UpdateItemLevel(itemButton, itemLevel)
-    itemButton.__lastItemLevel = itemLevel
-end
-
-local function RenderItemLevel(itemButton)
-    if IsItemEquipable(itemButton) then
-        AddItemLevel(itemButton)
-    else HideItemLevel(itemButton) end
-end
 
 local function UpdateCombinedLayout(container, items, itemSize)
     local db = BetterCombinedBagDB
@@ -113,7 +29,6 @@ local function UpdateCombinedLayout(container, items, itemSize)
         if itemButton then
             itemButton:ClearAllPoints()
             itemButton:SetPoint("TOPLEFT", container, "TOPLEFT", xPos, yPos)
-            RenderItemLevel(itemButton)
 
             counter = counter + 1
             if counter < columns then
@@ -126,6 +41,11 @@ local function UpdateCombinedLayout(container, items, itemSize)
         end
     end
 end
+
+
+
+
+
 
 local function UpdateSplittedLayout(container, itemsByBag, itemSize)
         local db = BetterCombinedBagDB
@@ -149,7 +69,6 @@ local function UpdateSplittedLayout(container, itemsByBag, itemSize)
                 if itemButton then
                     itemButton:ClearAllPoints()
                     itemButton:SetPoint("TOPLEFT", container, "TOPLEFT", xPos, yPos)
-                    RenderItemLevel(itemButton)
 
                     counter = counter + 1
                     if counter < columns then
@@ -168,6 +87,22 @@ local function UpdateSplittedLayout(container, itemsByBag, itemSize)
         end
     end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function BetterCombinedBag:UpdateFrameSize(container)
     if not container then return end
