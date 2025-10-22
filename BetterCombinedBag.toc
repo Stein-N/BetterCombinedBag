@@ -1,6 +1,6 @@
 ## Interface: 110200, 110205, 110207
 ## Title: BetterCombinedBag
-## Version: 1.1.0
+## Version: 1.5.0
 ## Author: xStopho
 ## Category: UI
 ## Notes: A Simple and Lightweight Bag AddOn for WoW Retail
