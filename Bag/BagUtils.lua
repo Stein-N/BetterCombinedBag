@@ -85,30 +85,38 @@ end
 -- update the Bag Layout based in the Settings
 function BagUtils:UpdateLayout(container)
     local buttons = BagUtils:CollectButtons(container)
-    local yPos = -65
+    local yPos = -60
     local xPos = borderPadding
     local offset = itemPadding + buttons[0][1]:GetSize()
 
-    for bagId = 0, 4 do
-        -- start a new row if the bag should be splitted
-        if splitBackpack then
-            xPos = borderPadding
-            xPos = yPos - offset
-        end
+    -- only to track the current columns
+    local counter = 0
 
+    for bagId = 0, 4 do
+        local maxSlots = BagCache:GetBagSize(bagId)
         local bagItems = buttons[bagId]
-        for _, itemButton in ipairs(bagItems) do
+        for slot = 1, maxSlots do
+            local itemButton = bagItems[slot]
             if itemButton then
                 itemButton:ClearAllPoints()
                 itemButton:SetPoint("TOPLEFT", container, "TOPLEFT", xPos, yPos)
 
-                if itemButton:GetID() < columns then
+                counter = counter + 1
+                if counter < columns then
                     xPos = xPos + offset
                 else
-                    yPos = yPos - offset
                     xPos = borderPadding
+                    yPos = yPos - offset
+                    counter = 0
                 end
             end
+        end
+
+        -- start a new row when backpack sould be splitted and reset counter
+        if counter ~= 0 and splitBackpack then
+            yPos = yPos - offset
+            xPos = borderPadding
+            counter = 0
         end
     end
 end
