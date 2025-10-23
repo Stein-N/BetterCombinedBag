@@ -82,7 +82,7 @@ function BagMenu:BuildOptionsMenu()
     generalLayout:AddInitializer(CreateSettingsListSectionHeaderInitializer(headers.general))
     RegisterCheckbox(general, "toggleBetterBag")
     RegisterCheckbox(general, "toogleBackpackSplit")
-    --RegisterCheckbox(general, "toggleReagenzBag")
+    RegisterCheckbox(general, "toggleReagenzBag")
 
     generalLayout:AddInitializer(CreateSettingsListSectionHeaderInitializer(headers.frameOptions))
     RegisterSlider(general, "backpackColumns", 10, 32, 1)
