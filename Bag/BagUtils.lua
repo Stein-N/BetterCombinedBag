@@ -1,9 +1,10 @@
 BagUtils = {}
 
-local columns;
-local borderPadding;
-local itemPadding;
-local splitBackpack;
+local columns = 0
+local borderPadding = 0
+local itemPadding = 0
+local splitBackpack = false
+local addReagenzBag = false
 
 local _buttons = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
 
@@ -13,6 +14,7 @@ function BagUtils:UpdateSettings()
     itemPadding = db["Bag_Item_Padding"]
     columns = db["Bag_Backpack_Columns"]
     splitBackpack = db["Bag_Toogle_Backpack_Split"]
+    addReagenzBag = db["Bag_Toogle_Reagenz_Bag"]
 end
 
 -- Calculate the width and height for the CombinedBagContainerFrame
