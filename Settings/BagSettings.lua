@@ -26,15 +26,15 @@ BagSettings = {
     },
 
     toggleReagenzBag = {
-        key = "Bag_Toogle_Reagenz_Bag",
+        key = "Bag_Toogle_Reagents_Bag",
         default = false,
         deDE = {
-            name = "Reagenzien Rucksack hinzufügen",
-            tooltip = "Zeigt den Reagenzien Rucksack ebenfalls im Zusammengefassten Rucksack an und nicht in einem seperatem Fenster"
+            name = "Reagenzien Tasche hinzufügen",
+            tooltip = "Zeigt die Reagenzien Tasche ebenfalls im Zusammengefassten Rucksack an und nicht in einem seperatem Fenster"
         },
         enEN = {
-            name = "Add Reagenz Bag",
-            tooltip = "Show the Reagenz Bag inside the Combined Backpack instead of an seperate Window"
+            name = "Add Reagents Bag",
+            tooltip = "Show the Reagents Bag inside the Combined Backpack instead of an seperate Window"
         }
     },
 

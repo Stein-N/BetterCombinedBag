@@ -4,7 +4,6 @@ local columns = 0
 local borderPadding = 0
 local itemPadding = 0
 local splitBackpack = false
-local addReagenzBag = false
 
 local _buttons = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
 
@@ -14,11 +13,9 @@ function BagUtils:UpdateSettings()
     itemPadding = db["Bag_Item_Padding"]
     columns = db["Bag_Backpack_Columns"]
     splitBackpack = db["Bag_Toogle_Backpack_Split"]
-    addReagenzBag = db["Bag_Toogle_Reagenz_Bag"]
 end
 
 -- Calculate the width and height for the CombinedBagContainerFrame
----comment
 ---@param itemSize integer
 ---@return integer width
 ---@return integer height
@@ -60,7 +57,7 @@ function BagUtils:AddItemLevelComponent(itemButton)
     end
 end
 
--- updates the ItemLevelComponent if the item is equipable
+-- Updates the ItemLevelComponent if the item is equipable
 function BagUtils:UpdateItemLevel(itemButton)
     local text = itemButton.BagItemLevel
     local bagId = itemButton.bagID
@@ -76,7 +73,7 @@ function BagUtils:UpdateItemLevel(itemButton)
     end
 end
 
--- collect the itemButtons in the correct order
+-- collect ItemButtons in the correct order
 function BagUtils:CollectButtons(container)
     for _, itemButton in container:EnumerateValidItems() do
         _buttons[itemButton.bagID][itemButton:GetID()] = itemButton
@@ -121,6 +118,8 @@ function BagUtils:UpdateLayout(container)
     end
 end
 
+-- Update the frame size based on the amount of bag slots
+---@param container any
 function BagUtils:UpdateFrameSize(container)
     if not container then return end
     local size = _buttons[0][1]:GetSize()

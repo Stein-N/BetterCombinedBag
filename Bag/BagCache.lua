@@ -1,5 +1,7 @@
 BagCache = {}
 
+local _bagCount = 4
+
 -- Cache Bag Sizes per Id
 local _bagSlots = {[0] = 0, [1] = 0, [2] = 0, [3] = 0, [4] = 0}
 
@@ -19,17 +21,17 @@ end
 
 -- Refresh the sizes of all Bags
 function BagCache:UpdateBagSlots()
-    for bagId = 0, 4 do
+    for bagId = 0, _bagCount do
         -- if there is no Bag in the id the size is 0
         _bagSlots[bagId] = C_Container.GetContainerNumSlots(bagId)
     end
 end
 
--- Collect ItemInfos
+-- Collect ItemInfos excluding reagents bag
 function BagCache:UpdateBagItems()
     table.wipe(_equipableCache)
 
-    for bagId = 0, 4 do
+    for bagId = 0, _bagCount do
         -- Wipe old data
         table.wipe(_itemBagCache[bagId])
         local slots = _bagSlots[bagId]
@@ -58,9 +60,9 @@ function BagCache:UpdateBagItems()
     end
 end
 
--- cache ItemLevel for equipable items
+-- Cache ItemLevel for equipable items
 function BagCache:UpdateItemLevels()
-    for bagId = 0, 4 do
+    for bagId = 0, _bagCount do
         for slot = 1, _bagSlots[bagId] do
             local itemInfo = _itemBagCache[bagId][slot]
             if itemInfo and BagCache:IsEquipable(itemInfo.itemID) then
@@ -72,7 +74,7 @@ function BagCache:UpdateItemLevels()
     end
 end
 
--- return ItemInfo
+-- Return the ItemInfo of specifc Bag
 ---@return ContainerItemInfo? containerInfo
 function BagCache:GetItemInfo(bagId, slot)
     if _itemBagCache[bagId] then
@@ -80,7 +82,7 @@ function BagCache:GetItemInfo(bagId, slot)
     else return nil end
 end
 
--- return ItemLevel
+-- Return ItemLevel for a specific Item
 ---@param bagId integer
 ---@param slot integer
 ---@return integer
@@ -90,7 +92,13 @@ function BagCache:GetItemLevel(bagId, slot)
     else return 0 end
 end
 
--- return BagSize
+-- Return the amount of Bags
+---@return integer
+function BagCache:GetBagAmount()
+    return _bagCount
+end
+
+-- Return the size of a specific Bag
 ---@param bagId integer
 ---@return integer
 function BagCache:GetBagSize(bagId)
@@ -99,11 +107,11 @@ function BagCache:GetBagSize(bagId)
     else return 0 end
 end
 
--- get the size of all Player Bags excluding the reagents bag
+-- Get the size of all Player Bags excluding the reagents bag
 ---@return integer
 function BagCache:GetFullBagSize()
     local slots = 0
-    for bagId = 0, 4 do
+    for bagId = 0, _bagCount do
         slots = slots + BagCache:GetBagSize(bagId)
     end
 
