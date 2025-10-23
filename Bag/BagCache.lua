@@ -1,14 +1,14 @@
 BagCache = {}
 
 -- Cache Bag Sizes per Id
-local _bagSlots = {[0] = 0, [1] = 0, [2] = 0, [3] = 0, [4] = 0}
+BagCache._bagSlots = {[0] = 0, [1] = 0, [2] = 0, [3] = 0, [4] = 0}
 
 -- Cache ItemData by bagId and slot
-local _itemBagCache = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
-local _itemLevelCache = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
+BagCache._itemBagCache = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
+BagCache._itemLevelCache = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
 
 -- Cache if Item is equipable
-local _equipableCache = {}
+BagCache._equipableCache = {}
 
 -- Refresh the complete Player Bag Cache
 function BagCache:RefreshCache()
@@ -21,18 +21,18 @@ end
 function BagCache:UpdateBagSlots()
     for bagId = 0, 4 do
         -- if there is no Bag in the id the size is 0
-        _bagSlots[bagId] = C_Container.GetContainerNumSlots(bagId)
+        self._bagSlots[bagId] = C_Container.GetContainerNumSlots(bagId)
     end
 end
 
 -- Collect ItemInfos
 function BagCache:UpdateBagItems()
-    table.wipe(_equipableCache)
+    table.wipe(self._equipableCache)
 
     for bagId = 0, 4 do
         -- Wipe old data
-        table.wipe(_itemBagCache[bagId])
-        local slots = _bagSlots[bagId]
+        table.wipe(self._itemBagCache[bagId])
+        local slots = self._bagSlots[bagId]
 
         -- Collect all ItemInfos for the BagId
         if slots > 0 then
@@ -45,12 +45,12 @@ function BagCache:UpdateBagItems()
                     local itemId, _, _, equipLoc = C_Item.GetItemInfoInstant(itemInfo.itemID)
 
                     -- Save ItemInfo
-                    _itemBagCache[bagId][slot] = itemInfo
+                    self._itemBagCache[bagId][slot] = itemInfo
 
                     -- Cache if item is equipable
-                    if _equipableCache[itemId] == nil then
+                    if self._equipableCache[itemId] == nil then
                         local equipable = equipLoc ~= nil and equipLoc ~= "" and equipLoc ~= "INVTYPE_NON_EQUIP_IGNORE"
-                        _equipableCache[itemId] = equipable
+                        self._equipableCache[itemId] = equipable
                     end
                 end
             end
@@ -60,12 +60,12 @@ end
 
 function BagCache:UpdateItemLevels()
     for bagId = 0, 4 do
-        local slots = _bagSlots[bagId]
+        local slots = self._bagSlots[bagId]
         for slot = 1, slots do
             local itemLoc = ItemLocation:CreateFromBagAndSlot(bagId, slot)
             if C_Item.DoesItemExist(itemLoc) then
                 local itemLevel = C_Item.GetCurrentItemLevel(itemLoc)
-                _itemLevelCache[bagId][slot] = itemLevel
+                self._itemLevelCache[bagId][slot] = itemLevel
             end
         end
     end
@@ -74,8 +74,8 @@ end
 -- return ItemInfo
 ---@return ContainerItemInfo? containerInfo
 function BagCache:GetItemInfo(bagId, slot)
-    if _itemBagCache[bagId] then
-        return _itemBagCache[bagId][slot]
+    if self._itemBagCache[bagId] then
+        return self._itemBagCache[bagId][slot]
     else return nil end
 end
 
@@ -84,8 +84,8 @@ end
 ---@param slot integer
 ---@return integer
 function BagCache:GetItemLevel(bagId, slot)
-    if _itemLevelCache[bagId] then
-        return _itemLevelCache[bagId][slot]
+    if self._itemLevelCache[bagId] then
+        return self._itemLevelCache[bagId][slot]
     else return 0 end
 end
 
@@ -93,8 +93,8 @@ end
 ---@param bagId integer
 ---@return integer
 function BagCache:GetBagSize(bagId)
-    if _bagSlots[bagId] then
-        return _bagSlots[bagId]
+    if self._bagSlots[bagId] then
+        return self._bagSlots[bagId]
     else return 0 end
 end
 
@@ -113,5 +113,5 @@ end
 ---@param itemId number
 ---@return boolean
 function BagCache:IsEquipable(itemId)
-    return _equipableCache[itemId] or false
+    return self._equipableCache[itemId] or false
 end
