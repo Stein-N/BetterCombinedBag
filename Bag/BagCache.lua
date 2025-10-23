@@ -58,12 +58,13 @@ function BagCache:UpdateBagItems()
     end
 end
 
+-- cache ItemLevel for equipable items
 function BagCache:UpdateItemLevels()
     for bagId = 0, 4 do
-        local slots = self._bagSlots[bagId]
-        for slot = 1, slots do
-            local itemLoc = ItemLocation:CreateFromBagAndSlot(bagId, slot)
-            if C_Item.DoesItemExist(itemLoc) then
+        for slot = 1, self._bagSlots[bagId] do
+            local itemInfo = self._itemBagCache[bagId][slot]
+            if itemInfo and BagCache:IsEquipable(itemInfo.itemID) then
+                local itemLoc = ItemLocation:CreateFromBagAndSlot(bagId, slot)
                 local itemLevel = C_Item.GetCurrentItemLevel(itemLoc)
                 self._itemLevelCache[bagId][slot] = itemLevel
             end
