@@ -25,6 +25,19 @@ BagSettings = {
         }
     },
 
+    toggleReagenzBag = {
+        key = "Bag_Toogle_Reagenz_Bag",
+        default = false,
+        deDE = {
+            name = "Reagenzien Rucksack hinzufügen",
+            tooltip = "Zeigt den Reagenzien Rucksack ebenfalls im Zusammengefassten Rucksack an und nicht in einem seperatem Fenster"
+        },
+        enEN = {
+            name = "Add Reagenz Bag",
+            tooltip = "Show the Reagenz Bag inside the Combined Backpack instead of an seperate Window"
+        }
+    },
+
     backpackColumns = {
         key = "Bag_Backpack_Columns",
         default = 10,
