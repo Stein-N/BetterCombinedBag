@@ -50,5 +50,3 @@ end)
 hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
     BagUtils:UpdateItemLevel()
 end)
-
-FrameTest:Show()
