@@ -3,10 +3,6 @@ BetterCombinedBagDB = {}
 local frame = CreateFrame("Frame")
 local handler = {}
 
--- local testFrame = CreateFrame("Frame", "MyTestFrame", nil, "ButtonFrameTemplate")
--- testFrame:SetSize(200, 150)
--- testFrame:Show()
-
 function handler.ADDON_LOADED(name)
     if name == BagData.addonName then
         BagMenu:BuildOptionsMenu()
@@ -33,6 +29,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 end)
 
 -- Apply the correct Size to the BagFrame
+---@param self ContainerFrameCombinedBags
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateFrameSize", function(self)
     if not BetterCombinedBagDB["Bag_Toggle"] then return end
 
@@ -41,6 +38,7 @@ hooksecurefunc(ContainerFrameCombinedBags, "UpdateFrameSize", function(self)
 end)
 
 -- Apply the Correct Layout to the Bag
+---@param self ContainerFrameCombinedBags
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
     if not BetterCombinedBagDB["Bag_Toggle"] then return end
 
@@ -48,6 +46,9 @@ hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
 end)
 
 -- Add ItemLevelConponent and update the ItemLevel when anything is changed inside the Bag
+---@param self ContainerFrameCombinedBags
 hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
     BagUtils:UpdateItemLevel()
 end)
+
+FrameTest:Show()

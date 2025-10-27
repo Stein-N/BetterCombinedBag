@@ -129,7 +129,7 @@ function BagUtils:UpdateLayout(container)
 end
 
 -- Update the frame size based on the amount of bag slots
----@param container any
+---@param self ContainerFrameCombinedBags
 function BagUtils:UpdateFrameSize(container)
     if not container then return end
     local size = _buttons[0][1]:GetSize()
