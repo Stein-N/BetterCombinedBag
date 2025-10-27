@@ -3,6 +3,10 @@ BetterCombinedBagDB = {}
 local frame = CreateFrame("Frame")
 local handler = {}
 
+-- local testFrame = CreateFrame("Frame", "MyTestFrame", nil, "ButtonFrameTemplate")
+-- testFrame:SetSize(200, 150)
+-- testFrame:Show()
+
 function handler.ADDON_LOADED(name)
     if name == BagData.addonName then
         BagMenu:BuildOptionsMenu()
