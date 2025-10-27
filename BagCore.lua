@@ -45,10 +45,5 @@ end)
 
 -- Add ItemLevelConponent and update the ItemLevel when anything is changed inside the Bag
 hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
-    for _, itemButton in self:EnumerateValidItems() do
-        if itemButton ~= nil then
-            BagUtils:AddItemLevelComponent(itemButton)
-            BagUtils:UpdateItemLevel(itemButton)
-        end
-    end
+    BagUtils:UpdateItemLevel()
 end)

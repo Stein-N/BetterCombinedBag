@@ -46,30 +46,37 @@ end
 
 -- Add the ItemLevel to the itemButton
 function BagUtils:AddItemLevelComponent(itemButton)
-    -- add String Component if it isn't present
-    if not itemButton.BagItemLevel then
-        local text = itemButton:CreateFontString(nil, "OVERLAY", "GameFontNormalOutline")
-        text:SetPoint("BOTTOMRIGHT", itemButton, "BOTTOMRIGHT", 0, 0)
-        text:SetTextColor(1, 1, 1, 1)
-        text:SetScale(1.25)
+    local text = itemButton:CreateFontString(nil, "OVERLAY", "GameFontNormalOutline")
+    text:SetPoint("BOTTOMRIGHT", itemButton, "BOTTOMRIGHT", 0, 0)
+    text:SetTextColor(1, 1, 1, 1)
+    text:SetScale(1.25)
 
-        itemButton.BagItemLevel = text
-    end
+    itemButton.BagItemLevel = text
 end
 
 -- Updates the ItemLevelComponent if the item is equipable
-function BagUtils:UpdateItemLevel(itemButton)
-    local text = itemButton.BagItemLevel
-    local bagId = itemButton.bagID
-    local slot = itemButton:GetID()
-    local itemInfo = BagCache:GetItemInfo(bagId, slot)
+function BagUtils:UpdateItemLevel()
+    for bagId = 0, 4 do
+        local maxSlots = BagCache:GetBagSize(bagId)
+        local bagItems = _buttons[bagId]
+        for slot = 1, maxSlots do
+            local itemButton = bagItems[slot]
 
-    if itemInfo and BagCache:IsEquipable(itemInfo.itemID) then
-        local itemLevel = BagCache:GetItemLevel(bagId, slot)
-        text:SetText(itemLevel)
-        itemButton.BagItemLevel:Show()
-    else
-        itemButton.BagItemLevel:Hide()
+            if not itemButton.BagItemLevel then
+                BagUtils:AddItemLevelComponent(itemButton)
+            end
+
+            local text = itemButton.BagItemLevel
+            local itemInfo = BagCache:GetItemInfo(bagId, slot)
+
+            if itemInfo and BagCache:IsEquipable(itemInfo.itemID) then
+                local itemLevel = BagCache:GetItemLevel(bagId, slot)
+                text:SetText(itemLevel)
+                itemButton.BagItemLevel:Show()
+            else
+                itemButton.BagItemLevel:Hide()
+            end
+        end
     end
 end
 
