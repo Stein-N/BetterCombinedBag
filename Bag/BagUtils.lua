@@ -45,6 +45,7 @@ function BagUtils:CalcFrameSize(itemSize)
 end
 
 -- Add the ItemLevel to the itemButton
+---@param itemButton any
 function BagUtils:AddItemLevelComponent(itemButton)
     local text = itemButton:CreateFontString(nil, "OVERLAY", "GameFontNormalOutline")
     text:SetPoint("BOTTOMRIGHT", itemButton, "BOTTOMRIGHT", 0, 0)
@@ -81,6 +82,7 @@ function BagUtils:UpdateItemLevel()
 end
 
 -- collect ItemButtons in the correct order
+---@param container any
 function BagUtils:CollectButtons(container)
     for _, itemButton in container:EnumerateValidItems() do
         _buttons[itemButton.bagID][itemButton:GetID()] = itemButton
@@ -88,6 +90,7 @@ function BagUtils:CollectButtons(container)
 end
 
 -- update the Bag Layout based in the Settings
+---@param container any
 function BagUtils:UpdateLayout(container)
     local yPos = -60
     local xPos = borderPadding
