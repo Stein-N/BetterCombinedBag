@@ -1,4 +1,4 @@
-## Interface: 110200, 110205, 110207
+## Interface: 110205, 110207
 ## Title: BetterCombinedBag
 ## Version: 1.5.2
 ## Author: xStopho
