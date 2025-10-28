@@ -118,22 +118,6 @@ function BagCache:GetFullBagSize()
     return slots
 end
 
--- Get the RGB value for the given item 
----@param bagId integer
----@param slot integer
----@return integer
----@return integer
----@return integer
-function BagCache:GetItemQualityColor(bagId, slot)
-    local itemInfo = _itemBagCache[bagId][slot]
-    local r, g, b = 0, 0, 0
-    if itemInfo then
-        r, g, b = C_Item.GetItemQualityColor(itemInfo.quality)
-    end
-
-    return r, g, b
-end
-
 -- check if ItemId is equipable
 ---@param itemId number
 ---@return boolean

@@ -27,7 +27,6 @@ function BagUtils:CreateReagItemButtons(container)
             itemButton:SetItemButtonTexture(4701874)
             itemButton:SetBagID(5)
             itemButton:SetID(slot)
-            itemButton:ClearAllPoints()
             itemButton:UpdateNewItem()
             itemButton:Show()
 
@@ -41,17 +40,15 @@ function BagUtils:UpdateReagItemButtons()
         local itemButton = _reagButtons[slot]
         if itemButton then
             local itemInfo = BagCache:GetItemInfo(itemButton.bagID, itemButton:GetID())
-            local r, g, b = BagCache:GetItemQualityColor(itemButton.bagID, itemButton:GetID())
-            itemButton.IconBorder:SetVertexColor(r, g, b)
 
             if itemInfo then
                 itemButton:SetItemButtonTexture(itemInfo.iconFileID)
                 itemButton:SetItemButtonCount(itemInfo.stackCount)
-                itemButton.IconBorder:Show()
+                itemButton:SetItemButtonQuality(itemInfo.quality)
             else
                 itemButton:SetItemButtonTexture(4701874)
                 itemButton:SetItemButtonCount(nil)
-                itemButton.IconBorder:Hide()
+                itemButton:SetItemButtonQuality(nil)
             end
         end
     end
@@ -191,6 +188,14 @@ function BagUtils:UpdateLayout(container)
             counter = 0
         end
     end
+
+    local back = _buttons[0][1]
+    back:ClearAllPoints()
+    back:SetPoint("TOPLEFT", container, "TOPLEFT", 0, 50)
+
+    local test = _reagButtons[1]
+    test:ClearAllPoints()
+    test:SetPoint("TOPLEFT", container, "TOPLEFT", 50, 50)
 end
 
 -- Update the frame size based on the amount of bag slots
