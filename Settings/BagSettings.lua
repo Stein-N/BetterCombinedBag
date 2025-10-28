@@ -4,37 +4,37 @@ BagSettings = {
         default = true,
         deDE = {
             name = "BetterCombinedBag nutzen",
-            tooltip = "Aktiviere all Verbesserungen von BetterCombinedBag"
+            tooltip = "Aktiviere alle Verbesserungen von BetterCombinedBag"
         },
         enEN = {
             name = "Use BetterCombinedBag",
-            tooltip = "Activate all Bag improvements provided by BetterCombinedBag"
+            tooltip = "Activate all bag improvements provided by BetterCombinedBag"
         }
     },
 
-    toogleBackpackSplit = {
+    toggleBackpackSplit = {
         key = "Bag_Toogle_Backpack_Split",
         default = false,
         deDE = {
-            name = "Tachen trennen",
-            tooltip = "Jede Tasche beginnt in einer neuen Reihe, unabhängig davon ob in der vorherigen noch Platz wäre."
+            name = "Taschen trennen",
+            tooltip = "Jede Tasche beginnt in einer neuen Reihe, unabhängig davon, ob in der vorherigen noch Platz wäre."
         },
         enEN = {
             name = "Split Bags",
-            tooltip = "Every Bag starts in a new Row even if the previouse had space left."
+            tooltip = "Each bag starts in a new Row even if the previous had space left."
         }
     },
 
     toggleReagentsBag = {
-        key = "Bag_Toogle_Reagents_Bag",
+        key = "Bag_Toggle_Reagents_Bag",
         default = false,
         deDE = {
-            name = "Reagenz Tasche hinzufügen",
-            tooltip = "Die Reagenz Tasche wird dem Kombinierten Rucksack hinzugefügt, sodass nurnoch ein Fenster offen ist."
+            name = "Reagenztasche hinzufügen",
+            tooltip = "Die Reagenz Tasche wird dem Kombinierten Rucksack hinzugefügt, sodass nur noch ein Fenster geöffnet ist."
         },
         enEN = {
-            name = "Add Reagents Bag",
-            tooltip = "Add the Reagents Bag to the Combined Backpack Frame so that is only one Frame open."
+            name = "Add Reagent Bag",
+            tooltip = "Add the reagent bag to the combined backpack frame so that only one frame is open."
         }
     },
 
@@ -43,11 +43,11 @@ BagSettings = {
         default = 10,
         deDE = {
             name = "Spalten",
-            tooltip = "Maximale Anzahl an Items pro Reihe. Sollte 'Rucksäcke trennen' aktiviert sein, wird dieser Wert durch die größte Tasche, solange diese kleiner als der Wert ist, überschrieben."
+            tooltip = "Maximale Anzahl an Items pro Reihe. Sollte 'Taschen trennen' aktiviert sein, wird dieser Wert durch die größte Tasche überschrieben, solange diese kleiner als der angegebene Wert ist."
         },
         enEN = {
             name = "Columns",
-            tooltip = "Max amount of Items in each row. This value can be overwritten by the current biggest bag when 'Split Bags' is active."
+            tooltip = "Maximum number of items per row. This value will be overwritten by the largest bag when 'Split Bags' is active, if that bag is smaller than this value."
         }
     },
 
@@ -56,11 +56,11 @@ BagSettings = {
         default = 7,
         deDE = {
             name = "Abstand zum Rand",
-            tooltip = "Verändere den seitlichen Abstand der Items zum Fensterrand"
+            tooltip = "Verändere den seitlichen Abstand der Items zum Fensterrand."
         },
         enEN = {
             name = "Border Padding",
-            tooltip = "Change the space between the Item and the Frame Border"
+            tooltip = "Change the space between the items and the frame border."
         }
     },
 
@@ -69,11 +69,11 @@ BagSettings = {
         default = 5,
         deDE = {
             name = "Abstand zwischen Items",
-            tooltip = "Verändere den Abstand zwischen den Items"
+            tooltip = "Verändere den Abstand zwischen den Items."
         },
         enEN = {
             name = "Item Padding",
-            tooltip = "Change the space between Items"
+            tooltip = "Change the space between items."
         }
     },
 
@@ -82,11 +82,11 @@ BagSettings = {
         default = 0,
         deDE = {
             name = "Abstand der Reagenztasche",
-            tooltip = "Füge einen extra Abstand zwischen den Item- und Reagenztaschen hinzu."
+            tooltip = "Füge einen zusätzlichen Abstand zwischen den Item- und Reagenztaschen hinzu."
         },
         enEN = {
-            name = "Reagentsbag Padding",
-            tooltip = "Add extra space between the Item- and Reagentsbag."
+            name = "Reagent Bag Padding",
+            tooltip = "Add extra space between the item and reagent bags."
         }
     }
 }

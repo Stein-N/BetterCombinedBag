@@ -14,8 +14,8 @@ function BagUtils:UpdateSettings()
     borderPadding = db["Bag_Border_Padding"]
     itemPadding = db["Bag_Item_Padding"]
     columns = db["Bag_Backpack_Columns"]
-    splitBackpack = db["Bag_Toogle_Backpack_Split"]
-    addReagentsBag = db["Bag_Toogle_Reagents_Bag"]
+    splitBackpack = db["Bag_Toggle_Backpack_Split"]
+    addReagentsBag = db["Bag_Toggle_Reagents_Bag"]
     reagBagMargin = db["Bag_Reagents_Padding"]
 end
 
