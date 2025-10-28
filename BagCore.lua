@@ -24,29 +24,33 @@ end)
 ---##################################---
 
 hooksecurefunc("ToggleAllBags", function()
-    local reags, bags = _G["ContainerFrame6"], _G["ContainerFrameCombinedBags"]
-    if reags then BagUtils:CacheButtons(reags) end
-    if bags then bags:UpdateItemLayout() end
+    if BetterCombinedBagDB["Bag_Toggle"] then
+        local reags, bags = _G["ContainerFrame6"], _G["ContainerFrameCombinedBags"]
+        if reags then BagUtils:CacheButtons(reags) end
+        if bags then bags:UpdateItemLayout() end
 
-    if BetterCombinedBagDB["Bag_Toogle_Reagents_Bag"] then
-        reags:ClearAllPoints()
+        if BetterCombinedBagDB["Bag_Toogle_Reagents_Bag"] then
+            reags:ClearAllPoints()
+        end
     end
 end)
 
 -- Apply the Correct Layout to the Bag
 ---@param self ContainerFrameCombinedBags
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
-    if not BetterCombinedBagDB["Bag_Toggle"] then return end
-
-    BagUtils:CacheButtons(self)
-    BagUtils:UpdateFrameSize(self)
-    BagUtils:UpdateLayout(self)
+    if BetterCombinedBagDB["Bag_Toggle"] then
+        BagUtils:CacheButtons(self)
+        BagUtils:UpdateFrameSize(self)
+        BagUtils:UpdateLayout(self)
+    end
 end)
 
 -- Add ItemLevelConponent and update the ItemLevel when anything is changed inside the Bag
 ---@param self ContainerFrameCombinedBags
 hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
-    BagUtils:UpdateItemLevel()
+    if BetterCombinedBagDB["Bag_Toggle"] then
+        BagUtils:UpdateItemLevel()
+    end
 end)
 
 hooksecurefunc(ContainerFrame6, "SetPoint", function(self)
