@@ -85,7 +85,7 @@ function BagMenu:BuildOptionsMenu()
     RegisterCheckbox(general, "toggleReagentsBag")
 
     generalLayout:AddInitializer(CreateSettingsListSectionHeaderInitializer(headers.frameOptions))
-    RegisterSlider(general, "backpackColumns", 10, 36, 1)
+    RegisterSlider(general, "backpackColumns", 10, 38, 1)
     RegisterSlider(general, "borderPadding", 2, 50, 1, "px")
     RegisterSlider(general, "itemPadding", 0, 50, 1, "px")
     RegisterSlider(general, "reagentsBagPadding", 0, 20, 1, "px")
