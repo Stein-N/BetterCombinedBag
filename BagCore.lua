@@ -13,6 +13,8 @@ end
 function handler.PLAYER_ENTERING_WORLD()
     -- refresh BagCache
     BagCache:RefreshCache()
+    ToggleAllBags()
+    ToggleAllBags()
 end
 
 function handler:BAG_UPDATE_DELAYED()

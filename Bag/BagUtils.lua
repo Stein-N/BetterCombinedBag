@@ -188,14 +188,6 @@ function BagUtils:UpdateLayout(container)
             counter = 0
         end
     end
-
-    local back = _buttons[0][1]
-    back:ClearAllPoints()
-    back:SetPoint("TOPLEFT", container, "TOPLEFT", 0, 50)
-
-    local test = _reagButtons[1]
-    test:ClearAllPoints()
-    test:SetPoint("TOPLEFT", container, "TOPLEFT", 50, 50)
 end
 
 -- Update the frame size based on the amount of bag slots
