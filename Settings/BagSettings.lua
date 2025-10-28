@@ -3,12 +3,12 @@ BagSettings = {
         key = "Bag_Toggle",
         default = true,
         deDE = {
-            name = "Verbesserten Rucksack aktivieren",
-            tooltip = "Aktiviert den verbesserten Kombinierten Rucksack"
+            name = "BetterCombinedBag nutzen",
+            tooltip = "Aktiviere all Verbesserungen von BetterCombinedBag"
         },
         enEN = {
-            name = "Activate Better Bag",
-            tooltip = "Activate the better combined Backpack"
+            name = "Use BetterCombinedBag",
+            tooltip = "Activate all Bag improvements provided by BetterCombinedBag"
         }
     },
 
@@ -16,12 +16,12 @@ BagSettings = {
         key = "Bag_Toogle_Backpack_Split",
         default = false,
         deDE = {
-            name = "Rucksäcke trennen",
-            tooltip = "Jeder Rucksack wird in einer neuen Reihe dargestellt, auch wenn in der vorherigen Reihe Platz wäre"
+            name = "Tachen trennen",
+            tooltip = "Jede Tasche beginnt in einer neuen Reihe, unabhängig davon ob in der vorherigen noch Platz wäre."
         },
         enEN = {
-            name = "Split Backpacks",
-            tooltip = "Every Backpack starts a new Row, even when there would be space in the row before"
+            name = "Split Bags",
+            tooltip = "Every Bag starts in a new Row even if the previouse had space left."
         }
     },
 
@@ -29,12 +29,12 @@ BagSettings = {
         key = "Bag_Toogle_Reagents_Bag",
         default = false,
         deDE = {
-            name = "Reagenzien Tasche hinzufügen",
-            tooltip = "Zeigt die Reagenzien Tasche ebenfalls im Zusammengefassten Rucksack an und nicht in einem seperatem Fenster"
+            name = "Reagenz Tasche hinzufügen",
+            tooltip = "Die Reagenz Tasche wird dem Kombinierten Rucksack hinzugefügt, sodass nurnoch ein Fenster offen ist."
         },
         enEN = {
             name = "Add Reagents Bag",
-            tooltip = "Show the Reagents Bag inside the Combined Backpack instead of an seperate Window"
+            tooltip = "Add the Reagents Bag to the Combined Backpack Frame so that is only one Frame open."
         }
     },
 
@@ -43,11 +43,11 @@ BagSettings = {
         default = 10,
         deDE = {
             name = "Spalten",
-            tooltip = "Wie viele Items werden in einer Reihe angezeigt"
+            tooltip = "Maximale Anzahl an Items pro Reihe. Sollte 'Rucksäcke trennen' aktiviert sein, wird dieser Wert durch die größte Tasche, solange diese kleiner als der Wert ist, überschrieben."
         },
         enEN = {
             name = "Columns",
-            tooltip = "How many Items gets rendered in each row"
+            tooltip = "Max amount of Items in each row. This value can be overwritten by the current biggest bag when 'Split Bags' is active."
         }
     },
 
@@ -56,11 +56,11 @@ BagSettings = {
         default = 7,
         deDE = {
             name = "Abstand zum Rand",
-            tooltip = "Verändere den seitlichen Abstand der Items zum Rand"
+            tooltip = "Verändere den seitlichen Abstand der Items zum Fensterrand"
         },
         enEN = {
             name = "Border Padding",
-            tooltip = "Change the Padding between the Item and the Frame Border"
+            tooltip = "Change the space between the Item and the Frame Border"
         }
     },
 
@@ -73,7 +73,7 @@ BagSettings = {
         },
         enEN = {
             name = "Item Padding",
-            tooltip = "Change the Padding between Items"
+            tooltip = "Change the space between Items"
         }
     },
 
