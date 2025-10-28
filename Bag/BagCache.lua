@@ -118,6 +118,24 @@ function BagCache:GetFullBagSize()
     return slots
 end
 
+-- Get the maximum amount of rows based on the biggest bag
+-- only really necessary when columns are higher then slots
+---@param columns any
+function BagCache:GetMaxItemsPerRow(columns, addReagentsBag)
+    local biggestBag
+    for bagId = 0, _bagCount - 1 do
+        if biggestBag == nil or biggestBag < _bagSlots[bagId] then
+            biggestBag = _bagSlots[bagId]
+        end
+    end
+
+    if addReagentsBag and biggestBag < _bagSlots[5] then
+        biggestBag = _bagSlots[5]
+    end
+    
+    return (biggestBag < columns) and biggestBag or columns
+end
+
 -- check if ItemId is equipable
 ---@param itemId number
 ---@return boolean

@@ -24,6 +24,7 @@ end
 ---@return integer width
 ---@return integer height
 function BagUtils:CalcFrameSize(itemSize)
+    columns = BagCache:GetMaxItemsPerRow(columns, addReagentsBag)
     local width = columns * (itemSize + itemPadding) - itemPadding + (2 * borderPadding)
 
     -- calc the amount of rows
@@ -109,6 +110,7 @@ function BagUtils:UpdateLayout(container)
     local yPos = -60
     local xPos = borderPadding
     local offset = itemPadding + _buttons[0][1]:GetSize()
+    columns = BagCache:GetMaxItemsPerRow(columns, addReagentsBag)
 
     -- only to track the current columns
     local counter = 0

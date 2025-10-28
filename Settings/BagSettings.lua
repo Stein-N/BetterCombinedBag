@@ -13,7 +13,7 @@ BagSettings = {
     },
 
     toggleBackpackSplit = {
-        key = "Bag_Toogle_Backpack_Split",
+        key = "Bag_Toggle_Backpack_Split",
         default = false,
         deDE = {
             name = "Taschen trennen",
