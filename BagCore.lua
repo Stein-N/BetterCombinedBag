@@ -13,13 +13,10 @@ end
 function handler.PLAYER_ENTERING_WORLD()
     -- refresh BagCache
     BagCache:RefreshCache()
-    ToggleAllBags()
-    ToggleAllBags()
 end
 
 function handler:BAG_UPDATE_DELAYED()
     BagCache:RefreshCache()
-    BagUtils:UpdateReagItemButtons()
 end
 
 frame:RegisterEvent("ADDON_LOADED")
@@ -31,14 +28,18 @@ frame:SetScript("OnEvent", function(self, event, ...)
     if func then return func(...) end
 end)
 
--- Apply the correct Size to the BagFrame
----@param self ContainerFrameCombinedBags
-hooksecurefunc(ContainerFrameCombinedBags, "UpdateFrameSize", function(self)
-    if not BetterCombinedBagDB["Bag_Toggle"] then return end
-    BagUtils:CreateReagItemButtons(self)
+---##################################---
+---##     Secure function Hooks    ##---
+---##################################---
 
-    BagUtils:CollectButtons(self)
-    BagUtils:UpdateFrameSize(self)
+hooksecurefunc("ToggleAllBags", function()
+    local reags, bags = _G["ContainerFrame6"], _G["ContainerFrameCombinedBags"]
+    if reags then BagUtils:CacheButtons(reags) end
+    if bags then bags:UpdateItemLayout() end
+
+    if BetterCombinedBagDB["Bag_Toogle_Reagents_Bag"] then
+        reags:ClearAllPoints()
+    end
 end)
 
 -- Apply the Correct Layout to the Bag
@@ -46,12 +47,19 @@ end)
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
     if not BetterCombinedBagDB["Bag_Toggle"] then return end
 
+    BagUtils:CacheButtons(self)
+    BagUtils:UpdateFrameSize(self)
     BagUtils:UpdateLayout(self)
 end)
 
 -- Add ItemLevelConponent and update the ItemLevel when anything is changed inside the Bag
 ---@param self ContainerFrameCombinedBags
 hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
-    BagUtils:UpdateReagItemButtons()
     BagUtils:UpdateItemLevel()
+end)
+
+hooksecurefunc(ContainerFrame6, "SetPoint", function(self)
+    if BetterCombinedBagDB["Bag_Toogle_Reagents_Bag"] then
+        self:ClearAllPoints()
+    end
 end)

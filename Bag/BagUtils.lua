@@ -7,8 +7,7 @@ local splitBackpack = false
 local addReagentsBag = false
 local reagBagMargin = 10
 
-local _buttons = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
-local _reagButtons = {}
+local _buttons = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}, [5] = {}}
 
 function BagUtils:UpdateSettings()
     local db = BetterCombinedBagDB
@@ -17,41 +16,6 @@ function BagUtils:UpdateSettings()
     columns = db["Bag_Backpack_Columns"]
     splitBackpack = db["Bag_Toogle_Backpack_Split"]
     addReagentsBag = db["Bag_Toogle_Reagents_Bag"]
-end
-
-function BagUtils:CreateReagItemButtons(container)
-    if next(_reagButtons) == nil then
-        local slots = BagCache:GetBagSize(5)
-        for slot = 1, slots do
-            local itemButton = CreateFrame("ItemButton", "BetterCombinedBagReagButton"..slot, container, "ContainerFrameItemButtonTemplate")
-            itemButton:SetItemButtonTexture(4701874)
-            itemButton:SetBagID(5)
-            itemButton:SetID(slot)
-            itemButton:UpdateNewItem()
-            itemButton:Show()
-
-            _reagButtons[slot] = itemButton
-        end
-    end
-end
-
-function BagUtils:UpdateReagItemButtons()
-    for slot = 1, BagCache:GetBagSize(5) do
-        local itemButton = _reagButtons[slot]
-        if itemButton then
-            local itemInfo = BagCache:GetItemInfo(itemButton.bagID, itemButton:GetID())
-
-            if itemInfo then
-                itemButton:SetItemButtonTexture(itemInfo.iconFileID)
-                itemButton:SetItemButtonCount(itemInfo.stackCount)
-                itemButton:SetItemButtonQuality(itemInfo.quality)
-            else
-                itemButton:SetItemButtonTexture(4701874)
-                itemButton:SetItemButtonCount(nil)
-                itemButton:SetItemButtonQuality(nil)
-            end
-        end
-    end
 end
 
 -- Calculate the width and height for the CombinedBagContainerFrame
@@ -131,7 +95,7 @@ end
 
 -- collect ItemButtons in the correct order
 ---@param container any
-function BagUtils:CollectButtons(container)
+function BagUtils:CacheButtons(container)
     for _, itemButton in container:EnumerateValidItems() do
         _buttons[itemButton.bagID][itemButton:GetID()] = itemButton
     end
@@ -152,10 +116,8 @@ function BagUtils:UpdateLayout(container)
 
     for bagId = 0, bags do
         local maxSlots = BagCache:GetBagSize(bagId)
-        local bagItems
-        if bagId < 5 then bagItems = _buttons[bagId]
-        else
-            bagItems = _reagButtons
+        local bagItems = _buttons[bagId]
+        if bagId == 5 then
             yPos = yPos - reagBagMargin
             if counter ~= 0 then
                 counter = 0
@@ -164,10 +126,13 @@ function BagUtils:UpdateLayout(container)
             end
         end
 
+        print(bagId, maxSlots)
+
         for slot = 1, maxSlots do
             local itemButton = bagItems[slot]
             if itemButton then
                 itemButton:ClearAllPoints()
+                itemButton:SetParent(container)
                 itemButton:SetPoint("TOPLEFT", container, "TOPLEFT", xPos, yPos)
 
                 counter = counter + 1

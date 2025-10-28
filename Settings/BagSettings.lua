@@ -25,7 +25,7 @@ BagSettings = {
         }
     },
 
-    toggleReagenzBag = {
+    toggleReagentsBag = {
         key = "Bag_Toogle_Reagents_Bag",
         default = false,
         deDE = {
