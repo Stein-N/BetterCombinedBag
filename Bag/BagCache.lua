@@ -1,12 +1,12 @@
 BagCache = {}
 
-local _bagCount = 4
+local _bagCount = 5
 
 -- Cache Bag Sizes per Id
-local _bagSlots = {[0] = 0, [1] = 0, [2] = 0, [3] = 0, [4] = 0}
+local _bagSlots = {[0] = 0, [1] = 0, [2] = 0, [3] = 0, [4] = 0, [5] = 0}
 
 -- Cache ItemData by bagId and slot
-local _itemBagCache = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
+local _itemBagCache = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}, [5] = {}}
 local _itemLevelCache = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
 
 -- Cache if Item is equipable
@@ -62,7 +62,7 @@ end
 
 -- Cache ItemLevel for equipable items
 function BagCache:UpdateItemLevels()
-    for bagId = 0, _bagCount do
+    for bagId = 0, _bagCount - 1 do
         for slot = 1, _bagSlots[bagId] do
             local itemInfo = _itemBagCache[bagId][slot]
             if itemInfo and BagCache:IsEquipable(itemInfo.itemID) then
@@ -111,11 +111,27 @@ end
 ---@return integer
 function BagCache:GetFullBagSize()
     local slots = 0
-    for bagId = 0, _bagCount do
+    for bagId = 0, _bagCount - 1 do
         slots = slots + BagCache:GetBagSize(bagId)
     end
 
     return slots
+end
+
+-- Get the RGB value for the given item 
+---@param bagId integer
+---@param slot integer
+---@return integer
+---@return integer
+---@return integer
+function BagCache:GetItemQualityColor(bagId, slot)
+    local itemInfo = _itemBagCache[bagId][slot]
+    local r, g, b = 0, 0, 0
+    if itemInfo then
+        r, g, b = C_Item.GetItemQualityColor(itemInfo.quality)
+    end
+
+    return r, g, b
 end
 
 -- check if ItemId is equipable

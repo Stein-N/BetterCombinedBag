@@ -17,6 +17,7 @@ end
 
 function handler:BAG_UPDATE_DELAYED()
     BagCache:RefreshCache()
+    BagUtils:UpdateReagItemButtons()
 end
 
 frame:RegisterEvent("ADDON_LOADED")
@@ -32,6 +33,7 @@ end)
 ---@param self ContainerFrameCombinedBags
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateFrameSize", function(self)
     if not BetterCombinedBagDB["Bag_Toggle"] then return end
+    BagUtils:CreateReagItemButtons(self)
 
     BagUtils:CollectButtons(self)
     BagUtils:UpdateFrameSize(self)
@@ -48,5 +50,6 @@ end)
 -- Add ItemLevelConponent and update the ItemLevel when anything is changed inside the Bag
 ---@param self ContainerFrameCombinedBags
 hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
+    BagUtils:UpdateReagItemButtons()
     BagUtils:UpdateItemLevel()
 end)
