@@ -42,11 +42,11 @@ BagSettings = {
         key = "Bag_Backpack_Columns",
         default = 10,
         deDE = {
-            name = "Spalten",
+            name = "Items pro Reihe",
             tooltip = "Maximale Anzahl an Items pro Reihe. Sollte 'Taschen trennen' aktiviert sein, wird dieser Wert durch die größte Tasche überschrieben, solange diese kleiner als der angegebene Wert ist."
         },
         enEN = {
-            name = "Columns",
+            name = "Items per row",
             tooltip = "Maximum number of items per row. This value will be overwritten by the largest bag when 'Split Bags' is active, if that bag is smaller than this value."
         }
     },

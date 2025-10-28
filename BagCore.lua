@@ -29,7 +29,7 @@ hooksecurefunc("ToggleAllBags", function()
         if reags then BagUtils:CacheButtons(reags) end
         if bags then bags:UpdateItemLayout() end
 
-        if BetterCombinedBagDB["Bag_Toogle_Reagents_Bag"] then
+        if BetterCombinedBagDB["Bag_Toggle_Reagents_Bag"] then
             reags:ClearAllPoints()
         end
     end
@@ -54,7 +54,7 @@ hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
 end)
 
 hooksecurefunc(ContainerFrame6, "SetPoint", function(self)
-    if BetterCombinedBagDB["Bag_Toogle_Reagents_Bag"] then
+    if BetterCombinedBagDB["Bag_Toggle_Reagents_Bag"] then
         self:ClearAllPoints()
     end
 end)
