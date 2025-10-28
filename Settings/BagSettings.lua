@@ -75,5 +75,18 @@ BagSettings = {
             name = "Item Padding",
             tooltip = "Change the Padding between Items"
         }
+    },
+
+    reagentsBagPadding = {
+        key = "Bag_Reagents_Padding",
+        default = 0,
+        deDE = {
+            name = "Abstand der Reagenztasche",
+            tooltip = "Füge einen extra Abstand zwischen den Item- und Reagenztaschen hinzu."
+        },
+        enEN = {
+            name = "Reagentsbag Padding",
+            tooltip = "Add extra space between the Item- and Reagentsbag."
+        }
     }
 }

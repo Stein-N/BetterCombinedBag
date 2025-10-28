@@ -5,7 +5,7 @@ local borderPadding = 0
 local itemPadding = 0
 local splitBackpack = false
 local addReagentsBag = false
-local reagBagMargin = 10
+local reagBagMargin = 0
 
 local _buttons = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}, [5] = {}}
 
@@ -16,6 +16,7 @@ function BagUtils:UpdateSettings()
     columns = db["Bag_Backpack_Columns"]
     splitBackpack = db["Bag_Toogle_Backpack_Split"]
     addReagentsBag = db["Bag_Toogle_Reagents_Bag"]
+    reagBagMargin = db["Bag_Reagents_Padding"]
 end
 
 -- Calculate the width and height for the CombinedBagContainerFrame
@@ -98,6 +99,7 @@ end
 function BagUtils:CacheButtons(container)
     for _, itemButton in container:EnumerateValidItems() do
         _buttons[itemButton.bagID][itemButton:GetID()] = itemButton
+        itemButton:SetParent(container)
     end
 end
 
@@ -126,14 +128,12 @@ function BagUtils:UpdateLayout(container)
             end
         end
 
-        print(bagId, maxSlots)
-
         for slot = 1, maxSlots do
             local itemButton = bagItems[slot]
             if itemButton then
                 itemButton:ClearAllPoints()
-                itemButton:SetParent(container)
                 itemButton:SetPoint("TOPLEFT", container, "TOPLEFT", xPos, yPos)
+                if addReagentsBag then itemButton:SetParent(container) end
 
                 counter = counter + 1
                 if counter < columns then

@@ -88,6 +88,7 @@ function BagMenu:BuildOptionsMenu()
     RegisterSlider(general, "backpackColumns", 10, 36, 1)
     RegisterSlider(general, "borderPadding", 2, 50, 1, "px")
     RegisterSlider(general, "itemPadding", 0, 50, 1, "px")
+    RegisterSlider(general, "reagentsBagPadding", 0, 20, 1, "px")
 
     Settings.RegisterAddOnCategory(general)
 end
