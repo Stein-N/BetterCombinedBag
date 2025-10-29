@@ -7,7 +7,15 @@ frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:RegisterEvent("BAG_UPDATE_DELAYED")
 
 frame:SetScript("OnEvent", function(self, event, name)
-    if event == "PLAYER_ENTERING_WORLD" or event == "BAG_UPDATE_DELAYED" then
+    if event == "PLAYER_ENTERING_WORLD" then
+        BagCache:RefreshCache()
+
+        -- quick and very dirty fix for caching reagent ItemButtons
+        ToggleAllBags()
+        ToggleAllBags()
+    end
+
+    if event == "BAG_UPDATE_DELAYED" then
         BagCache:RefreshCache()
     end
 
@@ -32,6 +40,16 @@ hooksecurefunc("ToggleAllBags", function()
         if BetterCombinedBagDB["Bag_Toggle_Reagents_Bag"] then
             reags:ClearAllPoints()
         end
+    end
+end)
+
+
+-- quick and dirty fix for missing itemButtons when only Combined Bag is opened 
+hooksecurefunc(ContainerFrameCombinedBags, "Show", function(self)
+    local reagsFrame = _G["ContainerFrame6"]
+    if reagsFrame then
+        reagsFrame:Show()
+        self:UpdateLayout()
     end
 end)
 
