@@ -46,10 +46,12 @@ end)
 
 -- quick and dirty fix for missing itemButtons when only Combined Bag is opened 
 hooksecurefunc(ContainerFrameCombinedBags, "Show", function(self)
-    local reagsFrame = _G["ContainerFrame6"]
-    if reagsFrame then
-        reagsFrame:Show()
-        self:UpdateLayout()
+    if BetterCombinedBagDB["Bag_Toggle"] then
+        local reagsFrame = _G["ContainerFrame6"]
+        if reagsFrame then
+            reagsFrame:Show()
+            self:UpdateLayout()
+        end
     end
 end)
 
