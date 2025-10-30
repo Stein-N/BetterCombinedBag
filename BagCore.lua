@@ -27,6 +27,11 @@ end)
 ---##     Secure function Hooks    ##---
 ---##################################---
 
+local visible = false
+hooksecurefunc("ToggleBackpack", function()
+    ToggleAllBags()
+end)
+
 -- Apply the Correct Layout to the Bag
 ---@param self ContainerFrameCombinedBags
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
