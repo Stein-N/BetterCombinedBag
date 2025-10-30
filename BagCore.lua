@@ -6,6 +6,7 @@ frame:RegisterEvent("ADDON_LOADED")
 frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:RegisterEvent("BAG_UPDATE_DELAYED")
 frame:RegisterEvent("ITEM_LOCK_CHANGED")
+frame:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
 
 frame:SetScript("OnEvent", function(self, event, ...)
     if event == "ADDON_LOADED" then
@@ -14,6 +15,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
             BagMenu.BuildOptionsMenu()
             BagUtils.UpdateSettings()
         end
+    end
+
+    if event == "PLAYER_EQUIPMENT_CHANGED" then
+        BagCache.UpdateBagSlots()
     end
 
     if event == "PLAYER_ENTERING_WORLD" then

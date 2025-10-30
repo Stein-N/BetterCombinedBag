@@ -7,11 +7,12 @@
 ## SavedVariables: BetterCombinedBagDB
 
 ## Data
-Data/BagData.lua
 Settings/BagSettings.lua
+Data/BagData.lua
 
 ## Util classes
 Settings/BagMenu.lua
+Bag/BagButtons.lua
 Bag/BagCache.lua
 Bag/BagUtils.lua
 
