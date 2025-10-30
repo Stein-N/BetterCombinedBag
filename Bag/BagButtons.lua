@@ -24,6 +24,12 @@ function BagButtons.CreateReagentsButtons(buttonCache)
         matOverlay:SetPoint("TOPLEFT", b, "TOPLEFT", -4, 2)
         b.MatOverlay = matOverlay
 
+        local searchOverlay = b:CreateTexture(nil, "OVERLAY", nil, 6)
+        searchOverlay:SetAllPoints()
+        searchOverlay:SetColorTexture(0, 0, 0, 0.8)
+        searchOverlay:Hide()
+        b.SearchOverlay = searchOverlay
+
         buttonCache[i] = b
     end
 end
