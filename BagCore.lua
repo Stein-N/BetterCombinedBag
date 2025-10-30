@@ -31,6 +31,18 @@ frame:SetScript("OnEvent", function(self, event, ...)
         BagUtils.UpdateItemLevel()
         BagButtons.UpdateBaseInformation()
     end
+
+    if event == "ITEM_LOCK_CHANGED" then
+        local bagId, slot = ...
+        if bagId == Enum.BagIndex.ReagentBag then
+            if bagId == nil or slot == nil then return end
+            local info = C_Container.GetContainerItemInfo(bagId, slot)
+            if info then
+                local btn = _G["BetterCombinedBagsSlot"..slot]
+                if btn then btn.icon:SetDesaturated(info.isLocked) end
+            end
+        end
+    end
 end)
 
 ---##################################---
