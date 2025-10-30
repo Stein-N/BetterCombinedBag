@@ -11,10 +11,9 @@ Data/BagData.lua
 Settings/BagSettings.lua
 
 ## Util classes
+Settings/BagMenu.lua
 Bag/BagCache.lua
 Bag/BagUtils.lua
-Button/ReagButtons.lua
-Settings/BagMenu.lua
 
 ## Core Logic
 BagCore.lua
