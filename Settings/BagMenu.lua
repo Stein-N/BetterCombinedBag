@@ -16,6 +16,7 @@ end
 -- Basic function to update the Option Value
 local function UpdateSetting(setting, value)
     BetterCombinedBagDB[setting:GetVariable()] = value
+    BagUtils.UpdateSettings()
 end
 
 -- Register the given Option inside the Category

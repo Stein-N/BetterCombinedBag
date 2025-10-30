@@ -31,7 +31,7 @@ end)
 ---##################################---
 
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
-    BagUtils.CacheButtons(self)
+    BagUtils.UpdateCombinedBagsFrame(self)
 end)
 
 hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)

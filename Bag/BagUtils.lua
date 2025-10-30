@@ -24,7 +24,7 @@ local function AddBagItemLevelComponent(button)
     end
 end
 
-function BagUtils.CacheButtons(container)
+local function CacheButtons(container)
     for _, btn in container:EnumerateValidItems() do
         if btn then
             AddBagItemLevelComponent(btn)
@@ -33,7 +33,7 @@ function BagUtils.CacheButtons(container)
     end
 end
 
-function BagUtils.UpdateFrameSize(container)
+local function UpdateFrameSize(container)
     if not container then return end
 
     _columns = BagCache.GetMaxItemPerRow(_columns, _addReagentsBag)
@@ -60,6 +60,44 @@ function BagUtils.UpdateFrameSize(container)
     end
 
     container:SetSize(width, height)
+end
+
+local function UpdateButtonLayout(container)
+    local x, y, counter = _borderPadding, -60, 0
+    local step = _itemSize + _itemPadding
+
+    for i = 0, 5 do
+        if i < 5 or _addReagentsBag then
+            for _, btn in ipairs(_buttonCache[i]) do
+                if btn then
+                    btn:ClearAllPoints()
+                    btn:SetPoint("TOPLEFT", container, "TOPLEFT", x, y)
+                    btn:Show()
+
+                    counter = counter + 1
+                    if counter < _columns then
+                        x = x + step
+                    else
+                        x = _borderPadding
+                        y = y - step
+                        counter = 0
+                    end
+                end
+            end
+
+            if counter ~= 0 and _splitBags or _addReagentsBag then
+                x = _borderPadding
+                y = y - step
+                counter = 0
+            end
+        end
+    end
+end
+
+function BagUtils.UpdateCombinedBagsFrame(container)
+    CacheButtons(container)
+    UpdateFrameSize(container)
+    UpdateButtonLayout(container)
 end
 
 function BagUtils.UpdateItemLevel()
