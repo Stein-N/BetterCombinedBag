@@ -46,7 +46,7 @@ function BagCache.GetFullBagSize()
 end
 
 function BagCache.GetMaxItemPerRow(columns, reagentsBag)
-    local max = columns
+    local max = 0
     for i = 0, _bagCount do
         if i < 5 or reagentsBag then
             if max < _bagSlots[i] then
@@ -55,5 +55,5 @@ function BagCache.GetMaxItemPerRow(columns, reagentsBag)
         end
     end
 
-    return max
+    return max < columns and max or columns
 end

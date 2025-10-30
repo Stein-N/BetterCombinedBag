@@ -1,7 +1,7 @@
 BagUtils = {}
 
 local _borderPadding, _itemPadding, _columns, _splitBags, _addReagentsBag, _reagBagPadding
-local _buttonCache = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}}
+local _buttonCache = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}, [5] = {}}
 local _itemSize = 36
 
 function BagUtils.UpdateSettings()
@@ -68,6 +68,16 @@ local function UpdateButtonLayout(container)
 
     for i = 0, 5 do
         if i < 5 or _addReagentsBag then
+
+            if i == 5 then
+                y = y - _reagBagPadding
+                if counter ~= 0 then
+                    x = _borderPadding
+                    y = y - step
+                    counter = 0
+                end
+            end
+            
             for _, btn in ipairs(_buttonCache[i]) do
                 if btn then
                     btn:ClearAllPoints()
@@ -85,7 +95,7 @@ local function UpdateButtonLayout(container)
                 end
             end
 
-            if counter ~= 0 and _splitBags or _addReagentsBag then
+            if counter ~= 0 and _splitBags then
                 x = _borderPadding
                 y = y - step
                 counter = 0
