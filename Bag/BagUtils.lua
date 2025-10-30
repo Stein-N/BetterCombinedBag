@@ -120,7 +120,7 @@ function BagUtils:UpdateLayout(container)
 
     for bagId = 0, bags do
         local maxSlots = BagCache:GetBagSize(bagId)
-        local bagItems = _buttons[bagId]
+        local bagItems = bagId < 5 and _buttons[bagId] or ReagButtons:GetReagButtons()
         if bagId == 5 then
             yPos = yPos - reagBagMargin
             if counter ~= 0 then
@@ -135,7 +135,7 @@ function BagUtils:UpdateLayout(container)
             if itemButton then
                 itemButton:ClearAllPoints()
                 itemButton:SetPoint("TOPLEFT", container, "TOPLEFT", xPos, yPos)
-                if addReagentsBag then itemButton:SetParent(container) end
+                itemButton:Show()
 
                 counter = counter + 1
                 if counter < columns then

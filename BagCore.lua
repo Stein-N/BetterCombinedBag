@@ -5,20 +5,36 @@ local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
 frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:RegisterEvent("BAG_UPDATE_DELAYED")
+frame:RegisterEvent("ITEM_LOCK_CHANGED")
 
-frame:SetScript("OnEvent", function(self, event, name)
+frame:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         BagCache:RefreshCache()
+        ReagButtons:CreateReagentsButtons()
     end
 
     if event == "BAG_UPDATE_DELAYED" then
         BagCache:RefreshCache()
+        ReagButtons:UpdateButtons()
     end
 
     if event == "ADDON_LOADED" then
+        local name = ...
         if name == BagData.addonName then
             BagMenu:BuildOptionsMenu()
             BagUtils:UpdateSettings()
+        end
+    end
+
+    if event == "ITEM_LOCK_CHANGED" then
+        local bagId, slotId = ...
+        if bagId == Enum.BagIndex.ReagentBag then
+            if bagId == nil or slotId == nil then return end
+            local itemInfo = C_Container.GetContainerItemInfo(bagId, slotId)
+            if itemInfo then
+                local btn = ReagButtons:GetReagButton(slotId)
+                if btn then btn.icon:SetDesaturated(itemInfo.isLocked) end
+            end
         end
     end
 end)

@@ -13,6 +13,7 @@ Settings/BagSettings.lua
 ## Util classes
 Bag/BagCache.lua
 Bag/BagUtils.lua
+Button/ReagButtons.lua
 Settings/BagMenu.lua
 
 ## Core Logic
