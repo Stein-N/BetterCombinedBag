@@ -75,3 +75,5 @@ hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
     BagUtils.UpdateCombinedBagsFrame(self)
     BagButtons.UpdateBaseInformation()
 end)
+
+hooksecurefunc(ContainerFrame6, "SetPoint", function(self) self:ClearAllPoints() end)
