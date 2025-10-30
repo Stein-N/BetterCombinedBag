@@ -32,10 +32,7 @@ local function CacheButtons(container)
         end
     end
 
-    if _addReagentsBag then
-        table.wipe(_buttonCache[5])
-        BagButtons.CreateReagentsButtons(_buttonCache[5])
-    end
+    if not next(_buttonCache[5]) then BagButtons.CreateReagentsButtons(_buttonCache[5]) end
 end
 
 local function UpdateFrameSize(container)
@@ -87,9 +84,7 @@ local function UpdateButtonLayout(container)
                 if btn then
                     btn:ClearAllPoints()
                     btn:SetPoint("TOPLEFT", container, "TOPLEFT", x, y)
-                    
-                    if i == 5 and _addReagentsBag then btn:Show()
-                    else btn:Hide() end
+                    btn:Show()
 
                     counter = counter + 1
                     if counter < _columns then
@@ -107,6 +102,10 @@ local function UpdateButtonLayout(container)
                 y = y - step
                 counter = 0
             end
+        else
+            for _, btn in ipairs(_buttonCache[5]) do
+                if btn then btn:Hide() end
+            end
         end
     end
 end
@@ -114,6 +113,7 @@ end
 function BagUtils.UpdateCombinedBagsFrame(container)
     CacheButtons(container)
     UpdateFrameSize(container)
+    BagUtils.UpdateItemLevel()
     UpdateButtonLayout(container)
 end
 

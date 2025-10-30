@@ -28,6 +28,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 
     if event == "BAG_UPDATE_DELAYED" then
         BagCache.CacheBagItems()
+        BagUtils.UpdateItemLevel()
+        BagButtons.UpdateBaseInformation()
     end
 end)
 
@@ -37,8 +39,5 @@ end)
 
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
     BagUtils.UpdateCombinedBagsFrame(self)
-end)
-
-hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
-    BagUtils.UpdateItemLevel()
+    BagButtons.UpdateBaseInformation()
 end)
