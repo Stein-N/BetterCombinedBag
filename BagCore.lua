@@ -18,6 +18,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
         end
     end
 
+    -- general prevention for the addon
+
     if event == "PLAYER_EQUIPMENT_CHANGED" then
         BagCache.UpdateBagSlots()
     end
@@ -28,12 +30,18 @@ frame:SetScript("OnEvent", function(self, event, ...)
     end
 
     if event == "BAG_UPDATE_DELAYED" then
+        if not BetterCombinedBagDB["Bag_Toggle"] then return end
+
         BagCache.CacheBagItems()
         BagUtils.UpdateItemLevel()
         BagButtons.UpdateBaseInformation()
     end
 
+    -- Next events should only trigger if the reagents bag gets added
+
     if event == "ITEM_LOCK_CHANGED" then
+        if not BetterCombinedBagDB["Bag_Toggle_Reagents_Bag"] then return end
+
         local bagId, slot = ...
         if bagId == Enum.BagIndex.ReagentBag then
             if bagId == nil or slot == nil then return end
@@ -46,6 +54,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
     end
 
     if event == "INVENTORY_SEARCH_UPDATE" then
+        if not BetterCombinedBagDB["Bag_Toggle_Reagents_Bag"] then return end
+
         local box = _G["BagItemSearchBox"]
         if not box then return end
         local s = string.lower(box:GetText())
@@ -72,8 +82,18 @@ end)
 ---##################################---
 
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
+    if not BetterCombinedBagDB["Bag_Toggle"] then
+        BagUtils.HideItemLevelAndCustomButtons()
+        return
+    end
+
     BagUtils.UpdateCombinedBagsFrame(self)
     BagButtons.UpdateBaseInformation()
 end)
 
-hooksecurefunc(ContainerFrame6, "SetPoint", function(self) self:ClearAllPoints() end)
+hooksecurefunc(ContainerFrame6, "SetPoint", function(self)
+    if not BetterCombinedBagDB["Bag_Toggle"] then return end
+    if not BetterCombinedBagDB["Bag_Toggle_Reagents_Bag"] then return end
+
+    self:ClearAllPoints()
+end)

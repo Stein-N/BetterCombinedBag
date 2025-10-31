@@ -134,3 +134,17 @@ function BagUtils.UpdateItemLevel()
         end
     end
 end
+
+function BagUtils.HideItemLevelAndCustomButtons()
+    for i = 0, 5 do
+        for _, btn in ipairs(_buttonCache[i]) do
+            if btn and btn.BagItemLevel then
+                btn.BagItemLevel:Hide()
+            end
+
+            if btn and btn.bagID == 5 then
+                btn:Hide()
+            end
+        end
+    end
+end
