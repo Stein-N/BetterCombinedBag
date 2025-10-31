@@ -64,6 +64,8 @@ function UpdateMatOverlay(button)
         local info = BagCache.GetItemInfo(button.bagID, button:GetID())
         if info then
             local tier = C_TradeSkillUI.GetItemReagentQualityByItemInfo(info.itemID)
+            if tier == 0 or tier == nil then return end
+            
             button.MatOverlay:SetTexture(_textureString)
             button.MatOverlay:SetTexCoord(GetTexCoord(tier))
             button.MatOverlay:Show()
