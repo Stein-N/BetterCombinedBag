@@ -38,6 +38,19 @@ BagSettings = {
         }
     },
 
+    toggleItemLevel = {
+        key = "Bag_Toggle_Item_Level",
+        default = false,
+        deDE = {
+            name = "Itemlevel anzeigen",
+            tooltip = "Zeige das Itemlevel von Ausrüstungsgegenständen"
+        },
+        enEN = {
+            name = "Show Itemlevel",
+            tooltip = "Show Itemlevel for Equippable Items"
+        }
+    },
+
     backpackColumns = {
         key = "Bag_Backpack_Columns",
         default = 10,

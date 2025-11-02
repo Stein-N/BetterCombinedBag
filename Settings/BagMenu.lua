@@ -83,6 +83,7 @@ function BagMenu.BuildOptionsMenu()
     RegisterCheckbox(general, "toggleBetterBag")
     RegisterCheckbox(general, "toggleBackpackSplit")
     RegisterCheckbox(general, "toggleReagentsBag")
+    RegisterCheckbox(general, "toggleItemLevel")
 
     generalLayout:AddInitializer(CreateSettingsListSectionHeaderInitializer(headers.frameOptions))
     RegisterSlider(general, "backpackColumns", 10, 38, 1)
