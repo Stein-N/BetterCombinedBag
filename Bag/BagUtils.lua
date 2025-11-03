@@ -5,7 +5,7 @@ local _buttonCache = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}, [5] = {}
 local _itemSize = 36
 
 function BagUtils.UpdateSettings()
-    local db = BetterCombinedBagDB
+    local db = BCB_Settings
     _borderPadding = db["Bag_Border_Padding"]
     _itemPadding = db["Bag_Item_Padding"]
     _columns = db["Bag_Backpack_Columns"]

@@ -8,14 +8,14 @@ local langCode = GetLocale()
 -- Set the default value for an Option inside the SavedVariables
 local function SetDefault(option)
     local key = option.key
-    if BetterCombinedBagDB[key] then return end
+    if BCB_Settings[key] then return end
 
-    BetterCombinedBagDB[key] = option.default
+    BCB_Settings[key] = option.default
 end
 
 -- Basic function to update the Option Value
 local function UpdateSetting(setting, value)
-    BetterCombinedBagDB[setting:GetVariable()] = value
+    BCB_Settings[setting:GetVariable()] = value
     BagUtils.UpdateSettings()
 end
 
@@ -23,7 +23,7 @@ end
 local function RegisterSetting(category, option, lang)
     return Settings.RegisterAddOnSetting(
         category, option.key, option.key,
-        BetterCombinedBagDB, type(option.default),
+        BCB_Settings, type(option.default),
         lang.name, option.default)
 end
 
