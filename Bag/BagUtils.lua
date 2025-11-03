@@ -1,6 +1,6 @@
 BagUtils = {}
 
-local _borderPadding, _itemPadding, _columns, _splitBags, _addReagentsBag, _reagBagPadding, _showItemLevel
+local _borderPadding, _itemPadding, _columns, _splitBags, _addReagentsBag, _reagBagPadding, _showItemLevel, _colorItemLevel
 local _buttonCache = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}, [5] = {}}
 local _itemSize = 36
 
@@ -13,6 +13,7 @@ function BagUtils.UpdateSettings()
     _addReagentsBag = db["Bag_Toggle_Reagents_Bag"]
     _reagBagPadding = db["Bag_Reagents_Padding"]
     _showItemLevel = db["Bag_Toggle_Item_Level"]
+    _colorItemLevel = db["Bag_Toggle_Item_Level_Color"]
 end
 
 local function AddBagItemLevelComponent(button)
@@ -128,6 +129,13 @@ function BagUtils.UpdateItemLevel()
                     local lvl = C_Item.GetCurrentItemLevel(loc)
                     btn.BagItemLevel:SetText(lvl)
                     btn.BagItemLevel:Show()
+
+                    if _colorItemLevel then
+                        local r, g, b = C_Item.GetItemQualityColor(info.quality)
+                        btn.BagItemLevel:SetTextColor(r, g, b)
+                    else
+                        btn.BagItemLevel:SetTextColor(1, 1, 1)
+                    end
                 else
                     btn.BagItemLevel:Hide()
                 end

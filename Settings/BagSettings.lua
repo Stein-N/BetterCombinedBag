@@ -51,6 +51,19 @@ BagSettings = {
         }
     },
 
+    toggleItemLevelColor = {
+        key = "Bag_Toggle_Item_Level_Color",
+        default = false,
+        deDE = {
+            name = "Itemlevel einfärben",
+            tooltip = "Färbe das Itemlevel entsprechend der Qualität ein"
+        },
+        enEN = {
+            name = "Color Itemlevel",
+            tooltip = "Use the Qualitycolor for the Itemlevel"
+        }
+    },
+
     backpackColumns = {
         key = "Bag_Backpack_Columns",
         default = 10,
