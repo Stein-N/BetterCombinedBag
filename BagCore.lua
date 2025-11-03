@@ -33,7 +33,3 @@ hooksecurefunc(ContainerFrame6, "SetPoint", function(self)
 
     self:ClearAllPoints()
 end)
-
-hooksecurefunc(GameTooltip, "SetBagItem", function(self, bagId, slot)
-
-end)
