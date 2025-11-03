@@ -1,6 +1,6 @@
 BagUtils = {}
 
-local _borderPadding, _itemPadding, _columns, _splitBags, _addReagentsBag, _reagBagPadding
+local _borderPadding, _itemPadding, _columns, _splitBags, _addReagentsBag, _reagBagPadding, _showItemLevel
 local _buttonCache = {[0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {}, [5] = {}}
 local _itemSize = 36
 
@@ -12,6 +12,7 @@ function BagUtils.UpdateSettings()
     _splitBags = db["Bag_Toggle_Backpack_Split"]
     _addReagentsBag = db["Bag_Toggle_Reagents_Bag"]
     _reagBagPadding = db["Bag_Reagents_Padding"]
+    _showItemLevel = db["Bag_Toggle_Item_Level"]
 end
 
 local function AddBagItemLevelComponent(button)
@@ -122,7 +123,7 @@ function BagUtils.UpdateItemLevel()
         for _, btn in ipairs(_buttonCache[i]) do
             if btn then
                 local info = BagCache.GetItemInfo(btn.bagID, btn:GetID())
-                if info and C_Item.IsEquippableItem(info.itemID) then
+                if info and C_Item.IsEquippableItem(info.itemID) and _showItemLevel then
                     local loc = ItemLocation:CreateFromBagAndSlot(btn.bagID, btn:GetID())
                     local lvl = C_Item.GetCurrentItemLevel(loc)
                     btn.BagItemLevel:SetText(lvl)
@@ -138,13 +139,9 @@ end
 function BagUtils.HideItemLevelAndCustomButtons()
     for i = 0, 5 do
         for _, btn in ipairs(_buttonCache[i]) do
-            if btn and btn.BagItemLevel then
-                btn.BagItemLevel:Hide()
-            end
-
-            if btn and btn.bagID == 5 then
-                btn:Hide()
-            end
+            if not btn then return end
+            if btn.BagItemLevel then btn.BagItemLevel:Hide() end
+            if btn.bagID == 5 then btn:Hide() end
         end
     end
 end
