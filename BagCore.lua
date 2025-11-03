@@ -33,3 +33,17 @@ hooksecurefunc(ContainerFrame6, "SetPoint", function(self)
 
     self:ClearAllPoints()
 end)
+
+hooksecurefunc(ContainerFrameCombinedBags, "SetSearchBoxPoint", function(self)
+    local box = _G["BagItemSearchBox"]
+
+    if box then
+        local cWidth, _ = self:GetSize()
+        local bWidth, _ = box:GetSize()
+
+        local x = (cWidth / 2) - (bWidth / 2)
+
+        box:ClearAllPoints()
+        box:SetPoint("TOPLEFT", self, "TOPLEFT", x, -35)
+    end
+end)
