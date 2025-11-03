@@ -19,9 +19,9 @@ end
 local function AddBagItemLevelComponent(button)
     if not button.BagItemLevel then
         local comp = button:CreateFontString(nil, "OVERLAY", "GameFontNormalOutline")
-        comp:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 0, 0)
+        comp:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 0, 1)
         comp:SetTextColor(1, 1, 1, 1)
-        comp:SetScale(1.25)
+        comp:SetScale(1.4)
         button.BagItemLevel = comp
     end
 end

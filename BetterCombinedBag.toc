@@ -13,6 +13,7 @@ Data/BagData.lua
 ## Util classes
 Settings/BagMenu.lua
 Bag/BagButtons.lua
+Bag/BagEvents.lua
 Bag/BagCache.lua
 Bag/BagUtils.lua
 
