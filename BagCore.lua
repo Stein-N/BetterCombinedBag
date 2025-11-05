@@ -1,6 +1,8 @@
 BCB_Settings = {}
+BCB_Sync = {}
 
 local frame = CreateFrame("Frame")
+local _name, _realm = UnitName("player")
 
 frame:RegisterEvent("ADDON_LOADED")
 frame:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -45,5 +47,17 @@ hooksecurefunc(ContainerFrameCombinedBags, "SetSearchBoxPoint", function(self)
 
         box:ClearAllPoints()
         box:SetPoint("TOPLEFT", self, "TOPLEFT", x, -35)
+    end
+end)
+
+hooksecurefunc(GameTooltip, "SetBagItem", function(self, bagId, slot)
+    local info = C_Container.GetContainerItemInfo(bagId, slot)
+
+    for name, value in pairs(BCB_Sync) do
+        local amount = value[info.itemID]
+        if amount ~= nil then
+            self:AddDoubleLine(name, amount.."x")
+            self:Show()
+        end
     end
 end)

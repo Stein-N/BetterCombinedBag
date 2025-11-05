@@ -27,6 +27,7 @@ function handler.BAG_UPDATE_DELAYED()
         BagCache.CacheBagItems()
         BagUtils.UpdateItemLevel()
         BagButtons.UpdateBaseInformation()
+        BagSync.SaveInventory()
     end
 end
 
