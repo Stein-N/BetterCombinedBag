@@ -51,7 +51,9 @@ hooksecurefunc(ContainerFrameCombinedBags, "SetSearchBoxPoint", function(self)
 end)
 
 hooksecurefunc(GameTooltip, "SetBagItem", function(self, bagId, slot)
-    local info = C_Container.GetContainerItemInfo(bagId, slot)
+    if not BCB_Settings["Bag_Toggle_BagSync"] then return end
+
+    local info = BagCache.GetItemInfo(bagId, slot)
 
     if info then
         if IsShiftKeyDown() then
