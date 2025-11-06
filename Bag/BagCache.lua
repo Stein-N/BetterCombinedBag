@@ -29,10 +29,6 @@ function BagCache.GetItemInfo(bagId, slot)
     else return nil end
 end
 
-function BagCache.GetBagCount()
-    return _bagCount
-end
-
 function BagCache.GetBagSize(bagId)
     return _bagSlots[bagId]
 end
