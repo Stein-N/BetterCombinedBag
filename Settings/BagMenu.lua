@@ -87,6 +87,7 @@ function BagMenu.BuildOptionsMenu()
     generalLayout:AddInitializer(CreateSettingsListSectionHeaderInitializer(headers.qualityOfLife))
     RegisterCheckbox(general, "toggleItemLevel")
     RegisterCheckbox(general, "toggleItemLevelColor")
+    RegisterCheckbox(general, "toggleBagSync")
 
     generalLayout:AddInitializer(CreateSettingsListSectionHeaderInitializer(headers.frameOptions))
     RegisterSlider(general, "backpackColumns", 10, 38, 1)

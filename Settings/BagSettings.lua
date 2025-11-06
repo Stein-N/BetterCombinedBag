@@ -64,6 +64,19 @@ BagSettings = {
         }
     },
 
+    toggleBagSync = {
+        key = "Bag_Toggle_BagSync",
+        default = false,
+        deDE = {
+            name = "Taschen Synchronisieren",
+            tooltip = "Synchronisiere Items deiner Charaktere miteinander, vorhandene Items anderer Charaktere werden im Tooltip des gleichen Items angezeigt."
+        },
+        enEN = {
+            name = "Synchronise Bags",
+            tooltip = "Synchronise items across your characters. Items held by other characters will be displayed in the tooltip of the same item."
+        }
+    },
+
     backpackColumns = {
         key = "Bag_Backpack_Columns",
         default = 10,

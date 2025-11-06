@@ -11,5 +11,13 @@ BagData = {
             qualityOfLife = "Quality of Life",
             frameOptions = "Frame Options"
         }
+    },
+    bagSync = {
+        deDE = {
+            tooltipHint = "< Zeige Synchronisierte Items >"
+        },
+        enEN = {
+            tooltipHint = "< Show Synchonised Items >"
+        }
     }
 }
