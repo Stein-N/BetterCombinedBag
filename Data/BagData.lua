@@ -14,10 +14,10 @@ BagData = {
     },
     bagSync = {
         deDE = {
-            tooltipHint = "< Zeige Synchronisierte Items >"
+            tooltipHint = "<Shift> Zeige Synchronisierte Items"
         },
         enEN = {
-            tooltipHint = "< Show Synchonised Items >"
+            tooltipHint = "<Shift> Show Synchonised Items"
         }
     }
 }
