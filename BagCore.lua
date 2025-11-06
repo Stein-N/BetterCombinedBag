@@ -53,11 +53,17 @@ end)
 hooksecurefunc(GameTooltip, "SetBagItem", function(self, bagId, slot)
     local info = C_Container.GetContainerItemInfo(bagId, slot)
 
-    for name, value in pairs(BCB_Sync) do
-        local amount = value[info.itemID]
-        if amount ~= nil then
-            self:AddDoubleLine(name, amount.."x")
-            self:Show()
+    if info then
+        if IsShiftKeyDown() then
+            for name, value in pairs(BCB_Sync) do
+                local amount = value[info.itemID]
+                if amount ~= nil and name ~= _name then
+                    self:AddDoubleLine(name, amount.."x")
+                    self:Show()
+                end
+            end
+        else
+            BagSync.AddLocalizedHint(self)
         end
     end
 end)
