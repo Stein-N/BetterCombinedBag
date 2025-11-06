@@ -33,7 +33,7 @@ end
 
 function handler.ITEM_LOCK_CHANGED(bagId, slot)
     if BCB_Settings["Bag_Toggle_Reagents_Bag"] then
-        if bagId == Enum.BagIndex.ReagentBag then
+        if bagId == Enum.BagIndex.ReagentBag and slot ~= nil then
             local info = C_Container.GetContainerItemInfo(bagId, slot)
             if info then
                 local btn = _G["BetterCombinedBagsSlot"..slot]
