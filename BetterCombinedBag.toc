@@ -4,7 +4,8 @@
 ## Author: xStopho
 ## Category: UI
 ## Notes: A Simple and Lightweight Bag AddOn for WoW Retail
-## SavedVariables: BCB_Settings, BCB_Sync
+## SavedVariables: BCB_Sync
+## SavedVariablesPerCharacter: BCB_Settings
 
 ## Data
 Settings/BagSettings.lua
