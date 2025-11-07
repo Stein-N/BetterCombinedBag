@@ -126,6 +126,8 @@ function BagUtils.UpdateItemLevel()
                 local info = BagCache.GetItemInfo(btn.bagID, btn:GetID())
                 if info and C_Item.IsEquippableItem(info.itemID) and _showItemLevel then
                     local loc = ItemLocation:CreateFromBagAndSlot(btn.bagID, btn:GetID())
+                    if not loc then return end -- early return check
+
                     local lvl = C_Item.GetCurrentItemLevel(loc)
                     btn.BagItemLevel:SetText(lvl)
                     btn.BagItemLevel:Show()
