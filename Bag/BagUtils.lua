@@ -132,7 +132,7 @@ function BagUtils.UpdateItemLevel()
                     btn.BagItemLevel:SetText(lvl)
                     btn.BagItemLevel:Show()
 
-                    if _colorItemLevel then
+                    if _colorItemLevel and info.quality then
                         local r, g, b = C_Item.GetItemQualityColor(info.quality)
                         btn.BagItemLevel:SetTextColor(r, g, b)
                     else
