@@ -14,6 +14,7 @@ addon.Settings = {
     bagBorderPadding = { key = "bagBorderPadding", default = 7 },
     bagItemPadding = { key = "bagItemPadding", default = 4 },
     bagBagPadding = { key = "bagBagPadding", default = 0 },
+    bagAddReagentsBag = { key = "bagAddReagentsBag", default = false },
     bagReagentsPadding = { key = "bagReagentsPadding", default = 0 },
 
     -- Bank Frame Settings -- Currently Unused
@@ -44,6 +45,7 @@ addon.Locale = {
         bagBorderPadding = { label = "Border Padding", tooltip = "Adjust the space between items and the frame border." },
         bagItemPadding = { label = "Item Padding", tooltip = "Adjust the space between items." },
         bagBagPadding = { label = "Bag Padding", tooltip = "Add extra space between each bag when 'Split Bags' is enabled." },
+        bagAddReagentsBag = { label = "Add Reagents Bag", tooltip = "Adds the reagents bag to the combined bag frame instead of having an extra frame." },
         bagReagentsPadding = { label = "Reagents Bag Padding", tooltip = "Add extra space between the item bag and the reagent bag." },
 
         -- Bank Frame Settings -- Currently Unused

@@ -33,7 +33,7 @@ end
 local function CreateCheckbox(key)
     local s, l = CreateSetting(key)
     if s and l then
-        Settings.CreateCheckbox(_category, s, l.tooltip)
+        return Settings.CreateCheckbox(_category, s, l.tooltip)
     end
 end
 
@@ -51,7 +51,7 @@ local function CreateSlider(key, min, max, steps, suffix)
         option:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right,
         function(v) return v .. (suffix or "") end)
 
-        Settings.CreateSlider(_category, s, option, l.tooltip)
+        return Settings.CreateSlider(_category, s, option, l.tooltip)
     end
 end
 
@@ -132,6 +132,7 @@ function addon.BuildSettingsPage()
     CreateSlider("bagBorderPadding", 0, 50, 1, "px")
     CreateSlider("bagItemPadding", 0, 50, 1, "px")
     CreateSlider("bagBagPadding", 0, 50, 1, "px")
+    CreateCheckbox("bagAddReagentsBag")
     CreateSlider("bagReagentsPadding", 0, 50, 1, "px")
 
     CreateHeader(header.bankFrame)
