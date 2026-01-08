@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="wow-ui-source-beta" type="Lua">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../Libraries/wow-ui-source-beta" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
