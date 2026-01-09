@@ -63,8 +63,8 @@ local function CreateCheckboxDropdown(option, getter, setter, optionBuilder)
     init.getSelectionTextFunc = function(s) if #s == 0 then return 'None' else return nil end end
 end
 
-local function CreateHeader(text, expected)
-    local init = CreateSettingsListSectionHeaderInitializer(text)
+local function CreateHeader(header, expected)
+    local init = CreateSettingsListSectionHeaderInitializer(header.label, header.tooltip)
 
     if expected ~= nil and type(expected) == 'boolean' then
         init:AddShownPredicate(function() return BCB_Settings.separateFrame == expected end)

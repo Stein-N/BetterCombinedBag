@@ -39,7 +39,12 @@ addon.ItemLevelLabels = { "bag", "bank", "character" }
 
 addon.Locale = {
     enUS = {
-        header = { general = "General", frame = "Frame Settings", bagFrame = "Bag Frame", bankFrame = "Bank Frame" },
+        header = {
+            general = { label = "General", tooltip = "General Quality of Life settings" },
+            frame = { label = "Frame Settings", tooltip = "Adjust the Settings for Bag and Bank Frames" },
+            bagFrame = { label = "Bag Settings", tooltip = "Adjust the Settings for Bag Frame" },
+            bankFrame = { label = "Bank Settings", tooltip = "Adjust the Settings for Bank Frame" }
+        },
         anchor = { tl = "Top Left", tr = "Top Right", bl = "Bottom Left", br = "Bottom Right" },
 
         -- General Settings
