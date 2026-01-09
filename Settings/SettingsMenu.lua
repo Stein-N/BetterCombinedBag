@@ -30,28 +30,29 @@ local function CreateSetting(key)
     end
 end
 
-local function CreateCheckbox(key)
+local function CreateCheckbox(key, expected)
     local s, l = CreateSetting(key)
     if s and l then
-        return Settings.CreateCheckbox(_category, s, l.tooltip)
+        local init = Settings.CreateCheckbox(_category, s, l.tooltip)
+
+        if expected ~= nil and type(expected) == 'boolean' then
+            init:AddShownPredicate(function() return BCB_Settings.separateFrame == expected end)
+        end
     end
 end
 
-local function CreateDropdown(key, options)
-    local s, l = CreateSetting(key)
-    if s and l then
-        Settings.CreateDropdown(_category, s, options, l.tooltip)
-    end
-end
-
-local function CreateSlider(key, min, max, steps, suffix)
+local function CreateSlider(key, min, max, steps, suffix, expected)
     local s, l = CreateSetting(key)
     if s and l then
         local option = Settings.CreateSliderOptions(min, max, steps)
         option:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right,
         function(v) return v .. (suffix or "") end)
 
-        return Settings.CreateSlider(_category, s, option, l.tooltip)
+        local init = Settings.CreateSlider(_category, s, option, l.tooltip)
+
+        if expected ~= nil and type(expected) == 'boolean' then
+            init:AddShownPredicate(function() return BCB_Settings.separateFrame == expected end)
+        end
     end
 end
 
@@ -62,19 +63,13 @@ local function CreateCheckboxDropdown(option, getter, setter, optionBuilder)
     init.getSelectionTextFunc = function(s) if #s == 0 then return 'None' else return nil end end
 end
 
-local function TestCheckboxDropdown(cKey, dOption, getter, setter, builder)
-    local cS, cL = CreateSetting(cKey)
-    local dLang = GetLang()[dOption.key]
-    local proxy = Settings.RegisterProxySetting(_category, dOption.key, Settings.VarType.Number, dLang.label, dOption.default, getter, setter)
-    local init = CreateSettingsCheckboxDropdownInitializer(cS, cL.label, cL.tooltip, proxy, builder, dLang.label, dLang.tooltip)
-
-    init.getSelectionTextFunc = function(s) if #s == 0 then return 'None' else return nil end end
-
-    _layout:AddInitializer(init)
-end
-
-local function CreateHeader(text)
+local function CreateHeader(text, expected)
     local init = CreateSettingsListSectionHeaderInitializer(text)
+
+    if expected ~= nil and type(expected) == 'boolean' then
+        init:AddShownPredicate(function() return BCB_Settings.separateFrame == expected end)
+    end
+
     _layout:AddInitializer(init)
 end
 
@@ -85,18 +80,6 @@ local function BuildCheckboxOptions(table)
     for index, value in ipairs(table) do
         c:AddCheckbox(index, l[value].label, l[value].tooltip)
     end
-
-    return c:GetData()
-end
-
-local function PositionOptions()
-    local c = Settings.CreateControlTextContainer()
-    local l = GetLang()["anchor"]
-
-    c:Add("TOPLEFT", l.tl)
-    c:Add("TOPRIGHT", l.tr)
-    c:Add("BOTTOMLEFT", l.bl)
-    c:Add("BOTTOMRIGHT", l.br)
 
     return c:GetData()
 end
@@ -127,39 +110,39 @@ function addon.BuildSettingsPage()
 
     CreateHeader(header.general)
     CreateCheckbox("itemSync")
-
-    TestCheckboxDropdown(
-            "itemLevelShow", addon.Settings.itemLevel,
+    CreateCheckbox("addReagentsBag")
+    CreateCheckboxDropdown(
+            addon.Settings.itemLevel,
             function() return Getter("itemLevel") end,
             function(value) Setter("itemLevel", "showFor", addon.ItemLevelLabels, value) end,
             function() return BuildCheckboxOptions(addon.ItemLevelLabels) end
     )
-
-    --CreateCheckboxDropdown(
-    --        addon.Settings.itemLevel,
-    --        function() return Getter("itemLevel") end,
-    --        function(value) Setter("itemLevel", "showFor", addon.ItemLevelLabels, value) end,
-    --        function() return BuildCheckboxOptions(addon.ItemLevelLabels) end
-    --)
     CreateCheckbox("itemLevelColor")
-    CreateDropdown("itemLevelPosition", PositionOptions)
     CreateSlider("itemLevelScale", 50, 200, 5, "%")
+    CreateCheckbox("separateFrame")
 
-    CreateHeader(header.bagFrame)
-    CreateCheckbox("bagSplitBags")
-    CreateSlider("bagColumns", 10, 38, 1)
-    CreateSlider("bagBorderPadding", 0, 50, 1, "px")
-    CreateSlider("bagItemPadding", 0, 50, 1, "px")
-    CreateSlider("bagBagPadding", 0, 50, 1, "px")
-    CreateCheckbox("bagAddReagentsBag")
-    CreateSlider("bagReagentsPadding", 0, 50, 1, "px")
+    CreateHeader(header.frame, false)
+    CreateCheckbox("splitBags", false)
+    CreateSlider("columns", 10, 38, 1, "", false)
+    CreateSlider("borderPadding", 0, 50, 1, "px",false)
+    CreateSlider("itemPadding", 0, 50, 1, "px",false)
+    CreateSlider("bagPadding", 0, 50, 1, "px",false)
+    CreateSlider("reagentsPadding", 0, 50, 1, "px",false)
 
-    CreateHeader(header.bankFrame)
-    CreateCheckbox("bankSplitBags")
-    CreateSlider("bankColumns", 10, 38, 1)
-    CreateSlider("bankBorderPadding", 0, 50, 1, "px")
-    CreateSlider("bankItemPadding", 0, 50, 1, "px")
-    CreateSlider("bankBagPadding", 0, 50, 1, "px")
+    CreateHeader(header.bagFrame, true)
+    CreateCheckbox("bagSplitBags", true)
+    CreateSlider("bagColumns", 10, 38, 1, "", true)
+    CreateSlider("bagBorderPadding", 0, 50, 1, "px", true)
+    CreateSlider("bagItemPadding", 0, 50, 1, "px", true)
+    CreateSlider("bagBagPadding", 0, 50, 1, "px", true)
+    CreateSlider("bagReagentsPadding", 0, 50, 1, "px", true)
+
+    CreateHeader(header.bankFrame, true)
+    CreateCheckbox("bankSplitBags", true)
+    CreateSlider("bankColumns", 10, 38, 1, "", true)
+    CreateSlider("bankBorderPadding", 0, 50, 1, "px", true)
+    CreateSlider("bankItemPadding", 0, 50, 1, "px", true)
+    CreateSlider("bankBagPadding", 0, 50, 1, "px", true)
 
     Settings.RegisterAddOnCategory(_category)
 end

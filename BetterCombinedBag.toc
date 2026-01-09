@@ -6,6 +6,8 @@
 ## SavedVariables: BCB_ItemSync
 ## SavedVariablesPerCharacter: BCB_Settings
 
+## XML Files
+
 ## Data
 Data\Constants.lua
 
