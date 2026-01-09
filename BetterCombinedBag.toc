@@ -12,6 +12,8 @@
 Data\Constants.lua
 
 ## Util classes
+Utils\AddOnUtils.lua
+Character\Character.lua
 
 ## Core Logic
 Settings\SettingsMenu.lua

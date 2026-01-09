@@ -12,6 +12,13 @@ local function InitSettings()
             end
         end
     end
+
+    if BCB_Settings.showFor == nil then
+        BCB_Settings.showFor = {}
+        for _, value in pairs(addon.itemLevelLabels) do
+            BCB_Settings.showFor[value] = false
+        end
+    end
 end
 
 local function GetLang()
