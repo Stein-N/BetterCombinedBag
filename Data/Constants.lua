@@ -4,6 +4,7 @@ addon.Settings = {
     -- General Settings
     itemSync = { key = "itemSync", default = true },
     itemLevel = { key = "itemLevel", default = 0 },
+    itemLevelShow = { key = "itemLevelShow", default = false },
     itemLevelColor = { key = "itemLevelColor", default = false },
     itemLevelPosition = { key = "itemLevelPosition", default = "BOTTOMRIGHT" },
     itemLevelScale = { key = "itemLevelScale", default = 1 },
@@ -35,6 +36,7 @@ addon.Locale = {
         -- General Settings
         itemSync = { label = "Item Sync", tooltip = "Enable to synchronize item data across characters and display it in item tooltips." },
         itemLevel = { label = "Show Item Level", tooltip = "Choose whether the item level is shown in the selected frames." },
+        itemLevelShow = { label = "Show Item Level", tooltip = "Choose whether the item level is shown in the selected frames." },
         itemLevelColor = { label = "Color Item Level", tooltip = "Color the item level in the rarity color of the item." },
         itemLevelPosition = { label = "Item Level Position", tooltip = "Change the position of the item level text." },
         itemLevelScale = { label = "Item Level Scale", tooltip = "Adjust the scale of the item level text." },

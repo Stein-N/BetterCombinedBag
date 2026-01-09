@@ -62,6 +62,17 @@ local function CreateCheckboxDropdown(option, getter, setter, optionBuilder)
     init.getSelectionTextFunc = function(s) if #s == 0 then return 'None' else return nil end end
 end
 
+local function TestCheckboxDropdown(cKey, dOption, getter, setter, builder)
+    local cS, cL = CreateSetting(cKey)
+    local dLang = GetLang()[dOption.key]
+    local proxy = Settings.RegisterProxySetting(_category, dOption.key, Settings.VarType.Number, dLang.label, dOption.default, getter, setter)
+    local init = CreateSettingsCheckboxDropdownInitializer(cS, cL.label, cL.tooltip, proxy, builder, dLang.label, dLang.tooltip)
+
+    init.getSelectionTextFunc = function(s) if #s == 0 then return 'None' else return nil end end
+
+    _layout:AddInitializer(init)
+end
+
 local function CreateHeader(text)
     local init = CreateSettingsListSectionHeaderInitializer(text)
     _layout:AddInitializer(init)
@@ -116,12 +127,20 @@ function addon.BuildSettingsPage()
 
     CreateHeader(header.general)
     CreateCheckbox("itemSync")
-    CreateCheckboxDropdown(
-            addon.Settings.itemLevel,
+
+    TestCheckboxDropdown(
+            "itemLevelShow", addon.Settings.itemLevel,
             function() return Getter("itemLevel") end,
             function(value) Setter("itemLevel", "showFor", addon.ItemLevelLabels, value) end,
             function() return BuildCheckboxOptions(addon.ItemLevelLabels) end
     )
+
+    --CreateCheckboxDropdown(
+    --        addon.Settings.itemLevel,
+    --        function() return Getter("itemLevel") end,
+    --        function(value) Setter("itemLevel", "showFor", addon.ItemLevelLabels, value) end,
+    --        function() return BuildCheckboxOptions(addon.ItemLevelLabels) end
+    --)
     CreateCheckbox("itemLevelColor")
     CreateDropdown("itemLevelPosition", PositionOptions)
     CreateSlider("itemLevelScale", 50, 200, 5, "%")
