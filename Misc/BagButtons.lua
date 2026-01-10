@@ -19,20 +19,20 @@ function addon.GenerateReagentsButtons()
 end
 
 function addon.GenerateBankButtons()
-    for bagId = 7, 17 do
+    for bagId = 6, 17 do
         if addon.CustomBagButtons[bagId] == nil then
             addon.CustomBagButtons[bagId] = {}
         end
 
         for slot = 1, 98 do
-            local btn addon.GenerateBagButton(bagId, slot, BankFrame)
+            local btn = addon.GenerateBagButton(bagId, slot, BankFrame)
             addon.CustomBagButtons[bagId][slot] = btn
         end
     end
 end
 
 function addon.GenerateBagButton(bagId, slot, parent)
-    local btn = CreateFrame("ItemButton", name.."Bag"..bagId.."Slot"..slot, parent, "ContainerFrameItemButtonTemplate")
+    local btn = CreateFrame("ItemButton", name..bagId.."Slot"..slot, parent, "ContainerFrameItemButtonTemplate")
     btn:SetBagID(bagId)
     btn:SetID(slot)
     btn:UpdateNewItem()

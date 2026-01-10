@@ -37,29 +37,21 @@ local function CreateSetting(key)
     end
 end
 
-local function CreateCheckbox(key, expected)
+local function CreateCheckbox(key)
     local s, l = CreateSetting(key)
     if s and l then
-        local init = Settings.CreateCheckbox(_category, s, l.tooltip)
-
-        if expected ~= nil and type(expected) == 'boolean' then
-            init:AddShownPredicate(function() return BCB_Settings.separateFrame == expected end)
-        end
+        Settings.CreateCheckbox(_category, s, l.tooltip)
     end
 end
 
-local function CreateSlider(key, min, max, steps, suffix, expected)
+local function CreateSlider(key, min, max, steps, suffix)
     local s, l = CreateSetting(key)
     if s and l then
         local option = Settings.CreateSliderOptions(min, max, steps)
         option:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right,
         function(v) return v .. (suffix or "") end)
 
-        local init = Settings.CreateSlider(_category, s, option, l.tooltip)
-
-        if expected ~= nil and type(expected) == 'boolean' then
-            init:AddShownPredicate(function() return BCB_Settings.separateFrame == expected end)
-        end
+        Settings.CreateSlider(_category, s, option, l.tooltip)
     end
 end
 
@@ -70,12 +62,8 @@ local function CreateCheckboxDropdown(option, getter, setter, optionBuilder)
     init.getSelectionTextFunc = function(s) if #s == 0 then return 'None' else return nil end end
 end
 
-local function CreateHeader(header, expected)
+local function CreateHeader(header)
     local init = CreateSettingsListSectionHeaderInitializer(header.label, header.tooltip)
-
-    if expected ~= nil and type(expected) == 'boolean' then
-        init:AddShownPredicate(function() return BCB_Settings.separateFrame == expected end)
-    end
 
     _layout:AddInitializer(init)
 end
@@ -128,28 +116,17 @@ function addon.BuildSettingsPage()
     CreateSlider("itemLevelScale", 50, 200, 5, "%")
     CreateCheckbox("separateFrame")
 
-    CreateHeader(header.frame, false)
-    CreateCheckbox("splitBags", false)
-    CreateSlider("columns", 10, 38, 1, "", false)
-    CreateSlider("borderPadding", 0, 50, 1, "px",false)
-    CreateSlider("itemPadding", 0, 50, 1, "px",false)
-    CreateSlider("bagPadding", 0, 50, 1, "px",false)
-    CreateSlider("reagentsPadding", 0, 50, 1, "px",false)
+    CreateHeader(header.bagFrame)
+    CreateCheckbox("bagSplitBags")
+    CreateSlider("bagColumns", 10, 38, 1, "")
+    CreateSlider("bagBorderPadding", 0, 50, 1, "px")
+    CreateSlider("bagItemPadding", 0, 50, 1, "px")
+    CreateSlider("bagBagPadding", 0, 50, 1, "px")
+    CreateSlider("bagReagentsPadding", 0, 50, 1, "px")
 
-    CreateHeader(header.bagFrame, true)
-    CreateCheckbox("bagSplitBags", true)
-    CreateSlider("bagColumns", 10, 38, 1, "", true)
-    CreateSlider("bagBorderPadding", 0, 50, 1, "px", true)
-    CreateSlider("bagItemPadding", 0, 50, 1, "px", true)
-    CreateSlider("bagBagPadding", 0, 50, 1, "px", true)
-    CreateSlider("bagReagentsPadding", 0, 50, 1, "px", true)
-
-    CreateHeader(header.bankFrame, true)
-    CreateCheckbox("bankSplitBags", true)
-    CreateSlider("bankColumns", 10, 38, 1, "", true)
-    CreateSlider("bankBorderPadding", 0, 50, 1, "px", true)
-    CreateSlider("bankItemPadding", 0, 50, 1, "px", true)
-    CreateSlider("bankBagPadding", 0, 50, 1, "px", true)
+    CreateHeader(header.bankFrame)
+    CreateSlider("bankBorderPadding", 0, 50, 1, "px")
+    CreateSlider("bankItemPadding", 0, 50, 1, "px")
 
     Settings.RegisterAddOnCategory(_category)
 end

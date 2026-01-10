@@ -5,12 +5,12 @@ local borderPad, itemPad, bagPad, columns, splitBags, reagPad, addReag
 local cButton = { [0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {} }
 
 local function UpdateSettings()
-    borderPad = addon.GetFrameSetting("bagBorderPadding", "borderPadding") + 7
-    itemPad = addon.GetFrameSetting("bagItemPadding", "itemPadding") + 4
-    bagPad = addon.GetFrameSetting("bagBagPadding", "bagPadding")
-    columns = addon.GetFrameSetting("bagColumns", "columns")
-    splitBags = addon.GetFrameSetting("bagSplitBags", "splitBags")
-    reagPad = addon.GetFrameSetting("bagReagentsPadding", "reagentsPadding")
+    borderPad = BCB_Settings.bagBorderPadding + 7
+    itemPad = BCB_Settings.bagItemPadding + 4
+    bagPad = BCB_Settings.bagBagPadding
+    columns = BCB_Settings.bagColumns
+    splitBags = BCB_Settings.bagSplitBags
+    reagPad = BCB_Settings.bagReagentsPadding
     addReag = BCB_Settings.addReagentsBag
 end
 
