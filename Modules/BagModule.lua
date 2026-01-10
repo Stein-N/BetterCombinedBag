@@ -1,7 +1,7 @@
 local _, addon = ...
 BagModule = {}
 
-local borderPad, itemPad, bagPad, columns, splitBags, reagPad, addReag
+local borderPad, itemPad, bagPad, columns, splitBags, reagPad, addReag, btnSize
 local cButton = { [0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {} }
 
 local function UpdateSettings()
@@ -24,6 +24,7 @@ end
 
 local function CollectButtons(container)
     for _, btn in container:EnumerateValidItems() do
+        btnSize = btn:GetWidth()
         cButton[btn.bagID][btn:GetID()] = btn
     end
 end
@@ -44,7 +45,7 @@ function BagModule.UpdateFrameSize(container)
     if not container then return end
 
     columns = GetMaxColumns(columns, addReag)
-    local width = columns * (36 + itemPad) - itemPad + (2 * borderPad)
+    local width = columns * (btnSize + itemPad) - itemPad + (2 * borderPad)
 
     local rows, height = 0, 0
     if splitBags then
@@ -61,7 +62,7 @@ function BagModule.UpdateFrameSize(container)
         height = height + reagPad
     end
 
-    height = height + rows * (36 + itemPad) - itemPad + 90
+    height = height + rows * (btnSize + itemPad) - itemPad + 90
 
     if C_CurrencyInfo.GetBackpackCurrencyInfo(1) then
         height = height + 20
@@ -73,7 +74,7 @@ end
 function BagModule.UpdateItemLayout(container)
 
     local x, y, counter = borderPad, -60, 0
-    local step = 36 + itemPad
+    local step = btnSize + itemPad
 
     for i = 0, 4 do
         for _, btn in ipairs(cButton[i]) do
