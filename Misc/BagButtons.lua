@@ -35,6 +35,7 @@ function addon.GenerateBagButton(bagId, slot, parent)
     local btn = CreateFrame("ItemButton", name.."Bag"..bagId.."Slot"..slot, parent, "ContainerFrameItemButtonTemplate")
     btn:SetBagID(bagId)
     btn:SetID(slot)
+    btn:UpdateNewItem()
 
     addon.AddItemLevelComponent(btn)
 
@@ -137,7 +138,7 @@ end
 function handler.ITEM_LOCK_CHANGED(btn, bagId, slot)
     if bagId ~= nil and slot ~= nil then
         local info = C_Container.GetContainerItemInfo(bagId, slot)
-        if info ~= nil then
+        if info ~= nil and bagId == btn.bagID and slot == btn:GetID() then
             SetItemButtonDesaturated(btn, info.isLocked)
         end
     end
@@ -150,10 +151,13 @@ function handler.INVENTORY_SEARCH_UPDATE(btn)
     local s = string.lower(box:GetText())
 
     local info = addon.ItemInfoCache[btn.bagID][btn:GetID()]
-    local itemName = string.lower(info.itemName)
-    if string.find(itemName, s) then
-        btn.searchOverlay:Hide()
-    else
-        btn.searchOverlay:Show()
+
+    if info ~= nil then
+        local itemName = string.lower(info.itemName)
+        if string.find(itemName, s) then
+            btn.searchOverlay:Hide()
+        else
+            btn.searchOverlay:Show()
+        end
     end
 end

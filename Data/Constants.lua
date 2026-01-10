@@ -3,6 +3,7 @@ local _, addon = ...
 addon.Settings = {
     -- General Settings
     itemSync = { key = "itemSync", default = true },
+    addReagentsBag = { key = "addReagentsBag", default = false },
     itemLevel = { key = "itemLevel", default = 0 },
     itemLevelShow = { key = "itemLevelShow", default = false },
     itemLevelColor = { key = "itemLevelColor", default = false },
@@ -15,7 +16,6 @@ addon.Settings = {
     borderPadding = { key = "borderPadding", default = 7 },
     itemPadding = { key = "itemPadding", default = 4 },
     bagPadding = { key = "bagPadding", default = 0 },
-    addReagentsBag = { key = "addReagentsBag", default = false },
     reagentsPadding = { key = "reagentsPadding", default = 0 },
 
     -- Bag Frame Settings
@@ -24,7 +24,6 @@ addon.Settings = {
     bagBorderPadding = { key = "bagBorderPadding", default = 7 },
     bagItemPadding = { key = "bagItemPadding", default = 4 },
     bagBagPadding = { key = "bagBagPadding", default = 0 },
-    bagAddReagentsBag = { key = "bagAddReagentsBag", default = false },
     bagReagentsPadding = { key = "bagReagentsPadding", default = 0 },
 
     -- Bank Frame Settings -- Currently Unused

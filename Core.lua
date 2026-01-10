@@ -29,19 +29,3 @@ end)
 hooksecurefunc(CharacterFrame, "Show", function()
     addon.ShowCharacterItemLevel()
 end)
-
-local btn = addon.GenerateBagButton(5, 1, ContainerFrameCombinedBags)
-hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
-    --local btn = addon.CustomBagButtons[5][1]
-    btn:ClearAllPoints()
-    btn:SetPoint("TOPLEFT", self, "TOPLEFT", -80, -50)
-    btn:UpdateNewItem()
-    btn:Show()
-end)
-
-hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
-    for _, value in self:EnumerateValidItems() do
-        local info = addon.ItemInfoCache[value.bagID][value:GetID()]
-        BagButtons.UpdateItemLevel(value, info)
-    end
-end)

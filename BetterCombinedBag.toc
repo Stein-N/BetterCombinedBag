@@ -6,8 +6,6 @@
 ## SavedVariables: BCB_ItemSync
 ## SavedVariablesPerCharacter: BCB_Settings
 
-## XML Files
-
 ## Data
 Data\Constants.lua
 
@@ -18,4 +16,5 @@ Character\Character.lua
 
 ## Core Logic
 Settings\SettingsMenu.lua
+Bag\BagModifier.lua
 Core.lua

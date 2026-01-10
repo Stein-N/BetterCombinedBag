@@ -60,6 +60,14 @@ function addon.GetMaterialQualityAtlas(itemId, tier)
     end
 end
 
+function addon.GetFrameSetting(expected, fallback)
+    if BCB_Settings.separateFrame then
+        return BCB_Settings[expected]
+    else
+        return BCB_Settings[fallback]
+    end
+end
+
 function addon.CanShowItemLevel(bagId)
     if bagId >= 0 and bagId <= 5 then
         return BCB_Settings.showFor.bag
