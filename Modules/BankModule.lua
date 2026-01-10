@@ -121,6 +121,10 @@ hooksecurefunc(BankFrame.BankPanel, "GenerateItemSlotsForSelectedTab", function(
     end
 end)
 
+hooksecurefunc(BankFrame.BankPanel, "ShowPurchasePrompt", function(self)
+    HideCustomButtons()
+end)
+
 hooksecurefunc(BankFrame, "Show", function(self)
     tabButton:SetPoint("LEFT", self.BankPanel, "RIGHT", 2, -175)
     tabButton:Show()
