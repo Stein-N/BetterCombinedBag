@@ -24,3 +24,7 @@ function addon.ShowCharacterItemLevel()
         end
     end
 end
+
+hooksecurefunc(CharacterFrame, "Show", function()
+    addon.ShowCharacterItemLevel()
+end)

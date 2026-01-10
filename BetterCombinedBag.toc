@@ -1,4 +1,4 @@
-## Interface: 110205, 110207, 120000
+## Interface: 120000, 120001
 ## Title: BetterCombinedBag
 ## Version: 3.0.0
 ## Author: xStopho
@@ -12,9 +12,10 @@ Data\Constants.lua
 ## Util classes
 Misc\AddOnUtils.lua
 Misc\BagButtons.lua
-Character\Character.lua
 
 ## Core Logic
 Settings\SettingsMenu.lua
-Bag\BagModifier.lua
+Modules\BagModule.lua
+Modules\BankModule.lua
+Modules\CharacterModule.lua
 Core.lua

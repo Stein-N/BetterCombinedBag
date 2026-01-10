@@ -1,5 +1,5 @@
-local name, addon = ...
-BagModifier = {}
+local _, addon = ...
+BagModule = {}
 
 local borderPad, itemPad, bagPad, columns, splitBags, reagPad, addReag
 local cButton = { [0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {} }
@@ -40,7 +40,7 @@ local function GetMaxColumns(col, addReagents)
     return max < col and max or col
 end
 
-function BagModifier.UpdateFrameSize(container)
+function BagModule.UpdateFrameSize(container)
     if not container then return end
 
     columns = GetMaxColumns(columns, addReag)
@@ -70,7 +70,7 @@ function BagModifier.UpdateFrameSize(container)
     container:SetSize(width, height)
 end
 
-function BagModifier.UpdateItemLayout(container)
+function BagModule.UpdateItemLayout(container)
 
     local x, y, counter = borderPad, -60, 0
     local step = 36 + itemPad
@@ -127,8 +127,8 @@ end
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
     UpdateSettings()
     CollectButtons(self)
-    BagModifier.UpdateFrameSize(self)
-    BagModifier.UpdateItemLayout(self)
+    BagModule.UpdateFrameSize(self)
+    BagModule.UpdateItemLayout(self)
 end)
 
 hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)

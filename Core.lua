@@ -25,7 +25,3 @@ f:SetScript("OnEvent", function(_, event, ...)
         addon.ShowCharacterItemLevel()
     end
 end)
-
-hooksecurefunc(CharacterFrame, "Show", function()
-    addon.ShowCharacterItemLevel()
-end)
