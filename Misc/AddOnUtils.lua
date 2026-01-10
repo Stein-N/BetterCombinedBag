@@ -15,10 +15,6 @@ end
 -- Updates the ItemLevelComponent
 function addon.UpdateItemLevelComponent(button, level, quality)
     if button then
-        if not button.ItemLevelComponent then
-            addon.AddItemLevelComponent(button)
-        end
-
         button.ItemLevelComponent:SetText(level)
         button.ItemLevelComponent:SetScale(BCB_Settings.itemLevelScale / 100)
 
@@ -28,6 +24,8 @@ function addon.UpdateItemLevelComponent(button, level, quality)
         else
             button.ItemLevelComponent:SetTextColor(1, 1, 1)
         end
+
+        button.ItemLevelComponent:Show()
     end
 end
 
@@ -60,4 +58,16 @@ function addon.GetMaterialQualityAtlas(itemId, tier)
             return "professions-icon-quality-12-tier"..tier.."-inv"
         end
     end
+end
+
+function addon.CanShowItemLevel(bagId)
+    if bagId >= 0 and bagId <= 5 then
+        return BCB_Settings.showFor.bag
+    end
+
+    if bagId >= 6 and bagId <= 17 then
+        return BCB_Settings.showFor.bank
+    end
+
+    return false
 end

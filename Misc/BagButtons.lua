@@ -5,7 +5,7 @@ addon.CustomBagButtons = {}
 BagButtons = {}
 local handler = {}
 
-function addon.GenerateReagentsBagButtons()
+function addon.GenerateReagentsButtons()
     local bagId = Enum.BagIndex.ReagentBag
 
     if addon.CustomBagButtons[bagId] == nil then
@@ -13,16 +13,30 @@ function addon.GenerateReagentsBagButtons()
     end
 
     for i = 1, C_Container.GetContainerNumSlots(bagId) do
-        local btn = addon.GenerateBagButton(bagId, i, "Reagent")
+        local btn = addon.GenerateBagButton(bagId, i, ContainerFrameCombinedBags)
         addon.CustomBagButtons[bagId][i] = btn
     end
 end
 
-function addon.GenerateBagButton(bagId, slot, type)
-    local btn = CreateFrame("ItemButton", name..type.."Slot"..slot, ContainerFrameCombinedBags, "ContainerFrameItemButtonTemplate")
+function addon.GenerateBankButtons()
+    for bagId = 7, 17 do
+        if addon.CustomBagButtons[bagId] == nil then
+            addon.CustomBagButtons[bagId] = {}
+        end
+
+        for slot = 1, 98 do
+            local btn addon.GenerateBagButton(bagId, slot, BankFrame)
+            addon.CustomBagButtons[bagId][slot] = btn
+        end
+    end
+end
+
+function addon.GenerateBagButton(bagId, slot, parent)
+    local btn = CreateFrame("ItemButton", name.."Bag"..bagId.."Slot"..slot, parent, "ContainerFrameItemButtonTemplate")
     btn:SetBagID(bagId)
     btn:SetID(slot)
-    btn:Show()
+
+    addon.AddItemLevelComponent(btn)
 
     local matOverlay = btn:CreateTexture(nil, "OVERLAY", nil, 7)
     matOverlay:SetSize(33, 28)
@@ -37,7 +51,7 @@ function addon.GenerateBagButton(bagId, slot, type)
 
         self.searchOverlay:Hide()
 
-        handler.BAG_UPDATE_DELAYED(btn)
+        handler.BAG_UPDATE_DELAYED(self)
     end)
 
     btn:HookScript("OnHide", function(self)
@@ -62,7 +76,6 @@ function BagButtons.UpdateIconAndCount(btn, info)
     else
         btn:SetItemButtonTexture(4701874)
         btn:SetItemButtonCount(nil)
-        btn.IconBorder:Hide()
     end
 end
 
@@ -92,12 +105,33 @@ function BagButtons.UpdateProfessionQuality(btn, info)
     end
 end
 
+function BagButtons.UpdateItemLevel(btn, info)
+    if not btn.ItemLevelComponent then
+        addon.AddItemLevelComponent(btn)
+    end
+
+    if addon.CanShowItemLevel(btn.bagID) then
+        local itemLoc = ItemLocation:CreateFromBagAndSlot(btn.bagID, btn:GetID())
+        if C_Item.DoesItemExist(itemLoc) and C_Item.IsEquippableItem(info.itemID) then
+            local level = C_Item.GetCurrentItemLevel(itemLoc)
+            local quality = C_Item.GetItemQuality(itemLoc)
+
+            addon.UpdateItemLevelComponent(btn, level, quality)
+        else
+            btn.ItemLevelComponent:Hide()
+        end
+    else
+        btn.ItemLevelComponent:Hide()
+    end
+end
+
 function handler.BAG_UPDATE_DELAYED(btn)
     local info = addon.ItemInfoCache[btn.bagID][btn:GetID()]
 
     BagButtons.UpdateIconAndCount(btn, info)
     BagButtons.UpdateIconBorder(btn, info)
     BagButtons.UpdateProfessionQuality(btn, info)
+    BagButtons.UpdateItemLevel(btn, info)
 end
 
 function handler.ITEM_LOCK_CHANGED(btn, bagId, slot)
