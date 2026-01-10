@@ -18,7 +18,6 @@ function addon.ShowCharacterItemLevel()
             local quality = C_Item.GetItemQuality(itemLoc)
 
             addon.UpdateItemLevelComponent(button, level, quality)
-
             button.ItemLevelComponent:Show()
         else
             button.ItemLevelComponent:Hide()

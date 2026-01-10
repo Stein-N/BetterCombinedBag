@@ -12,7 +12,8 @@
 Data\Constants.lua
 
 ## Util classes
-Utils\AddOnUtils.lua
+Misc\AddOnUtils.lua
+Misc\BagButtons.lua
 Character\Character.lua
 
 ## Core Logic

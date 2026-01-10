@@ -21,9 +21,19 @@ f:SetScript("OnEvent", function(_, event, ...)
 
     if event == "PLAYER_EQUIPMENT_CHANGED" then
         addon.ShowCharacterItemLevel()
+
+        addon.GenerateBagButtons()
     end
 end)
 
-hooksecurefunc(CharacterFrame, "Show", function(self)
+hooksecurefunc(CharacterFrame, "Show", function()
     addon.ShowCharacterItemLevel()
+end)
+
+
+local btn = addon.GenerateBagButton(5, 1, "Reagent")
+hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
+    btn:ClearAllPoints()
+    btn:SetPoint("TOPLEFT", self, "TOPLEFT", -80, -50)
+    btn:UpdateNewItem()
 end)

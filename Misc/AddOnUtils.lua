@@ -45,14 +45,19 @@ function addon.CacheItemInfos()
             end
 
             local info = C_Container.GetContainerItemInfo(i, j)
-            if info then
-                addon.ItemInfoCache[i][j] = info
-            end
+            addon.ItemInfoCache[i][j] = info
         end
     end
 end
 
--- TODO: really needed?
-function addon.GetItemInfo(bagId, slot)
-    return addon.ItemInfoCache[bagId][slot]
+-- Decide which Atlas to use, since Midnight reduces reagents tiers from 5 to 3
+function addon.GetMaterialQualityAtlas(itemId, tier)
+    local itemInfo = { GetItemInfo(itemId) }
+    if itemInfo ~= nil then
+        if itemInfo[15] < 11 then
+            return "professions-icon-quality-tier"..tier.."-inv"
+        else
+            return "professions-icon-quality-12-tier"..tier.."-inv"
+        end
+    end
 end
