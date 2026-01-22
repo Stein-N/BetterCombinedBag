@@ -22,13 +22,6 @@ local function FullBagSize()
     return fullBagSize
 end
 
-local function CollectButtons(container)
-    for _, btn in container:EnumerateValidItems() do
-        btnSize = btn:GetWidth()
-        cButton[btn.bagID][btn:GetID()] = btn
-    end
-end
-
 local function GetMaxColumns(col, addReagents)
     local max = 0
     for i = 0, 5 do
@@ -62,7 +55,7 @@ function BagModule.UpdateFrameSize(container)
         height = height + reagPad
     end
 
-    height = height + rows * (btnSize + itemPad) - itemPad + 90
+    height = height + rows * (btnSize + itemPad) - itemPad + 90 - bagPad
 
     if C_CurrencyInfo.GetBackpackCurrencyInfo(1) then
         height = height + 20
@@ -72,23 +65,28 @@ function BagModule.UpdateFrameSize(container)
 end
 
 function BagModule.UpdateItemLayout(container)
-
     local x, y, counter = borderPad, -60, 0
     local step = btnSize + itemPad
 
+    function UpdateCounter()
+        counter = counter + 1
+        if counter < columns then
+            x = x + step
+        else
+            x = borderPad
+            y = y - step
+            counter = 0
+        end
+    end
+
+    --- ######################### ---
+    --- Adding normal Bag Buttons ---
+    --- ######################### ---
     for i = 0, 4 do
         for _, btn in ipairs(cButton[i]) do
             btn:ClearAllPoints()
             btn:SetPoint("TOPLEFT", container, "TOPLEFT", x, y)
-
-            counter = counter + 1
-            if counter < columns then
-                x = x + step
-            else
-                x = borderPad
-                y = y - step
-                counter = 0
-            end
+            UpdateCounter()
         end
 
         if counter ~= 0 and splitBags then
@@ -100,34 +98,39 @@ function BagModule.UpdateItemLayout(container)
         end
     end
 
-    if addReag then
-        y = y - reagPad
-        for _, btn in ipairs(addon.CustomBagButtons[5]) do
-            btn:ClearAllPoints()
-            btn:SetPoint("TOPLEFT", container, "TOPLEFT", x, y)
-            btn:Show()
+    --- ########################### ---
+    --- Adding reagents Bag Buttons ---
+    --- ########################### ---
+    for _, btn in ipairs(addon.CustomBagButtons[5]) do
+        btn:ClearAllPoints()
+        btn:SetPoint("TOPLEFT", container, "TOPLEFT", x, y)
 
-            counter = counter + 1
-            if counter < columns then
-                x = x + step
-            else
-                x = borderPad
-                y = y - step
-                counter = 0
-            end
-        end
-    else
-        for _, btn in ipairs(addon.CustomBagButtons[5]) do
+        if addReag then
+            btn:Show()
+            UpdateCounter()
+        else
             btn:Hide()
         end
     end
 end
 
-------------------------------------
----
+-----------------------------------
+
+hooksecurefunc(ContainerFrame6, "SetPoint", function(self)
+    if not BCB_Settings.addReagentsBag then return end
+
+    self:ClearAllPoints()
+end)
+
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
+    if self.Items then
+        for _, item in ipairs(self.Items) do
+            if btnSize == nil then btnSize = item:GetWidth() end
+            cButton[item.bagID][item:GetID()] = item
+        end
+    end
+
     UpdateSettings()
-    CollectButtons(self)
     BagModule.UpdateFrameSize(self)
     BagModule.UpdateItemLayout(self)
 end)
@@ -136,12 +139,6 @@ hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
     for _, value in self:EnumerateValidItems() do
         local info = addon.ItemInfoCache[value.bagID][value:GetID()]
         BagButtons.UpdateItemLevel(value, info)
-    end
-end)
-
-hooksecurefunc(ContainerFrame6, "SetPoint", function(self)
-    if BCB_Settings.addReagentsBag then
-        self:ClearAllPoints()
     end
 end)
 

@@ -7,7 +7,7 @@ addon.Settings = {
     itemLevel = { key = "itemLevel", default = 0 },
     itemLevelShow = { key = "itemLevelShow", default = false },
     itemLevelColor = { key = "itemLevelColor", default = false },
-    itemLevelScale = { key = "itemLevelScale", default = 1 },
+    itemLevelScale = { key = "itemLevelScale", default = 100 },
 
     -- Bag Frame Settings
     bagSplitBags = { key = "bagSplitBags", default = true },

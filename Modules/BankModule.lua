@@ -97,6 +97,7 @@ local function HideCustomButtons()
     end
 end
 
+------------------------------------------
 hooksecurefunc(BankFrame.BankPanel, "GenerateItemSlotsForSelectedTab", function(self)
     addon.CacheItemInfos()
 
