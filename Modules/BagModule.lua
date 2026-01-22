@@ -83,18 +83,20 @@ function BagModule.UpdateItemLayout(container)
     --- Adding normal Bag Buttons ---
     --- ######################### ---
     for i = 0, 4 do
-        for _, btn in ipairs(cButton[i]) do
-            btn:ClearAllPoints()
-            btn:SetPoint("TOPLEFT", container, "TOPLEFT", x, y)
-            UpdateCounter()
-        end
+        if C_Container.GetContainerNumSlots(i) ~= 0 then
+            for _, btn in ipairs(cButton[i]) do
+                btn:ClearAllPoints()
+                btn:SetPoint("TOPLEFT", container, "TOPLEFT", x, y)
+                UpdateCounter()
+            end
 
-        if counter ~= 0 and splitBags then
-            x = borderPad
-            y = y - step - bagPad
-            counter = 0
-        elseif splitBags then
-            y = y - bagPad
+            if counter ~= 0 and splitBags then
+                x = borderPad
+                y = y - step - bagPad
+                counter = 0
+            elseif splitBags then
+                y = y - bagPad
+            end
         end
     end
 
