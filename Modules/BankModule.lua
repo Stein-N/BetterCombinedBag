@@ -62,6 +62,7 @@ local function UpdateEverythingTab(panel, firstBag, lastBag)
             for slot = 1, 98 do
                 local button = buttons[slot]
                 button:ClearAllPoints()
+                button:SetParent(panel)
                 button:SetPoint("TOPLEFT", panel, "TOPLEFT", x, y)
                 button:Show()
 
@@ -110,7 +111,6 @@ hooksecurefunc(BankFrame.BankPanel, "GenerateItemSlotsForSelectedTab", function(
 
     if tabId ~= 99 then
         UpdateBaseLayout(self)
-
         HideCustomButtons()
     end
 
@@ -123,9 +123,7 @@ hooksecurefunc(BankFrame.BankPanel, "GenerateItemSlotsForSelectedTab", function(
     end
 end)
 
-hooksecurefunc(BankFrame.BankPanel, "ShowPurchasePrompt", function(self)
-    HideCustomButtons()
-end)
+hooksecurefunc(BankFrame.BankPanel, "ShowPurchasePrompt", HideCustomButtons)
 
 hooksecurefunc(BankFrame, "Show", function(self)
     tabButton:SetPoint("LEFT", self.BankPanel, "RIGHT", 2, -175)
