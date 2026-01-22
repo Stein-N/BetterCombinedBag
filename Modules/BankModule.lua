@@ -30,6 +30,7 @@ local function UpdateBaseLayout(panel)
         if btnSize == nil then btnSize = btn:GetWidth() end
 
         btn:ClearAllPoints()
+        btn:SetParent(panel)
         btn:SetPoint("BOTTOMRIGHT", panel, "BOTTOMRIGHT", x, y)
 
         counter = counter + 1

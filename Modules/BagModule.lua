@@ -101,11 +101,15 @@ function BagModule.UpdateItemLayout(container)
     --- ########################### ---
     --- Adding reagents Bag Buttons ---
     --- ########################### ---
-    for _, btn in ipairs(addon.CustomBagButtons[5]) do
+    y = y - reagPad
+
+    for i = 1, C_Container.GetContainerNumSlots(Enum.BagIndex.ReagentBag) do
+        local btn = addon.CustomBagButtons[Enum.BagIndex.ReagentBag][i]
         btn:ClearAllPoints()
+        btn:SetParent(container)
         btn:SetPoint("TOPLEFT", container, "TOPLEFT", x, y)
 
-        if addReag then
+        if addReag == true then
             btn:Show()
             UpdateCounter()
         else
@@ -117,7 +121,7 @@ end
 -----------------------------------
 
 hooksecurefunc(ContainerFrame6, "SetPoint", function(self)
-    if not BCB_Settings.addReagentsBag then return end
+    if addReag == false then return end
 
     self:ClearAllPoints()
 end)

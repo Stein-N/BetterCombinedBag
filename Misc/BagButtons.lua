@@ -12,8 +12,8 @@ function addon.GenerateReagentsButtons()
         addon.CustomBagButtons[bagId] = {}
     end
 
-    for i = 1, C_Container.GetContainerNumSlots(bagId) do
-        local btn = addon.GenerateBagButton(bagId, i, ContainerFrameCombinedBags)
+    for i = 1, 50 do
+        local btn = addon.GenerateBagButton(bagId, i)
         addon.CustomBagButtons[bagId][i] = btn
     end
 end
@@ -25,14 +25,14 @@ function addon.GenerateBankButtons()
         end
 
         for slot = 1, 98 do
-            local btn = addon.GenerateBagButton(bagId, slot, BankFrame)
+            local btn = addon.GenerateBagButton(bagId, slot)
             addon.CustomBagButtons[bagId][slot] = btn
         end
     end
 end
 
-function addon.GenerateBagButton(bagId, slot, parent)
-    local btn = CreateFrame("ItemButton", name..bagId.."Slot"..slot, parent, "ContainerFrameItemButtonTemplate")
+function addon.GenerateBagButton(bagId, slot)
+    local btn = CreateFrame("ItemButton", name..bagId.."Slot"..slot, UIParent, "ContainerFrameItemButtonTemplate")
     btn:SetBagID(bagId)
     btn:SetID(slot)
     btn:UpdateNewItem()
