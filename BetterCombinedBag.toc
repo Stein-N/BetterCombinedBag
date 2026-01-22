@@ -5,6 +5,7 @@
 ## Notes: A Simple and Lightweight Bag AddOn for WoW Retail
 ## SavedVariables: BCB_ItemSync
 ## SavedVariablesPerCharacter: BCB_Settings
+## Category: Inventory
 
 ## Data
 Data\Constants.lua
