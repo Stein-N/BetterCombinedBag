@@ -111,7 +111,7 @@ function BagButtons.UpdateItemLevel(btn, info)
         addon.AddItemLevelComponent(btn)
     end
 
-    if addon.CanShowItemLevel(btn.bagID) then
+    if info ~= nil and addon.CanShowItemLevel(btn.bagID) then
         local itemLoc = ItemLocation:CreateFromBagAndSlot(btn.bagID, btn:GetID())
         if C_Item.DoesItemExist(itemLoc) and C_Item.IsEquippableItem(info.itemID) then
             local level = C_Item.GetCurrentItemLevel(itemLoc)
@@ -127,12 +127,15 @@ function BagButtons.UpdateItemLevel(btn, info)
 end
 
 function handler.BAG_UPDATE_DELAYED(btn)
-    local info = addon.ItemInfoCache[btn.bagID][btn:GetID()]
+    local bagContent = addon.ItemInfoCache[btn.bagID]
+    if bagContent ~= nil then
+        local info = addon.ItemInfoCache[btn.bagID][btn:GetID()]
 
-    BagButtons.UpdateIconAndCount(btn, info)
-    BagButtons.UpdateIconBorder(btn, info)
-    BagButtons.UpdateProfessionQuality(btn, info)
-    BagButtons.UpdateItemLevel(btn, info)
+        BagButtons.UpdateIconAndCount(btn, info)
+        BagButtons.UpdateIconBorder(btn, info)
+        BagButtons.UpdateProfessionQuality(btn, info)
+        BagButtons.UpdateItemLevel(btn, info)
+    end
 end
 
 function handler.ITEM_LOCK_CHANGED(btn, bagId, slot)
