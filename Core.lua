@@ -17,6 +17,10 @@ f:SetScript("OnEvent", function(_, event, ...)
         addon.GenerateReagentsButtons()
     end
 
+    if event == "ADDON_LOADED" and n == "Blizzard_InspectUI" then
+        hooksecurefunc('InspectPaperDollFrame_UpdateButtons', addon.ShowInspectItemLevel)
+    end
+
     if event == "BAG_UPDATE_DELAYED" then
         addon.CacheItemInfos()
     end

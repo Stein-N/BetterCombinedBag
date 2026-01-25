@@ -29,6 +29,28 @@ function addon.UpdateItemLevelComponent(button, level, quality)
     end
 end
 
+function addon.AddInspectItemLevelComponent(frame)
+    if frame ~= nil and frame.AverageItemLevelComponent == nil then
+        local c = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalOutline")
+        c:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 14, 9)
+        c:SetTextColor(1, 1, 1, 1)
+        c:SetScale(1.3)
+
+        frame.AverageItemLevelComponent = c
+    end
+end
+
+function addon.UpdateInspectItemLevelComponent(level)
+    local frame = InspectPaperDollFrame
+    addon.AddInspectItemLevelComponent(frame)
+
+    if frame ~= nil and level ~= nil then
+        local text = "Average: " .. level
+        frame.AverageItemLevelComponent:SetText(text)
+        frame.AverageItemLevelComponent:Show()
+    end
+end
+
 -- Cache ItemInfo of all available Bags
 function addon.CacheItemInfos()
     if addon.ItemInfoCache == nil then
