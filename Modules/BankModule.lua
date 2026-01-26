@@ -3,7 +3,7 @@ local _, addon = ...
 local borderPad, itemPad =  7, 4
 local btnSize = nil
 
-local tabButton = CreateFrame("Button", "TestButton", BankFrame.BankPanel, "BankPanelTabTemplate")
+local tabButton = CreateFrame("Button", "BetterCombinedBagEverythingTabButton", BankFrame.BankPanel, "BankPanelTabTemplate")
 tabButton:Init({ IsPurchaseTab = false, ID = 99 })
 tabButton.Icon:SetTexture("interface/icons/ability_bossashvane_icon03")
 tabButton:SetScript("OnClick", function(button)
@@ -117,6 +117,13 @@ end
 ------------------------------------------
 hooksecurefunc(BankFrame.BankPanel, "GenerateItemSlotsForSelectedTab", function(self)
     addon.CacheItemInfos()
+
+    local index = 1
+    for _, btn in ipairs({ self.bankTabPool }) do
+        index = index + 1
+    end
+
+    print("Found", index, "Tab Buttons")
 
     local tabId = self:GetSelectedTabID()
     local bankType = self.bankType
