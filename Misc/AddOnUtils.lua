@@ -32,7 +32,7 @@ end
 function addon.AddInspectItemLevelComponent(frame)
     if frame ~= nil and frame.AverageItemLevelComponent == nil then
         local c = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalOutline")
-        c:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 14, 9)
+        c:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 7, 9)
         c:SetTextColor(1, 1, 1, 1)
         c:SetScale(1.3)
 
@@ -45,7 +45,7 @@ function addon.UpdateInspectItemLevelComponent(level)
     addon.AddInspectItemLevelComponent(frame)
 
     if frame ~= nil and level ~= nil then
-        local text = "Average: " .. level
+        local text = "Avg: " .. level
         frame.AverageItemLevelComponent:SetText(text)
         frame.AverageItemLevelComponent:Show()
     end
