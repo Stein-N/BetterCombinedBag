@@ -112,12 +112,11 @@ function BagButtons.UpdateItemLevel(btn, info)
     end
 
     if info ~= nil and addon.CanShowItemLevel(btn.bagID) then
-        local itemLoc = ItemLocation:CreateFromBagAndSlot(btn.bagID, btn:GetID())
-        if C_Item.DoesItemExist(itemLoc) and C_Item.IsEquippableItem(info.itemID) then
-            local level = C_Item.GetCurrentItemLevel(itemLoc)
-            local quality = C_Item.GetItemQuality(itemLoc)
+        if info ~= nil and info.hyperlink ~= nil and C_Item.IsEquippableItem(info.itemID) then
+            local item = Item:CreateFromItemLink(info.hyperlink)
+            local itemLevel = addon.GetItemLevelFromItemLink(info.hyperlink)
 
-            addon.UpdateItemLevelComponent(btn, level, quality)
+            addon.UpdateItemLevelComponent(btn, itemLevel, item:GetItemQuality())
         else
             btn.ItemLevelComponent:Hide()
         end
