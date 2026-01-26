@@ -1,0 +1,67 @@
+name: Create Addon Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Triggers when you push a tag starting with 'v' (e.g., v1.0.2)
+  # workflow_dispatch: # Optional: Allows you to run it manually from the Actions tab
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to create a release
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract Addon Metadata
+        id: metadata
+        run: |
+          # Find the first .toc file
+          TOC_FILE=$(ls *.toc | head -n 1)
+          if [ -z "$TOC_FILE" ]; then
+            echo "Error: No .toc file found."
+            exit 1
+          fi
+          
+          # Extract Title and Version
+          # 'sed' cleans up the "## " prefix and Windows line endings
+          ADDON_TITLE=$(grep -m 1 "## Title:" "$TOC_FILE" | cut -d':' -f2- | xargs)
+          VERSION=$(grep -m 1 "## Version:" "$TOC_FILE" | cut -d':' -f2- | xargs)
+          
+          # Fallback if version is missing
+          if [ -z "$VERSION" ]; then VERSION="0.0.0-dev"; fi
+          
+          echo "ADDON_NAME=$ADDON_TITLE" >> $GITHUB_ENV
+          echo "ADDON_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Found Addon: $ADDON_TITLE ($VERSION)"
+
+      - name: Prepare Build and Zip
+        run: |
+          # Create temporary folder structure
+          DEST="./.build/${{ env.ADDON_NAME }}"
+          mkdir -p "$DEST"
+          
+          # Copy only .lua and .toc files while preserving directory structure
+          # 'find' finds the files, 'cp --parents' mirrors the tree
+          find . -name "*.lua" -o -name "*.toc" | xargs cp --parents -t "$DEST"
+          
+          # Zip the folder (junking the ./.build/ prefix to keep the addon folder at root)
+          cd .build
+          zip -r "../${{ env.ADDON_NAME }}-${{ env.ADDON_VERSION }}.zip" "${{ env.ADDON_NAME }}"
+          cd ..
+          
+          echo "ZIP_PATH=${{ env.ADDON_NAME }}-${{ env.ADDON_VERSION }}.zip" >> $GITHUB_ENV
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ env.ZIP_PATH }}
+          tag_name: ${{ github.ref_name }} # Uses the tag you pushed as the release tag
+          name: Release ${{ env.ADDON_VERSION }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
