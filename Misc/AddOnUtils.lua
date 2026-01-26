@@ -82,6 +82,21 @@ function addon.GetMaterialQualityAtlas(itemId, tier)
     end
 end
 
+function addon.GetItemLevelFromItemLink(itemLink)
+    if itemLink ~= nil then
+        local tooltipData = C_TooltipInfo.GetHyperlink(itemLink)
+        if tooltipData ~= nil and tooltipData.lines ~= nil then
+            for _, data in ipairs(tooltipData.lines) do
+                if data.type == Enum.TooltipDataLineType.ItemLevel then
+                    return data.itemLevel
+                end
+            end
+        end
+    end
+
+    return nil
+end
+
 function addon.GetFrameSetting(expected, fallback)
     if BCB_Settings.separateFrame then
         return BCB_Settings[expected]

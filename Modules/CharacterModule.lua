@@ -44,10 +44,11 @@ function addon.ShowInspectItemLevel()
             local link = GetInventoryItemLink(unit, btn:GetID())
 
             if link ~= nil then
+                local level = addon.GetItemLevelFromItemLink(link)
                 local item = Item:CreateFromItemLink(link)
 
-                if item ~= nil then
-                    addon.UpdateItemLevelComponent(btn, item:GetCurrentItemLevel(), item:GetItemQuality())
+                if level ~= nil and item ~= nil then
+                    addon.UpdateItemLevelComponent(btn, level, item:GetItemQuality())
                 end
             else
                 btn.ItemLevelComponent:Hide()
