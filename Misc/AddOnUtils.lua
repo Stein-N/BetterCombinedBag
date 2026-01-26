@@ -74,7 +74,7 @@ end
 function addon.GetMaterialQualityAtlas(itemId, tier)
     local itemInfo = { GetItemInfo(itemId) }
     if itemInfo ~= nil then
-        if itemInfo[15] < 11 then
+        if itemInfo[15] ~= nil and itemInfo[15] < 11 then
             return "professions-icon-quality-tier"..tier.."-inv"
         else
             return "professions-icon-quality-12-tier"..tier.."-inv"

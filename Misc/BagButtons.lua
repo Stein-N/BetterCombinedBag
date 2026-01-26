@@ -77,6 +77,7 @@ function BagButtons.UpdateIconAndCount(btn, info)
     else
         btn:SetItemButtonTexture(4701874)
         btn:SetItemButtonCount(nil)
+        btn:UpdateNewItem()
     end
 end
 
