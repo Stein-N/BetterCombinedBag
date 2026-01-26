@@ -7,7 +7,8 @@ local function InitSettings()
     for _, value in pairs(addon.Settings) do
         if value and value.key then
             local key = value.key
-            if BCB_Settings and BCB_Settings[key] == nil then
+
+            if BCB_Settings[key] == nil then
                 BCB_Settings[key] = value.default
             end
         end
@@ -15,7 +16,7 @@ local function InitSettings()
 
     if BCB_Settings.showFor == nil then
         BCB_Settings.showFor = {}
-        for _, value in pairs(addon.itemLevelLabels) do
+        for _, value in pairs(addon.ItemLevelLabels) do
             BCB_Settings.showFor[value] = false
         end
     end

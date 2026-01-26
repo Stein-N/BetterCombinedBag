@@ -17,7 +17,7 @@ addon.Settings = {
     bagBagPadding = { key = "bagBagPadding", default = 0 },
     bagReagentsPadding = { key = "bagReagentsPadding", default = 10 },
 
-    -- Bank Frame Settings -- Currently Unused
+    -- Bank Frame Settings
     bankBorderPadding = { key = "bankBorderPadding", default = 0 },
     bankItemPadding = { key = "bankItemPadding", default = 0 }
 }
