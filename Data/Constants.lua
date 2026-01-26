@@ -7,19 +7,19 @@ addon.Settings = {
     itemLevel = { key = "itemLevel", default = 0 },
     itemLevelShow = { key = "itemLevelShow", default = false },
     itemLevelColor = { key = "itemLevelColor", default = false },
-    itemLevelScale = { key = "itemLevelScale", default = 100 },
+    itemLevelScale = { key = "itemLevelScale", default = 125 },
 
     -- Bag Frame Settings
     bagSplitBags = { key = "bagSplitBags", default = true },
     bagColumns = { key = "bagColumns", default = 10 },
-    bagBorderPadding = { key = "bagBorderPadding", default = 7 },
-    bagItemPadding = { key = "bagItemPadding", default = 4 },
+    bagBorderPadding = { key = "bagBorderPadding", default = 0 },
+    bagItemPadding = { key = "bagItemPadding", default = 0 },
     bagBagPadding = { key = "bagBagPadding", default = 0 },
     bagReagentsPadding = { key = "bagReagentsPadding", default = 10 },
 
     -- Bank Frame Settings -- Currently Unused
-    bankBorderPadding = { key = "bankBorderPadding", default = 7 },
-    bankItemPadding = { key = "bankItemPadding", default = 4 }
+    bankBorderPadding = { key = "bankBorderPadding", default = 0 },
+    bankItemPadding = { key = "bankItemPadding", default = 0 }
 }
 
 addon.ItemLevelLabels = { "bag", "bank", "character" }
