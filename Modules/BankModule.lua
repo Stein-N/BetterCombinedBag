@@ -28,6 +28,21 @@ local function UpdateBaseLayout(panel)
     local x, y, counter = -borderPad, 70, 0
     for btn in panel:EnumerateValidItems() do
         if btnSize == nil then btnSize = btn:GetWidth() end
+        addon.AddItemLevelComponent(btn)
+
+        local info = addon.ItemInfoCache[panel:GetSelectedTabID()][btn:GetContainerSlotID()]
+        if info ~= nil and info.hyperlink ~= nil then
+            local itemLevel = addon.GetItemLevelFromItemLink(info.hyperlink)
+            local item = Item:CreateFromItemLink(info.hyperlink)
+
+            if itemLevel ~= nil and item ~= nil then
+                addon.UpdateItemLevelComponent(btn, itemLevel, item:GetItemQuality())
+            else
+                btn.ItemLevelComponent:Hide()
+            end
+        else
+            btn.ItemLevelComponent:Hide()
+        end
 
         btn:ClearAllPoints()
         btn:SetParent(panel)
