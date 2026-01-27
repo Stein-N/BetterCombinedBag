@@ -111,6 +111,7 @@ function handler.BAG_UPDATE_DELAYED(btn)
     BagButtons.UpdateIconAndCount(btn, info)
     BagButtons.UpdateIconBorder(btn, info)
     BagButtons.UpdateProfessionQuality(btn, info)
+    BagButtons.UpdateItemLevel(btn, info)
 end
 
 function handler.ITEM_LOCK_CHANGED(btn, bagId, slot)

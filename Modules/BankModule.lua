@@ -6,7 +6,6 @@ local btnSize = nil
 local tabButtons = {}
 
 -- TODO: Needs a big cleanup
-
 local tabButton = CreateFrame("Button", "BetterCombinedBagEverythingTabButton", BankFrame.BankPanel, "BankPanelTabTemplate")
 tabButton:Init({ IsPurchaseTab = false, ID = 99 })
 tabButton.Icon:SetTexture("interface/icons/ability_bossashvane_icon03")
@@ -150,7 +149,6 @@ end
 
 ------------------------------------------
 hooksecurefunc(BankFrame.BankPanel, "GenerateItemSlotsForSelectedTab", function(self)
-    --addon.CacheAllItems() -- TODO: needed at this point?
     CollectTabButtons(self)
 
     local tabId = self:GetSelectedTabID()
@@ -170,15 +168,15 @@ hooksecurefunc(BankFrame.BankPanel, "GenerateItemSlotsForSelectedTab", function(
             UpdateEverythingTab(self, settings.first, settings.last)
             UpdateTabButtonPosition(self, settings.first, settings.last)
         else
-            UpdateBaseLayout(self)
             HideCustomButtons()
+            UpdateBaseLayout(self)
             UpdateTabButtonPosition(self, settings.first, settings.last)
         end
     end
 end)
 
 hooksecurefunc(BankFrame.BankPanel, "MarkDirty", function(self)
-    --addon.CacheAllItems() -- TODO: Needed?
+    addon.CacheAllItems()
     for btn in self:EnumerateValidItems() do
         UpdateBankItemButton(self:GetSelectedTabID(), btn:GetContainerSlotID(), btn)
     end
