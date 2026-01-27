@@ -22,7 +22,7 @@ addon.Settings = {
     bankItemPadding = { key = "bankItemPadding", default = 0 }
 }
 
-addon.ItemLevelLabels = { "bag", "bank", "character" }
+addon.ItemLevelLabels = { "bag", "bank", "character", "inspect" }
 
 addon.Locale = {
     enUS = {
@@ -57,6 +57,7 @@ addon.Locale = {
         -- Checkbox Dropdown Labels/Tooltips
         bag = { label = "Bag Frame", tooltip = "Show item levels for bag items" },
         bank = { label = "Bank Frame", tooltip = "Show item levels for bank items." },
-        character = { label = "Character Frame", tooltip = "Show item levels for equipped items" }
+        character = { label = "Character Frame", tooltip = "Show item levels inside the character frame" },
+        inspect = { label = "Inspect Frame", tooltip = "Show item levels inside inspected character frame" }
     }
 }

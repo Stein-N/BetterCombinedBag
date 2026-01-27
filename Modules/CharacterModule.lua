@@ -40,7 +40,7 @@ function addon.ShowInspectItemLevel()
         local btn = _G["Inspect"..slotName.."Slot"]
         addon.AddItemLevelComponent(btn)
 
-        if BCB_Settings.showFor.character and btn ~= nil then
+        if BCB_Settings.showFor.inspect and btn ~= nil then
             local link = GetInventoryItemLink(unit, btn:GetID())
 
             if link ~= nil then
