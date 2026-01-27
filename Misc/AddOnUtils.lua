@@ -30,6 +30,7 @@ function addon.UpdateItemLevelComponent(button, level, quality)
 end
 
 -- Cache ItemInfo of all available Bags
+-- TODO: try to remove caching completely
 function addon.CacheItemInfos()
     if addon.ItemInfoCache == nil then
         addon.ItemInfoCache = {}

@@ -103,7 +103,13 @@ function BagModule.UpdateItemLayout(container)
     --- ########################### ---
     --- Adding reagents Bag Buttons ---
     --- ########################### ---
-    y = y - reagPad
+    if addReag and counter ~= 0 then
+        y = y - reagPad - step
+        counter = 0
+        x = borderPad
+    else
+        y = y - reagPad
+    end
 
     for i = 1, C_Container.GetContainerNumSlots(Enum.BagIndex.ReagentBag) do
         local btn = addon.CustomBagButtons[Enum.BagIndex.ReagentBag][i]

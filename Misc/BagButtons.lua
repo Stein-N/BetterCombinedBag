@@ -1,5 +1,6 @@
 local name, addon = ...
 
+-- TODO: Needs rewrite or cleanup
 addon.CustomBagButtons = {}
 
 BagButtons = {}
@@ -134,7 +135,6 @@ function handler.BAG_UPDATE_DELAYED(btn)
         BagButtons.UpdateIconAndCount(btn, info)
         BagButtons.UpdateIconBorder(btn, info)
         BagButtons.UpdateProfessionQuality(btn, info)
-        BagButtons.UpdateItemLevel(btn, info)
     end
 end
 
