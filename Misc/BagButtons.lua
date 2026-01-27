@@ -40,12 +40,6 @@ function addon.GenerateBagButton(bagId, slot)
 
     addon.AddItemLevelComponent(btn)
 
-    local matOverlay = btn:CreateTexture(nil, "OVERLAY", nil, 7)
-    matOverlay:SetSize(33, 28)
-    matOverlay:SetPoint("TOPLEFT", btn, "TOPLEFT", -4, 3)
-
-    btn.MaterialOverlay = matOverlay
-
     btn:HookScript("OnShow", function(self)
         self:RegisterEvent("ITEM_LOCK_CHANGED")
         self:RegisterEvent("BAG_UPDATE_DELAYED")
@@ -84,27 +78,17 @@ end
 
 function BagButtons.UpdateIconBorder(btn, info)
     if info ~= nil then
-        local r, g, b = C_Item.GetItemQualityColor(info.quality)
-        btn.IconBorder:SetVertexColor(r, g, b)
-        btn.IconBorder:Show()
+        btn:SetItemButtonQuality(info.quality, info.itemID)
     else
-        btn.IconBorder:Hide()
+        btn:SetItemButtonQuality(0, 0)
     end
 end
 
 function BagButtons.UpdateProfessionQuality(btn, info)
     if info ~= nil then
-        local tier = C_TradeSkillUI.GetItemReagentQualityByItemInfo(info.itemID)
-
-        if tier ~= nil and tier > 0 then
-            local atlas = addon.GetMaterialQualityAtlas(info.itemID, tier)
-            btn.MaterialOverlay:SetAtlas(atlas)
-            btn.MaterialOverlay:Show()
-        else
-            btn.MaterialOverlay:Hide()
-        end
+        SetItemCraftingQualityOverlay(btn, info.itemID)
     else
-        btn.MaterialOverlay:Hide()
+        ClearItemCraftingQualityOverlay(btn)
     end
 end
 
