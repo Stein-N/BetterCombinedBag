@@ -18,7 +18,10 @@ f:SetScript("OnEvent", function(_, event, ...)
     end
 
     if event == "ADDON_LOADED" and n == "Blizzard_InspectUI" then
-        hooksecurefunc('InspectPaperDollFrame_UpdateButtons', addon.ShowInspectItemLevel)
+        hooksecurefunc('InspectPaperDollFrame_UpdateButtons', function()
+            addon.ShowInspectItemLevel()
+            addon.ShowInspectAverageLevel()
+        end)
     end
 
     if event == "BAG_UPDATE_DELAYED" then

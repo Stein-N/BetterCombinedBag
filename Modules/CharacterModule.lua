@@ -6,6 +6,28 @@ local slots = {
     "MainHand", "SecondaryHand"
 }
 
+local function AddInspectItemLevelComponent(frame)
+    if frame ~= nil and frame.AverageItemLevelComponent == nil then
+        local c = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalOutline")
+        c:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 7, 9)
+        c:SetTextColor(1, 1, 1, 1)
+        c:SetScale(1.3)
+
+        frame.AverageItemLevelComponent = c
+    end
+end
+
+local function UpdateInspectItemLevelComponent(level)
+    local frame = InspectPaperDollFrame
+    AddInspectItemLevelComponent(frame)
+
+    if frame ~= nil and level ~= nil then
+        local text = "Avg: " .. level
+        frame.AverageItemLevelComponent:SetText(text)
+        frame.AverageItemLevelComponent:Show()
+    end
+end
+
 function addon.ShowCharacterItemLevel()
     for _, slotName in ipairs(slots) do
         local button = _G["Character"..slotName.."Slot"]
@@ -26,15 +48,16 @@ function addon.ShowCharacterItemLevel()
 end
 
 function addon.ShowInspectAverageLevel()
+    local unit = InspectFrame.unit
+    if unit == nil then return end
 
+    local itemLevel = C_PaperDollInfo.GetInspectItemLevel(unit)
+    UpdateInspectItemLevelComponent(itemLevel)
 end
 
 function addon.ShowInspectItemLevel()
     local unit = InspectFrame.unit
     if unit == nil then return end
-
-    local itemLevel = C_PaperDollInfo.GetInspectItemLevel(unit)
-    addon.UpdateInspectItemLevelComponent(itemLevel)
 
     for _, slotName in ipairs(slots) do
         local btn = _G["Inspect"..slotName.."Slot"]
