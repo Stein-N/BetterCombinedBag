@@ -29,7 +29,7 @@ local function ResizeBankFrame(panel, width, height)
 end
 
 local function UpdateBankItemButton(tabId, slot, btn)
-    local info = addon.ItemInfoCache[tabId][slot]
+    local info = addon.GetItemInfo(tabId, slot)
     if info ~= nil and info.hyperlink ~= nil then
         local itemLevel = addon.GetItemLevelFromItemLink(info.hyperlink)
         local item = Item:CreateFromItemLink(info.hyperlink)
@@ -150,7 +150,7 @@ end
 
 ------------------------------------------
 hooksecurefunc(BankFrame.BankPanel, "GenerateItemSlotsForSelectedTab", function(self)
-    addon.CacheItemInfos()
+    --addon.CacheAllItems() -- TODO: needed at this point?
     CollectTabButtons(self)
 
     local tabId = self:GetSelectedTabID()
@@ -178,7 +178,7 @@ hooksecurefunc(BankFrame.BankPanel, "GenerateItemSlotsForSelectedTab", function(
 end)
 
 hooksecurefunc(BankFrame.BankPanel, "MarkDirty", function(self)
-    addon.CacheItemInfos()
+    --addon.CacheAllItems() -- TODO: Needed?
     for btn in self:EnumerateValidItems() do
         UpdateBankItemButton(self:GetSelectedTabID(), btn:GetContainerSlotID(), btn)
     end

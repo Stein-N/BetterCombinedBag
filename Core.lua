@@ -3,16 +3,15 @@ BCB_Settings = {}
 
 local f = CreateFrame("Frame")
 f:RegisterEvent("ADDON_LOADED")
+f:RegisterEvent("BANKFRAME_OPENED")
 f:RegisterEvent("BAG_UPDATE_DELAYED")
+f:RegisterEvent("PLAYER_ENTERING_WORLD")
 f:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
 
--- TODO: extract to extra class only for events
 f:SetScript("OnEvent", function(_, event, ...)
     local n = ...
     if event == "ADDON_LOADED" and n == name then
         addon.BuildSettingsPage()
-
-        addon.CacheItemInfos()
         addon.GenerateBankButtons()
         addon.GenerateReagentsButtons()
     end
@@ -24,8 +23,11 @@ f:SetScript("OnEvent", function(_, event, ...)
         end)
     end
 
-    if event == "BAG_UPDATE_DELAYED" then
-        addon.CacheItemInfos()
+    if event == "PLAYER_ENTERING_WORLD"
+            or event == "BAG_UPDATE_DELAYED"
+            or event == "BANKFRAME_OPENED"
+    then
+        addon.CacheAllItems()
     end
 
     if event == "PLAYER_EQUIPMENT_CHANGED" then

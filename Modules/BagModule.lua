@@ -148,9 +148,9 @@ hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
 end)
 
 hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
-    for _, value in self:EnumerateValidItems() do
-        local info = addon.ItemInfoCache[value.bagID][value:GetID()]
-        BagButtons.UpdateItemLevel(value, info)
+    for _, btn in self:EnumerateValidItems() do
+        local info = addon.GetItemInfo(btn.bagID, btn:GetID())
+        BagButtons.UpdateItemLevel(btn, info)
     end
 end)
 

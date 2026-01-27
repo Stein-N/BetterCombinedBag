@@ -98,33 +98,24 @@ function BagButtons.UpdateItemLevel(btn, info)
     end
 
     if info ~= nil and addon.CanShowItemLevel(btn.bagID) then
-        if info ~= nil and info.hyperlink ~= nil and C_Item.IsEquippableItem(info.itemID) then
-            local item = Item:CreateFromItemLink(info.hyperlink)
-            local itemLevel = addon.GetItemLevelFromItemLink(info.hyperlink)
-
-            addon.UpdateItemLevelComponent(btn, itemLevel, item:GetItemQuality())
-        else
-            btn.ItemLevelComponent:Hide()
-        end
+        local level = addon.GetItemLevelFromItemLink(info.hyperlink)
+        addon.UpdateItemLevelComponent(btn, level, info.quality)
     else
         btn.ItemLevelComponent:Hide()
     end
 end
 
 function handler.BAG_UPDATE_DELAYED(btn)
-    local bagContent = addon.ItemInfoCache[btn.bagID]
-    if bagContent ~= nil then
-        local info = addon.ItemInfoCache[btn.bagID][btn:GetID()]
+    local info = addon.GetItemInfo(btn.bagID, btn:GetID())
 
-        BagButtons.UpdateIconAndCount(btn, info)
-        BagButtons.UpdateIconBorder(btn, info)
-        BagButtons.UpdateProfessionQuality(btn, info)
-    end
+    BagButtons.UpdateIconAndCount(btn, info)
+    BagButtons.UpdateIconBorder(btn, info)
+    BagButtons.UpdateProfessionQuality(btn, info)
 end
 
 function handler.ITEM_LOCK_CHANGED(btn, bagId, slot)
     if bagId ~= nil and slot ~= nil then
-        local info = C_Container.GetContainerItemInfo(bagId, slot)
+        local info = addon.GetItemInfo(bagId, slot)
         if info ~= nil and bagId == btn.bagID and slot == btn:GetID() then
             SetItemButtonDesaturated(btn, info.isLocked)
         end
@@ -137,7 +128,7 @@ function handler.INVENTORY_SEARCH_UPDATE(btn)
 
     local s = string.lower(box:GetText())
 
-    local info = addon.ItemInfoCache[btn.bagID][btn:GetID()]
+    local info = addon.GetItemInfo(btn.bagID, btn:GetID())
 
     if info ~= nil then
         local itemName = string.lower(info.itemName)

@@ -1,4 +1,5 @@
 local _, addon = ...
+local itemInfoCache = {}
 
 --- Adds the ItemLevelComponent to the given itemButton
 function addon.AddItemLevelComponent(itemButton)
@@ -30,35 +31,24 @@ function addon.UpdateItemLevelComponent(button, level, quality)
 end
 
 -- Cache ItemInfo of all available Bags
--- TODO: try to remove caching completely
-function addon.CacheItemInfos()
-    if addon.ItemInfoCache == nil then
-        addon.ItemInfoCache = {}
-    end
+function addon.CacheAllItems()
+    for _, bagId in pairs(Enum.BagIndex) do
+        local bagSize = C_Container.GetContainerNumSlots(bagId)
+        itemInfoCache[bagId] = {}
 
-    for _, i in pairs(Enum.BagIndex) do
-        local bagSize = C_Container.GetContainerNumSlots(i)
-        for j = 1, bagSize do
-            if addon.ItemInfoCache[i] == nil then
-                addon.ItemInfoCache[i] = {}
-            end
-
-            local info = C_Container.GetContainerItemInfo(i, j)
-            addon.ItemInfoCache[i][j] = info
+        for slot = 1, bagSize do
+            local itemInfo = C_Container.GetContainerItemInfo(bagId, slot)
+            itemInfoCache[bagId][slot] = itemInfo
         end
     end
 end
 
--- Decide which Atlas to use, since Midnight reduces reagents tiers from 5 to 3
-function addon.GetMaterialQualityAtlas(itemId, tier)
-    local itemInfo = { GetItemInfo(itemId) }
-    if itemInfo ~= nil then
-        if itemInfo[15] ~= nil and itemInfo[15] < 11 then
-            return "professions-icon-quality-tier"..tier.."-inv"
-        else
-            return "professions-icon-quality-12-tier"..tier.."-inv"
-        end
+function addon.GetItemInfo(bagId, slot)
+    if itemInfoCache[bagId] ~= nil and itemInfoCache[bagId][slot] ~= nil then
+        return itemInfoCache[bagId][slot]
     end
+
+    return nil
 end
 
 function addon.GetItemLevelFromItemLink(itemLink)
