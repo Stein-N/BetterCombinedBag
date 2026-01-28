@@ -43,6 +43,7 @@ function addon.CacheAllItems()
     end
 end
 
+-- Read and return the ItemInfo for the given bagId and slot
 function addon.GetItemInfo(bagId, slot)
     if itemInfoCache[bagId] ~= nil and itemInfoCache[bagId][slot] ~= nil then
         return itemInfoCache[bagId][slot]
@@ -51,6 +52,7 @@ function addon.GetItemInfo(bagId, slot)
     return nil
 end
 
+-- Read the ItemLevel from the given itemLink through Tooltip Data
 function addon.GetItemLevelFromItemLink(itemLink)
     if itemLink ~= nil then
         local tooltipData = C_TooltipInfo.GetHyperlink(itemLink)
@@ -66,14 +68,7 @@ function addon.GetItemLevelFromItemLink(itemLink)
     return nil
 end
 
-function addon.GetFrameSetting(expected, fallback)
-    if BCB_Settings.separateFrame then
-        return BCB_Settings[expected]
-    else
-        return BCB_Settings[fallback]
-    end
-end
-
+-- Check if the ItemLevel should be shown for the given bagId
 function addon.CanShowItemLevel(bagId)
     if bagId >= 0 and bagId <= 5 then
         return BCB_Settings.showFor.bag
