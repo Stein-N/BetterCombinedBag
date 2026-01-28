@@ -1,5 +1,7 @@
 local _, addon = ...
 
+-- TODO: needs rewrite or cleanup
+
 local slots = {
     "Head", "Neck", "Shoulder", "Back", "Chest", "Shirt", "Tabard", "Wrist",
     "Hands", "Waist", "Legs", "Feet", "Finger0", "Finger1", "Trinket0", "Trinket1",

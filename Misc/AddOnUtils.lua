@@ -1,6 +1,8 @@
 local _, addon = ...
 local itemInfoCache = {}
 
+-- TODO: Needs rewrite or cleanup
+
 --- Adds the ItemLevelComponent to the given itemButton
 function addon.AddItemLevelComponent(itemButton)
     if not itemButton.ItemLevelComponent then

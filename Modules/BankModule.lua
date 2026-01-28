@@ -1,11 +1,12 @@
 local _, addon = ...
 
+-- TODO: Need a complete rewrite
+
 local borderPad, itemPad =  7, 4
 local btnSize = nil
 
 local tabButtons = {}
 
--- TODO: Needs a big cleanup
 local tabButton = CreateFrame("Button", "BetterCombinedBagEverythingTabButton", BankFrame.BankPanel, "BankPanelTabTemplate")
 tabButton:Init({ IsPurchaseTab = false, ID = 99 })
 tabButton.Icon:SetTexture("interface/icons/ability_bossashvane_icon03")
