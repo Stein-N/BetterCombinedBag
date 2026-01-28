@@ -2,18 +2,22 @@ local name, addon = ...
 BCB_Settings = {}
 
 local f = CreateFrame("Frame")
+f:RegisterEvent("CVAR_UPDATE")
 f:RegisterEvent("ADDON_LOADED")
 f:RegisterEvent("BANKFRAME_OPENED")
 f:RegisterEvent("BAG_UPDATE_DELAYED")
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
 f:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
 
+local blocked = true
 f:SetScript("OnEvent", function(_, event, ...)
     local n = ...
     if event == "ADDON_LOADED" and n == name then
         addon.BuildSettingsPage()
         addon.GenerateBankButtons()
         addon.GenerateReagentsButtons()
+
+        SetCVar("combinedBags", 1) -- Force CombinedBags to be enabled
     end
 
     if event == "ADDON_LOADED" and n == "Blizzard_InspectUI" then
@@ -32,5 +36,14 @@ f:SetScript("OnEvent", function(_, event, ...)
 
     if event == "PLAYER_EQUIPMENT_CHANGED" then
         addon.ShowCharacterItemLevel()
+    end
+
+    if event == "CVAR_UPDATE" then
+        local cvar = ...
+        if cvar == 'combinedBags' and blocked == false then
+            blocked = true
+            SetCVar(cvar, 1)
+            print("BetterCombinedBags blocks the change to separate Bags, disable it in the AddOns settings to switch bag to single bags.")
+        else blocked = false end
     end
 end)
