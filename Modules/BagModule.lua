@@ -1,13 +1,149 @@
 local _, addon = ...
 BagModule = {}
 
-local borderPad, itemPad, bagPad, columns, splitBags, reagPad, addReag, btnSize
+function BagModule:LoadSettings()
+    self.borderPadding = BCB_Settings.bagBorderPadding + 7
+    self.itemPadding = BCB_Settings.bagItemPadding + 4
+    self.splitBags = BCB_Settings.bagSplitBags
+    self.reagentsPadding = BCB_Settings.bagReagentsPadding
+    self.addReagentsBag = BCB_Settings.addReagentsBag
+
+    self.btnSize = 0
+    self.counter = 0
+    self.xPos = self.borderPadding
+    self.yPos = -60
+end
+
+-- Cache the Retail Button to reduce for loops
+-- Will be Cached again when Player changes Equipment
+function BagModule:CacheRetailButton(container)
+    if self.itemButtons == nil then
+        self.itemButtons = { [0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {} }
+    end
+
+    -- after opening the bag 10 times the buttons get cached again
+    if self.timesOpened ~= nil and self.timesOpened <= 10 then
+        self.timesOpened = self.timesOpened + 1
+        return
+    end
+
+    self.timesOpened = 0
+    for _, btn in container:EnumerateValidItems() do
+        if btn ~= nil then
+            if self.btnSize == 0 then self.btnSize = btn:GetWidth() end
+            self.itemButtons[btn.bagID][btn:GetID()] = btn
+        end
+    end
+end
+
+-- Sets the max Columns based on the biggest Bag.
+-- If the biggest bag is smaller then the Columns setting(max 38).
+-- Only applies when Split Bags Setting is set to true.
+function BagModule:SetColumns()
+    if self.splitBags == true then
+        for bagId = 0, 5 do
+            if bagId < 5 or self.addReagentsBag then
+                local slots = #self.itemButtons[bagId]
+                if slots < BCB_Settings.columns then
+                    self.columns = slots
+                end
+            end
+        end
+    else
+        self.columns = BCB_Settings.columns
+    end
+end
+
+-- Count all Slots for the Base ItemButtons of the Combined Bag
+function BagModule:GetFullSize()
+    local slots = 0
+    for i = 0, 4 do
+        slots = slots + #self.itemButton[i]
+    end
+
+    return slots
+end
+
+-- Calculate the needed Rows for all ItemButtons
+function BagModule:GetRows()
+    local rows = 0
+    -- Base ItemButtons
+    if self.splitBags == false then
+        rows = math.ceil(self:GetFullSize() / self.columns)
+    else
+        for i = 0, 4 do
+            rows = rows + math.ceil(#self.itemButtons[i] / self.columns)
+        end
+    end
+
+    -- Extra Buttons for Reagents Bag
+    if self.addReagentsBag == true then
+        rows = rows + math.ceil(C_Container.GetContainerNumSlots(5) / self.columns)
+    end
+
+    return rows
+end
+
+-- Calculate the new width for the Combined Bag Frame
+function BagModule:CalculateWidth()
+    local itemRowWidth = self.columns * (self.btnSize + self.itemPadding)
+    local paddingWidth =  (2 * self.borderPadding) - self.itemPadding
+    return itemRowWidth + paddingWidth
+end
+
+-- Calculate the new width for the Combined Bag Frame
+function BagModule:CalculateHeight()
+    local neededRows = self:GetRows()
+    local itemColumnHeight = neededRows * (self.btnSize + self.itemPadding)
+    local extraHeight = 90 - self.itemPadding
+
+    -- Checks if the player tracks extra currency
+    if C_CurrencyInfo.GetBackpackCurrencyInfo(1) ~= nil then
+        extraHeight = extraHeight + 20
+    end
+
+    return itemColumnHeight + extraHeight
+end
+
+-- Update the Size of Combined Bag Frame
+function BagModule:UpdateFrameSize(container)
+    local width = self:CalculateWidth()
+    local height = self:CalculateHeight()
+
+    container:SetSize(width, height)
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+local borderPad, itemPad, columns, splitBags, reagPad, addReag, btnSize
 local cButton = { [0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {} }
 
 local function UpdateSettings()
     borderPad = BCB_Settings.bagBorderPadding + 7
     itemPad = BCB_Settings.bagItemPadding + 4
-    bagPad = BCB_Settings.bagBagPadding
     columns = BCB_Settings.bagColumns
     splitBags = BCB_Settings.bagSplitBags
     reagPad = BCB_Settings.bagReagentsPadding
@@ -44,7 +180,7 @@ function BagModule.UpdateFrameSize(container)
     if splitBags then
         for i = 0, 4 do
             rows = rows + math.ceil(C_Container.GetContainerNumSlots(i) / columns)
-            height = height + bagPad
+            height = height
         end
     else
        rows = math.ceil(FullBagSize() / columns)
@@ -55,7 +191,7 @@ function BagModule.UpdateFrameSize(container)
         height = height + reagPad
     end
 
-    height = height + rows * (btnSize + itemPad) - itemPad + 90 - bagPad
+    height = height + rows * (btnSize + itemPad) - itemPad + 90
 
     if C_CurrencyInfo.GetBackpackCurrencyInfo(1) then
         height = height + 20
@@ -135,6 +271,14 @@ hooksecurefunc(ContainerFrame6, "SetPoint", function(self)
 end)
 
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
+    BagModule:LoadSettings()
+    BagModule:CacheRetailButton(self)
+
+    BagModule:UpdateFrameSize(self)
+
+    -- ################################# --
+    -- \/           Old Code          \/ --
+
     if self.Items then
         for _, item in ipairs(self.Items) do
             if btnSize == nil then btnSize = item:GetWidth() end
@@ -143,7 +287,7 @@ hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
     end
 
     UpdateSettings()
-    BagModule.UpdateFrameSize(self)
+    --BagModule.UpdateFrameSize(self)
     BagModule.UpdateItemLayout(self)
 end)
 
