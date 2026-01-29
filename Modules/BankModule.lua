@@ -1,5 +1,98 @@
 local _, addon = ...
 
+BankModule = {}
+
+function BankModule:LoadSettings()
+    self.borderPadding = BCB_Settings.bankBorderPadding + 7
+    self.itemPadding = BCB_Settings.bankItemPadding + 4
+    self.tabButtons = {}
+    self.btnSize = 37
+end
+
+-- Cache the tab buttons on the right side of the current BankFrame
+function BankModule:CacheTabButtons(panel)
+    for _, btn in ipairs({ panel:GetChildren() }) do
+        if btn.IsPurchaseTab ~= nil then
+            self.tabButtons[btn.tabData.ID] = btn
+        end
+    end
+end
+
+function BankModule:CalculateWidth(columns)
+    local itemRowWidth = columns * (self.btnSize + self.itemPadding)
+    local paddingWidth = 2 * self.borderPadding - self.itemPadding
+
+    return itemRowWidth + paddingWidth
+end
+
+function BankModule:CalculateHeight(rows)
+    local itemColumnHeight = rows * (self.btnSize + self.itemPadding)
+    local extraHeight = 130 - self.itemPadding
+
+    return itemColumnHeight + extraHeight
+end
+
+function BankModule:SetItemButtonPoint(btn)
+    if btn ~= nil then
+        btn:ClearAllPoints()
+        btn:SetPoint("BOTTOMRIGHT", self.xPos, self.yPos)
+    end
+end
+
+function BankModule:SetTabButtonPosition(tabBtn, xPos, yPos)
+    if tabBtn ~= nil then
+        tabBtn:ClearAllPoints()
+        tabBtn:SetPoint("TOPLEFT", tabBtn:GetParent(), "TOPRIGHT", xPos, yPos)
+    end
+end
+
+function BankModule:UpdateBaseFrameSize(frame)
+    local width = self:CalculateWidth(14)
+    local height = self:CalculateHeight(7)
+
+    frame:SetSize(width, height)
+end
+
+function BankModule:UpdateEverythingFrameSize(frame)
+    local width = self:CalculateWidth(33)
+    local height = self:CalculateHeight(math.ceil((98 * #self.tabButtons) / 33))
+
+    frame:SetSize(width, height)
+end
+
+function BankModule:UpdateBankButtons()
+
+end
+
+function BankModule:UpdateEverythingButtons()
+
+end
+
+function BankModule:UpdateTabButtonPosition()
+
+end
+
+function BankModule:UpdateItemLevel(btn)
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- TODO: Need a complete rewrite
 
 local borderPad, itemPad =  7, 4
