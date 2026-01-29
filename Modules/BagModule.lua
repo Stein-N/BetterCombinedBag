@@ -7,6 +7,7 @@ function BagModule:LoadSettings()
     self.splitBags = BCB_Settings.bagSplitBags
     self.reagentsPadding = BCB_Settings.bagReagentsPadding
     self.addReagentsBag = BCB_Settings.addReagentsBag
+    self.btnSize = 37
     self:SetColumns()
 
     self.counter = 0
@@ -26,11 +27,6 @@ function BagModule:CacheRetailButton(container)
 
     for _, btn in container:EnumerateValidItems() do
         if btn ~= nil then
-            -- Save button Size
-            if self.btnSize == nil then
-                self.btnSize = btn:GetWidth()
-            end
-
             -- Add ItemLevelComponent
             addon.AddItemLevelComponent(btn)
 
@@ -190,6 +186,18 @@ function BagModule:UpdateReagentsButtons()
     end
 end
 
+-- Updates the shown ItemLevel based on the itemLink
+function BagModule:UpdateItemLevel(btn)
+    local info = addon.GetItemInfo(btn.bagID, btn:GetID())
+    if info ~= nil and addon.CanShowItemLevel(btn.bagID) then
+        local level = addon.GetItemLevelFromItemLink(info.hyperlink)
+        addon.UpdateItemLevelComponent(btn, level, info.quality)
+    else
+        btn.ItemLevelComponent:Hide()
+    end
+end
+
+-- Hides the Reagents Bag if the addReagentsBag setting is set to true
 function BagModule:HideReagentsBag(frame)
     if frame ~= nil and self.addReagentsBag then
         frame:ClearAllPoints()
@@ -216,8 +224,7 @@ end)
 
 hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
     for _, btn in self:EnumerateValidItems() do
-        local info = addon.GetItemInfo(btn.bagID, btn:GetID())
-        BagButtons.UpdateItemLevel(btn, info)
+        BagModule:UpdateItemLevel(btn)
     end
 end)
 
