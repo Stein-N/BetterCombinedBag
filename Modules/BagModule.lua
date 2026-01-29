@@ -144,8 +144,6 @@ function BagModule:FirstReagentsButtonPosition()
         self.yPos = self.yPos - self.itemPadding - self.btnSize - self.reagentsPadding
         self.xPos = self.borderPadding
         self.counter = 0
-    else
-        self.yPos = self.yPos - self.itemPadding - self.btnSize - self.reagentsPadding
     end
 end
 
@@ -156,6 +154,12 @@ function BagModule:UpdateRetailButtons()
             local button = buttons[j]
             self:SetButtonPoint(button)
             self:NextButtonPosition()
+        end
+
+        if self.counter ~= 0 and self.splitBags then
+            self.xPos = self.borderPadding
+            self.yPos = self.yPos - self.itemPadding - self.btnSize
+            self.counter = 0
         end
     end
 end
