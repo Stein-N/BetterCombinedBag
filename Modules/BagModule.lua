@@ -53,15 +53,12 @@ function BagModule:SetColumns()
             if slots > maxSlots then maxSlots = bagSlots end
         end
     end
-    print(maxSlots)
 
     if self.splitBags == true and maxSlots < slots then
         self.columns = maxSlots
     else
         self.columns = slots
     end
-
-    print(self.columns)
 end
 
 -- Count all Slots for the Base ItemButtons of the Combined Bag

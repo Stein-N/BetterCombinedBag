@@ -5,7 +5,7 @@ local itemInfoCache = {}
 
 --- Adds the ItemLevelComponent to the given itemButton
 function addon.AddItemLevelComponent(itemButton)
-    if not itemButton.ItemLevelComponent then
+    if itemButton.ItemLevelComponent == nil then
         local c = itemButton:CreateFontString(nil, "OVERLAY", "GameFontNormalOutline")
         c:SetPoint("BOTTOMRIGHT", itemButton, "BOTTOMRIGHT", 0, 1)
         c:SetTextColor(1, 1, 1, 1)
