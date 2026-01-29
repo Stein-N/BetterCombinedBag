@@ -12,6 +12,9 @@ function BagModule:LoadSettings()
     self.counter = 0
     self.xPos = self.borderPadding
     self.yPos = -60
+
+    self.yStep = self.itemPadding + self.btnSize
+    self.xStep = self.yStep
 end
 
 -- Cache the Retail Button to reduce for loops
@@ -47,15 +50,18 @@ function BagModule:SetColumns()
     for bagId = 0, 5 do
         if bagId < 5 or self.addReagentsBag then
             local bagSlots = C_Container.GetContainerNumSlots(bagId)
-            if slots > bagSlots then maxSlots = bagSlots end
+            if slots > maxSlots then maxSlots = bagSlots end
         end
     end
+    print(maxSlots)
 
     if self.splitBags == true and maxSlots < slots then
         self.columns = maxSlots
     else
         self.columns = slots
     end
+
+    print(self.columns)
 end
 
 -- Count all Slots for the Base ItemButtons of the Combined Bag
@@ -134,10 +140,10 @@ end
 function BagModule:NextButtonPosition()
     self.counter = self.counter + 1
     if self.counter < self.columns then
-        self.xPos = self.xPos + self.btnSize + self.itemPadding
+        self.xPos = self.xPos + self.xStep
     else
         self.xPos = self.borderPadding
-        self.yPos = self.yPos - self.btnSize - self.itemPadding
+        self.yPos = self.yPos - self.yStep
         self.counter = 0
     end
 end
@@ -145,7 +151,7 @@ end
 -- Resets the position to the left when the counter is not 0
 function BagModule:FirstReagentsButtonPosition()
     if self.addReagentsBag and self.counter ~= 0 then
-        self.yPos = self.yPos - self.itemPadding - self.btnSize - self.reagentsPadding
+        self.yPos = self.yPos - self.yStep - self.reagentsPadding
         self.xPos = self.borderPadding
         self.counter = 0
     else
@@ -165,7 +171,7 @@ function BagModule:UpdateRetailButtons()
 
         if self.counter ~= 0 and self.splitBags then
             self.xPos = self.borderPadding
-            self.yPos = self.yPos - self.itemPadding - self.btnSize
+            self.yPos = self.yPos - self.yStep
             self.counter = 0
         end
     end
@@ -177,7 +183,7 @@ function BagModule:UpdateReagentsButtons()
     for i = 1, C_Container.GetContainerNumSlots(5) do
         local button = addon.CustomBagButtons[5][i]
         if self.addReagentsBag then
-            button:SetParent(ContainerFrameCombinedBags)
+            button:SetParent(ContainerFrameCombinedBags) -- TODO: remove when BagButtons was reworked
             self:SetButtonPoint(button)
             self:NextButtonPosition()
             button:Show()
@@ -187,14 +193,18 @@ function BagModule:UpdateReagentsButtons()
     end
 end
 
+function BagModule:HideReagentsBag(frame)
+    if frame ~= nil and self.addReagentsBag then
+        frame:ClearAllPoints()
+    end
+end
+
 -- ############################################################# --
 --       Secure Hook for the Combined and Reagents Frame         --
 -- ############################################################# --
 
 hooksecurefunc(ContainerFrame6, "SetPoint", function(self)
-    if addReag == false then return end
-
-    self:ClearAllPoints()
+    BagModule:HideReagentsBag(self)
 end)
 
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
