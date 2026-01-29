@@ -7,8 +7,8 @@ function BagModule:LoadSettings()
     self.splitBags = BCB_Settings.bagSplitBags
     self.reagentsPadding = BCB_Settings.bagReagentsPadding
     self.addReagentsBag = BCB_Settings.addReagentsBag
+    self:SetColumns()
 
-    self.btnSize = 0
     self.counter = 0
     self.xPos = self.borderPadding
     self.yPos = -60
@@ -21,44 +21,44 @@ function BagModule:CacheRetailButton(container)
         self.itemButtons = { [0] = {}, [1] = {}, [2] = {}, [3] = {}, [4] = {} }
     end
 
-    -- after opening the bag 10 times the buttons get cached again
-    if self.timesOpened ~= nil and self.timesOpened <= 10 then
-        self.timesOpened = self.timesOpened + 1
-        return
-    end
-
-    self.timesOpened = 0
     for _, btn in container:EnumerateValidItems() do
         if btn ~= nil then
-            if self.btnSize == 0 then self.btnSize = btn:GetWidth() end
+            -- Save button Size
+            if self.btnSize == nil then
+                self.btnSize = btn:GetWidth()
+            end
+
+            -- Add ItemLevelComponent
+            addon.AddItemLevelComponent(btn)
+
+            -- save button in cache
             self.itemButtons[btn.bagID][btn:GetID()] = btn
         end
     end
 end
 
--- Sets the max Columns based on the biggest Bag.
+-- Gets the max Columns based on the biggest Bag.
 -- If the biggest bag is smaller then the Columns setting(max 38).
 -- Only applies when Split Bags Setting is set to true.
 function BagModule:SetColumns()
+    local slots = BCB_Settings.bagColumns
     if self.splitBags == true then
         for bagId = 0, 5 do
             if bagId < 5 or self.addReagentsBag then
-                local slots = #self.itemButtons[bagId]
-                if slots < BCB_Settings.columns then
-                    self.columns = slots
-                end
+                local bagSlots = C_Container.GetContainerNumSlots(bagId)
+                if slots > bagSlots then self.columns = bagSlots end
             end
         end
-    else
-        self.columns = BCB_Settings.columns
     end
+
+    self.columns = slots
 end
 
 -- Count all Slots for the Base ItemButtons of the Combined Bag
 function BagModule:GetFullSize()
     local slots = 0
     for i = 0, 4 do
-        slots = slots + #self.itemButton[i]
+        slots = slots + C_Container.GetContainerNumSlots(i)
     end
 
     return slots
@@ -72,7 +72,7 @@ function BagModule:GetRows()
         rows = math.ceil(self:GetFullSize() / self.columns)
     else
         for i = 0, 4 do
-            rows = rows + math.ceil(#self.itemButtons[i] / self.columns)
+            rows = rows + math.ceil(C_Container.GetContainerNumSlots(i) / self.columns)
         end
     end
 
@@ -88,6 +88,7 @@ end
 function BagModule:CalculateWidth()
     local itemRowWidth = self.columns * (self.btnSize + self.itemPadding)
     local paddingWidth =  (2 * self.borderPadding) - self.itemPadding
+
     return itemRowWidth + paddingWidth
 end
 
@@ -96,6 +97,10 @@ function BagModule:CalculateHeight()
     local neededRows = self:GetRows()
     local itemColumnHeight = neededRows * (self.btnSize + self.itemPadding)
     local extraHeight = 90 - self.itemPadding
+
+    if self.addReagentsBag == true then
+        extraHeight = extraHeight + self.reagentsPadding
+    end
 
     -- Checks if the player tracks extra currency
     if C_CurrencyInfo.GetBackpackCurrencyInfo(1) ~= nil then
@@ -114,8 +119,61 @@ function BagModule:UpdateFrameSize(container)
 end
 
 
+function BagModule:SetButtonPoint(btn)
+    if btn ~= nil then
+        btn:ClearAllPoints()
+        btn:SetPoint("TOPLEFT", self.xPos, self.yPos)
+    end
+end
 
 
+-- TODO: add splitBags check with repositioning
+function BagModule:NextButtonPosition()
+    self.counter = self.counter + 1
+    if self.counter < self.columns then
+        self.xPos = self.xPos + self.btnSize + self.itemPadding
+    else
+        self.xPos = self.borderPadding
+        self.yPos = self.yPos - self.btnSize - self.itemPadding
+        self.counter = 0
+    end
+end
+
+function BagModule:FirstReagentsButtonPosition()
+    if self.addReagentsBag and self.counter ~= 0 then
+        self.yPos = self.yPos - self.itemPadding - self.btnSize - self.reagentsPadding
+        self.xPos = self.borderPadding
+        self.counter = 0
+    else
+        self.yPos = self.yPos - self.itemPadding - self.btnSize - self.reagentsPadding
+    end
+end
+
+function BagModule:UpdateRetailButtons()
+    for i = 0, 4 do
+        local buttons = self.itemButtons[i]
+        for j = 1, C_Container.GetContainerNumSlots(i) do
+            local button = buttons[j]
+            self:SetButtonPoint(button)
+            self:NextButtonPosition()
+        end
+    end
+end
+
+function BagModule:UpdateReagentsButtons()
+    self:FirstReagentsButtonPosition()
+    for i = 1, C_Container.GetContainerNumSlots(5) do
+        local button = addon.CustomBagButtons[5][i]
+        if self.addReagentsBag then
+            button:SetParent(ContainerFrameCombinedBags)
+            self:SetButtonPoint(button)
+            self:NextButtonPosition()
+            button:Show()
+        else
+            button:Hide()
+        end
+    end
+end
 
 
 
@@ -150,55 +208,6 @@ local function UpdateSettings()
     addReag = BCB_Settings.addReagentsBag
 end
 
-local function FullBagSize()
-    fullBagSize = 0
-    for i = 0, 4 do
-        fullBagSize = fullBagSize + C_Container.GetContainerNumSlots(i)
-    end
-    return fullBagSize
-end
-
-local function GetMaxColumns(col, addReagents)
-    local max = 0
-    for i = 0, 5 do
-        if i < 5 or addReagents then
-            local slots = C_Container.GetContainerNumSlots(i)
-            if max < slots then max = slots end
-        end
-    end
-
-    return max < col and max or col
-end
-
-function BagModule.UpdateFrameSize(container)
-    if not container then return end
-
-    columns = GetMaxColumns(columns, addReag)
-    local width = columns * (btnSize + itemPad) - itemPad + (2 * borderPad)
-
-    local rows, height = 0, 0
-    if splitBags then
-        for i = 0, 4 do
-            rows = rows + math.ceil(C_Container.GetContainerNumSlots(i) / columns)
-            height = height
-        end
-    else
-       rows = math.ceil(FullBagSize() / columns)
-    end
-
-    if addReag then
-        rows = rows + math.ceil(C_Container.GetContainerNumSlots(5) / columns)
-        height = height + reagPad
-    end
-
-    height = height + rows * (btnSize + itemPad) - itemPad + 90
-
-    if C_CurrencyInfo.GetBackpackCurrencyInfo(1) then
-        height = height + 20
-    end
-
-    container:SetSize(width, height)
-end
 
 function BagModule.UpdateItemLayout(container)
     local x, y, counter = borderPad, -60, 0
@@ -228,10 +237,10 @@ function BagModule.UpdateItemLayout(container)
 
             if counter ~= 0 and splitBags then
                 x = borderPad
-                y = y - step - bagPad
+                y = y - step
                 counter = 0
             elseif splitBags then
-                y = y - bagPad
+                y = y
             end
         end
     end
@@ -271,24 +280,26 @@ hooksecurefunc(ContainerFrame6, "SetPoint", function(self)
 end)
 
 hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
-    BagModule:LoadSettings()
     BagModule:CacheRetailButton(self)
+    BagModule:LoadSettings()
 
     BagModule:UpdateFrameSize(self)
+
+    BagModule:UpdateRetailButtons()
+    BagModule:UpdateReagentsButtons()
 
     -- ################################# --
     -- \/           Old Code          \/ --
 
-    if self.Items then
-        for _, item in ipairs(self.Items) do
-            if btnSize == nil then btnSize = item:GetWidth() end
-            cButton[item.bagID][item:GetID()] = item
-        end
-    end
-
-    UpdateSettings()
-    --BagModule.UpdateFrameSize(self)
-    BagModule.UpdateItemLayout(self)
+    --if self.Items then
+    --    for _, item in ipairs(self.Items) do
+    --        if btnSize == nil then btnSize = item:GetWidth() end
+    --        cButton[item.bagID][item:GetID()] = item
+    --    end
+    --end
+    --
+    --UpdateSettings()
+    --BagModule.UpdateItemLayout(self)
 end)
 
 hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
