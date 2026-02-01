@@ -32,6 +32,20 @@ function BankModule:CalculateHeight(rows)
     return itemColumnHeight + extraHeight
 end
 
+function BankModule:UpdateBaseFrameSize(frame)
+    local width = self:CalculateWidth(14)
+    local height = self:CalculateHeight(7)
+
+    frame:SetSize(width, height)
+end
+
+function BankModule:UpdateEverythingFrameSize(frame)
+    local width = self:CalculateWidth(33)
+    local height = self:CalculateHeight(math.ceil((98 * #self.tabButtons) / 33))
+
+    frame:SetSize(width, height)
+end
+
 function BankModule:SetItemButtonPoint(btn)
     if btn ~= nil then
         btn:ClearAllPoints()
@@ -46,18 +60,8 @@ function BankModule:SetTabButtonPosition(tabBtn, xPos, yPos)
     end
 end
 
-function BankModule:UpdateBaseFrameSize(frame)
-    local width = self:CalculateWidth(14)
-    local height = self:CalculateHeight(7)
+function BankModule:NextButtonPosition()
 
-    frame:SetSize(width, height)
-end
-
-function BankModule:UpdateEverythingFrameSize(frame)
-    local width = self:CalculateWidth(33)
-    local height = self:CalculateHeight(math.ceil((98 * #self.tabButtons) / 33))
-
-    frame:SetSize(width, height)
 end
 
 function BankModule:UpdateBankButtons()
