@@ -27,6 +27,11 @@ function addon.GenerateBagButton(bagId, slot, parent)
 
     addon.AddItemLevelComponent(btn)
 
+    if btn.Background == nil then
+        local bg = btn:CreateTexture(nil, "BACKGROUND")
+        btn.Background = bg
+    end
+
     btn:HookScript("OnShow", function(self)
         self:RegisterEvent("ITEM_LOCK_CHANGED")
         self:RegisterEvent("BAG_UPDATE_DELAYED")
@@ -57,7 +62,9 @@ function BagButtons.UpdateIconAndCount(btn, info)
         btn:SetItemButtonCount(info.stackCount)
         btn:UpdateNewItem(info.quality)
     else
-        btn:SetItemButtonTexture(4701874)
+        btn.Background:SetAllPoints()
+        btn.Background:SetAtlas("bags-item-slot64");
+        btn:SetItemButtonTexture(nil)
         btn:SetItemButtonCount(nil)
         btn:UpdateNewItem()
     end
