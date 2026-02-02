@@ -6,19 +6,6 @@ addon.CustomBagButtons = {}
 BagButtons = {}
 local handler = {}
 
-function addon.GenerateReagentsButtons()
-    local bagId = Enum.BagIndex.ReagentBag
-
-    if addon.CustomBagButtons[bagId] == nil then
-        addon.CustomBagButtons[bagId] = {}
-    end
-
-    for i = 1, 50 do
-        local btn = addon.GenerateBagButton(bagId, i)
-        addon.CustomBagButtons[bagId][i] = btn
-    end
-end
-
 function addon.GenerateBankButtons()
     for bagId = 6, 17 do
         if addon.CustomBagButtons[bagId] == nil then

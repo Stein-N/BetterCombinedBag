@@ -80,7 +80,22 @@ function BankModule:UpdateItemLevel(btn)
 
 end
 
+function BankModule:Init()
+    self:LoadSettings()
 
+    if self.everythingButtons == nil then
+        for i = 6, 17 do
+            if self.everythingButtons[i] == nil then
+                self.everythingButtons[i] = {}
+            end
+
+            for slot = 1, 98 do
+                local btn = addon.GenerateBagButton(i, slot, BankFrame)
+                self.everythingButtons[i][slot] = btn
+            end
+        end
+    end
+end
 
 
 
