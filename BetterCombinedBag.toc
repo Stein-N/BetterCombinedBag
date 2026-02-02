@@ -1,6 +1,6 @@
 ## Interface: 120000, 120001
 ## Title: BetterCombinedBag
-## Version: 3.0.1
+## Version: 3.1.0
 ## Author: xStopho
 ## Notes: A Simple and Lightweight Bag AddOn for WoW Retail
 ## SavedVariables: BCB_ItemSync
