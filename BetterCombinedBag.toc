@@ -13,6 +13,7 @@ Data\Constants.lua
 ## Util classes
 Misc\AddOnUtils.lua
 Misc\BagButtons.lua
+Misc\BagItemButton.lua
 
 ## Core Logic
 Settings\SettingsMenu.lua

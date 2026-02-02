@@ -1,8 +1,6 @@
 local name, addon = ...
 BetterCombinedBagsItemButtonMixin = {}
 
--- TODO: Use this instead of the BagButtons.lua
-
 -- Initialize the ItemButton based on bagId, slot and bankType.
 -- Background Texture is based on bankType can be normal or warbank texture
 function BetterCombinedBagsItemButtonMixin:Init(bagId, slot, bankType)
@@ -65,15 +63,23 @@ function BetterCombinedBagsItemButtonMixin:SetBackgroundTexture(bankType)
     local bg = self:CreateTexture(nil, "BACKGROUND")
 
     if bankType == Enum.BankType.Account then
+        print("Set Warband Background")
         bg:SetPoint("TOPLEFT", -6, 5);
         bg:SetPoint("BOTTOMRIGHT", 6, -5);
         bg:SetAtlas("warband-bank-slot", TextureKitConstants.IgnoreAtlasSize)
-    elseif bankType == 0 then
+    else
         bg:SetAllPoints(self)
         bg:SetAtlas("bags-item-slot64", TextureKitConstants.IgnoreAtlasSize)
     end
 
     self.Background = bg
+end
+
+function BetterCombinedBagsItemButtonMixin:RemoveItemIconTexture()
+    local icon = self.Icon or self.icon
+    if icon ~= nil then
+        icon:SetTexture(nil)
+    end
 end
 
 -- General Update functionality for the Button
@@ -91,7 +97,7 @@ function BetterCombinedBagsItemButtonMixin:Update()
 
         self:UpdateItemLevel(info)
     else
-        self:SetItemButtonTexture(nil)
+        self:RemoveItemIconTexture()
         self:SetItemButtonCount(nil)
         self:SetItemButtonQuality(0, 0)
         self:UpdateNewItem()
@@ -127,14 +133,14 @@ end
 function BetterCombinedBagsItemButtonMixin:UpdateItemLevel(info)
     if info ~= nil and addon.CanShowItemLevel(self:GetBagID()) then
         local level = addon.GetItemLevelFromItemLink(info.hyperlink)
-        addon.UpdateItemLevel(self, level, info.quality)
+        addon.UpdateItemLevelComponent(self, level, info.quality)
     elseif self.ItemLevelComponent ~= nil then
         self.ItemLevelComponent:Hide()
     end
 end
 
 -- General Function to create a new ItemButton
-function addon.GenerateBagButton(bagId, slot, parent, bankType)
+function addon.GenerateTestBagButton(bagId, slot, parent, bankType)
     local btn = CreateFrame("ItemButton", name.."Bag"..bagId.."Slot"..slot, parent or UIParent, "ContainerFrameItemButtonTemplate")
     Mixin(btn, BetterCombinedBagsItemButtonMixin)
 

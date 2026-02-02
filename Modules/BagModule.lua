@@ -210,7 +210,7 @@ function BagModule:Init()
     if self.reagentsButtons == nil then
         self.reagentsButtons = {}
         for i = 1, 40 do
-            local btn = addon.GenerateBagButton(5, i, ContainerFrameCombinedBags)
+            local btn = addon.GenerateTestBagButton(5, i, ContainerFrameCombinedBags)
             self.reagentsButtons[i] = btn
         end
     end
