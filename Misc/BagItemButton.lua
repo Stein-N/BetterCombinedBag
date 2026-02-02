@@ -63,7 +63,6 @@ function BetterCombinedBagsItemButtonMixin:SetBackgroundTexture(bankType)
     local bg = self:CreateTexture(nil, "BACKGROUND")
 
     if bankType == Enum.BankType.Account then
-        print("Set Warband Background")
         bg:SetPoint("TOPLEFT", -6, 5);
         bg:SetPoint("BOTTOMRIGHT", 6, -5);
         bg:SetAtlas("warband-bank-slot", TextureKitConstants.IgnoreAtlasSize)

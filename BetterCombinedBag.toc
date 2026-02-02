@@ -18,6 +18,7 @@ Misc\BagItemButton.lua
 ## Core Logic
 Settings\SettingsMenu.lua
 Modules\BagModule.lua
-Modules\BankModule.lua
+Modules\Bank\BankTabButton.lua
+Modules\Bank\BankModule.lua
 Modules\CharacterModule.lua
 Core.lua
