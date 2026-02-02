@@ -3,6 +3,15 @@ local itemInfoCache = {}
 
 -- TODO: Needs rewrite or cleanup
 
+-- Add Modules that
+function addon.AddModule(module)
+    if addon.Modules == nil then
+        addon.Modules = {}
+    end
+
+    table.insert(addon.Modules, module)
+end
+
 --- Adds the ItemLevelComponent to the given itemButton
 function addon.AddItemLevelComponent(itemButton)
     if itemButton.ItemLevelComponent == nil then

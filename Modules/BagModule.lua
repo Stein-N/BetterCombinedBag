@@ -174,9 +174,8 @@ end
 function BagModule:UpdateReagentsButtons()
     self:FirstReagentsButtonPosition()
     for i = 1, C_Container.GetContainerNumSlots(5) do
-        local button = addon.CustomBagButtons[5][i]
+        local button = self.reagentsButtons[i]
         if self.addReagentsBag then
-            button:SetParent(ContainerFrameCombinedBags) -- TODO: remove when BagButtons was reworked
             self:SetButtonPoint(button)
             self:NextButtonPosition()
             button:Show()
@@ -201,6 +200,19 @@ end
 function BagModule:HideReagentsBag(frame)
     if frame ~= nil and self.addReagentsBag then
         frame:ClearAllPoints()
+    end
+end
+
+-- Base function to generate Reagents Buttons
+function BagModule:Init()
+    self:LoadSettings()
+
+    if self.reagentsButtons == nil then
+        self.reagentsButtons = {}
+        for i = 1, 40 do
+            local btn = addon.GenerateBagButton(5, i, ContainerFrameCombinedBags)
+            self.reagentsButtons[i] = btn
+        end
     end
 end
 
@@ -241,3 +253,5 @@ hooksecurefunc(ContainerFrameCombinedBags, "SetSearchBoxPoint", function(self)
         box:SetPoint("TOPLEFT", self, "TOPLEFT", x, -35)
     end
 end)
+
+addon.AddModule(BagModule)

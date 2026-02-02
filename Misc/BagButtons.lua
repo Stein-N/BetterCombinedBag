@@ -32,8 +32,8 @@ function addon.GenerateBankButtons()
     end
 end
 
-function addon.GenerateBagButton(bagId, slot)
-    local btn = CreateFrame("ItemButton", name..bagId.."Slot"..slot, UIParent, "ContainerFrameItemButtonTemplate")
+function addon.GenerateBagButton(bagId, slot, parent)
+    local btn = CreateFrame("ItemButton", name..bagId.."Slot"..slot, parent or UIParent, "ContainerFrameItemButtonTemplate")
     btn:SetBagID(bagId)
     btn:SetID(slot)
     btn:UpdateNewItem()

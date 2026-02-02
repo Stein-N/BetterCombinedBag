@@ -15,7 +15,12 @@ f:SetScript("OnEvent", function(_, event, ...)
     if event == "ADDON_LOADED" and n == name then
         addon.BuildSettingsPage()
         addon.GenerateBankButtons()
-        addon.GenerateReagentsButtons()
+
+        for _, module in pairs(addon.Modules) do
+            if module.Init ~= nil then
+                module:Init()
+            end
+        end
 
         SetCVar("combinedBags", 1) -- Force CombinedBags to be enabled
     end
@@ -38,6 +43,7 @@ f:SetScript("OnEvent", function(_, event, ...)
         addon.ShowCharacterItemLevel()
     end
 
+    -- TODO: have to be in BagModule
     if event == "CVAR_UPDATE" then
         local cvar = ...
         if cvar == 'combinedBags' and blocked == false then
