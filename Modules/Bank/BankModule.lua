@@ -73,7 +73,7 @@ function BankModule:UpdateEverythingTabLayout(panel, first, last)
     local columns, rows = 33, 0
 
     for bagId = first, last do
-        if C_Container.GetContainerNumSlots(bagId) ~= nil then
+        if C_Container.GetContainerNumSlots(bagId) ~= nil and self.tabButtons[bagId] ~= nil then
             local buttons = self.everythingButtons[bagId]
             rows = rows + 3
 
