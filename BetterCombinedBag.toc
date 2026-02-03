@@ -1,6 +1,6 @@
 ## Interface: 120000, 120001
 ## Title: BetterCombinedBag
-## Version: 3.1.0
+## Version: 3.1.5
 ## Author: xStopho
 ## Notes: A Simple and Lightweight Bag AddOn for WoW Retail
 ## SavedVariables: BCB_ItemSync
@@ -12,7 +12,6 @@ Data\Constants.lua
 
 ## Util classes
 Misc\AddOnUtils.lua
-Misc\BagButtons.lua
 Misc\BagItemButton.lua
 
 ## Core Logic

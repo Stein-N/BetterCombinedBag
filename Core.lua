@@ -14,7 +14,6 @@ f:SetScript("OnEvent", function(_, event, ...)
     local n = ...
     if event == "ADDON_LOADED" and n == name then
         addon.BuildSettingsPage()
-        addon.GenerateBankButtons()
 
         for _, module in pairs(addon.Modules) do
             if module.Init ~= nil then
