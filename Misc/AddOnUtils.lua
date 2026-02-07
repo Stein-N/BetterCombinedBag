@@ -12,6 +12,18 @@ function addon.AddModule(module)
     table.insert(addon.Modules, module)
 end
 
+function addon.AddEvent(event, func)
+    if addon.Events == nil then
+        addon.Events = {}
+    end
+
+    if addon.Events[event] == nil then
+        addon.Events[event] = {}
+    end
+
+    table.insert(addon.Events[event], func)
+end
+
 --- Adds the ItemLevelComponent to the given itemButton
 function addon.AddItemLevelComponent(itemButton)
     if itemButton.ItemLevelComponent == nil then
@@ -77,6 +89,39 @@ function addon.GetItemLevelFromItemLink(itemLink)
     end
 
     return nil
+end
+
+function addon.IsItemEnchanted(itemLink)
+    if itemLink ~= nil then
+        local tooltipData = C_TooltipInfo.GetHyperlink(itemLink)
+        if tooltipData ~= nil and tooltipData.lines ~= nil then
+            for _, data in ipairs(tooltipData.lines) do
+                if data.type == Enum.TooltipDataLineType.ItemEnchantmentPermanent then
+                    return true
+                end
+            end
+        end
+    end
+
+    return false
+end
+
+function addon.GetGemsFromItemLink(itemLink)
+    local gemData = {}
+    local gemIndex = 1
+    if itemLink ~= nil then
+        local tooltipData = C_TooltipInfo.GetHyperlink(itemLink)
+        if tooltipData ~= nil and tooltipData.lines ~= nil then
+            for _, data in ipairs(tooltipData.lines) do
+                if data.type == Enum.TooltipDataLineType.GemSocket then
+                    gemData[gemIndex] = data.gemIcon
+                    gemIndex = gemIndex + 1
+                end
+            end
+        end
+    end
+
+    return gemData
 end
 
 -- Check if the ItemLevel should be shown for the given bagId

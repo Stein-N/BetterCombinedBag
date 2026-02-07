@@ -3,6 +3,7 @@
 ## Version: 3.1.0
 ## Author: xStopho
 ## Notes: A Simple and Lightweight Bag AddOn for WoW Retail
+## Dependencies: Blizzard_InspectUI
 ## SavedVariables: BCB_ItemSync
 ## SavedVariablesPerCharacter: BCB_Settings
 ## Category: Inventory
@@ -12,13 +13,17 @@ Data\Constants.lua
 
 ## Util classes
 Misc\AddOnUtils.lua
-Misc\BagButtons.lua
 Misc\BagItemButton.lua
 
-## Core Logic
+## Settings
 Settings\SettingsMenu.lua
+
+## Modules
 Modules\BagModule.lua
 Modules\Bank\BankTabButton.lua
 Modules\Bank\BankModule.lua
-Modules\CharacterModule.lua
+Modules\InspectModule.lua
+Modules\CharacterFrameModule.lua
+
+## Core Logic
 Core.lua
