@@ -126,7 +126,7 @@ end
 -- Updates the Item Level Component for the Item Level Component for the base Item Buttons
 -- is ignored when everything tab is opened
 function BankModule:Update(tabId, slot, btn)
-    local info = addon.GetItemInfo(tabId, slot)
+    local info = C_Container.GetContainerItemInfo(tabId, slot)
 
     if info ~= nil and addon.CanShowItemLevel(tabId) then
         local level = addon.GetItemLevelFromItemLink(info.hyperlink)
@@ -160,47 +160,49 @@ function BankModule:Init()
             self.everythingButtons[i][j] = addon.GenerateTestBagButton(i, j, BankFrame.BankPanel, bankType)
         end
     end
+
+    -- ############################## --
+    --          Secure Hooks          --
+    -- ############################## --
+    hooksecurefunc(BankFrame.BankPanel, "GenerateItemSlotsForSelectedTab", function(panel)
+        BankModule:LoadSettings()
+        BankModule:CacheTabButtons(panel)
+
+        local tabId = panel:GetSelectedTabID()
+
+        local config = {
+            [0] = { first = 6,  last = 11 },
+            [2] = { first = 12, last = 16 }
+        }
+
+        local settings = config[panel.bankType]
+
+        if settings ~= nil then
+            if tabId == 99 then
+                BankModule:UpdateEverythingTabLayout(panel, settings.first, settings.last)
+                BankModule:UpdateTabButtonPosition(panel, settings.first, settings.last)
+            else
+                BankModule:HideCustomButtons()
+                BankModule:UpdateBaseLayout(panel)
+                BankModule:UpdateTabButtonPosition(panel, settings.first, settings.last)
+            end
+        end
+    end)
+
+    hooksecurefunc(BankFrame.BankPanel, "MarkDirty", function(panel)
+        addon.CacheAllItems()
+
+        if panel:GetSelectedTabID() ~= 99 then
+            for btn in panel:EnumerateValidItems() do
+                BankModule:Update(panel:GetSelectedTabID(), btn:GetContainerSlotID(), btn)
+            end
+        end
+    end)
+
+    hooksecurefunc(BankFrame.BankPanel, "ShowPurchasePrompt", function(self)
+        BankModule:HideCustomButtons()
+    end)
 end
 
 -- add the module to get loaded correctly
 addon.AddModule(BankModule)
-
-------------------------------------------
-hooksecurefunc(BankFrame.BankPanel, "GenerateItemSlotsForSelectedTab", function(panel)
-    BankModule:LoadSettings()
-    BankModule:CacheTabButtons(panel)
-
-    local tabId = panel:GetSelectedTabID()
-
-    local config = {
-        [0] = { first = 6,  last = 11 },
-        [2] = { first = 12, last = 16 }
-    }
-
-    local settings = config[panel.bankType]
-
-    if settings ~= nil then
-        if tabId == 99 then
-            BankModule:UpdateEverythingTabLayout(panel, settings.first, settings.last)
-            BankModule:UpdateTabButtonPosition(panel, settings.first, settings.last)
-        else
-            BankModule:HideCustomButtons()
-            BankModule:UpdateBaseLayout(panel)
-            BankModule:UpdateTabButtonPosition(panel, settings.first, settings.last)
-        end
-    end
-end)
-
-hooksecurefunc(BankFrame.BankPanel, "MarkDirty", function(panel)
-    addon.CacheAllItems()
-
-    if panel:GetSelectedTabID() ~= 99 then
-        for btn in panel:EnumerateValidItems() do
-            BankModule:Update(panel:GetSelectedTabID(), btn:GetContainerSlotID(), btn)
-        end
-    end
-end)
-
-hooksecurefunc(BankFrame.BankPanel, "ShowPurchasePrompt", function(self)
-    BankModule:HideCustomButtons()
-end)

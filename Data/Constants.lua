@@ -2,7 +2,7 @@ local _, addon = ...
 
 addon.Settings = {
     -- General Settings
-    itemSync = { key = "itemSync", default = true },
+    --itemSync = { key = "itemSync", default = true },
     addReagentsBag = { key = "addReagentsBag", default = false },
     itemLevel = { key = "itemLevel", default = 0 },
     itemLevelShow = { key = "itemLevelShow", default = false },
