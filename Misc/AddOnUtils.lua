@@ -1,5 +1,4 @@
 local _, addon = ...
-local itemInfoCache = {}
 
 -- TODO: Needs rewrite or cleanup
 
@@ -51,28 +50,6 @@ function addon.UpdateItemLevelComponent(button, level, quality)
 
         button.ItemLevelComponent:Show()
     end
-end
-
--- Cache ItemInfo of all available Bags
-function addon.CacheAllItems()
-    for _, bagId in pairs(Enum.BagIndex) do
-        local bagSize = C_Container.GetContainerNumSlots(bagId)
-        itemInfoCache[bagId] = {}
-
-        for slot = 1, bagSize do
-            local itemInfo = C_Container.GetContainerItemInfo(bagId, slot)
-            itemInfoCache[bagId][slot] = itemInfo
-        end
-    end
-end
-
--- Read and return the ItemInfo for the given bagId and slot
-function addon.GetItemInfo(bagId, slot)
-    if itemInfoCache[bagId] ~= nil and itemInfoCache[bagId][slot] ~= nil then
-        return itemInfoCache[bagId][slot]
-    end
-
-    return nil
 end
 
 -- Read the ItemLevel from the given itemLink through Tooltip Data

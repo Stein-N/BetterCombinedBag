@@ -22,27 +22,16 @@ f:SetScript("OnEvent", function(_, event, ...)
 
     -- Trigger Event Code from Modules
     -- They need to be registered via addon.AddEvent(event, function)
-    local events = addon[event]
-    if events ~= nil then
-        for func in pairs(events) do
-            func()
+    if addon.Events ~= nil and addon.Events[event] ~= nil then
+        for _, func in ipairs(addon.Events[event]) do
+            if func ~= nil then func() end
         end
     end
 
     -----------------  Old Event Code ---------------
     -- TODO: rework with new Event System by moving events to corresponding Modules
 
-    if event == "PLAYER_ENTERING_WORLD" then
-        addon.CacheAllItems()
-    end
 
-    if event == "BAG_UPDATE_DELAYED" or event == "BANKFRAME_OPENED" then
-        addon.CacheAllItems()
-    end
-
-    if event == "PLAYER_EQUIPMENT_CHANGED" then
-        addon.ShowCharacterItemLevel()
-    end
 
     -- TODO: have to be in BagModule
     if event == "CVAR_UPDATE" then

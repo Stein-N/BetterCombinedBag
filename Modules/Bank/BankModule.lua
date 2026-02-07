@@ -190,8 +190,6 @@ function BankModule:Init()
     end)
 
     hooksecurefunc(BankFrame.BankPanel, "MarkDirty", function(panel)
-        addon.CacheAllItems()
-
         if panel:GetSelectedTabID() ~= 99 then
             for btn in panel:EnumerateValidItems() do
                 BankModule:Update(panel:GetSelectedTabID(), btn:GetContainerSlotID(), btn)

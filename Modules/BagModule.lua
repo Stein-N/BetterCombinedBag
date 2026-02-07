@@ -187,7 +187,7 @@ end
 
 -- Updates the shown ItemLevel based on the itemLink
 function BagModule:UpdateItemLevel(btn)
-    local info = addon.GetItemInfo(btn.bagID, btn:GetID())
+    local info = C_Container.GetContainerItemInfo(btn.bagID, btn:GetID())
     if info ~= nil and addon.CanShowItemLevel(btn.bagID) then
         local level = addon.GetItemLevelFromItemLink(info.hyperlink)
         addon.UpdateItemLevelComponent(btn, level, info.quality)
