@@ -46,7 +46,7 @@ function BetterCombinedBagsItemButtonMixin:OnEvent(event, ...)
     if event == "ITEM_LOCK_CHANGED" then
         local bagId, slot = ...
         if bagId == self:GetBagID() and slot == self:GetID() then
-            local info = addon.GetItemInfo(self:GetBagID(), self:GetID())
+            local info = C_Container.GetContainerItemInfo(self.bagID, self:GetID())
             SetItemButtonDesaturated(self, info and info.isLocked)
         end
     end
@@ -84,7 +84,7 @@ end
 -- General Update functionality for the Button
 -- Updates the Icon, Count, Item Level, Quality border and new item glow animation
 function BetterCombinedBagsItemButtonMixin:Update()
-    local info = addon.GetItemInfo(self:GetBagID(), self:GetID())
+    local info = C_Container.GetContainerItemInfo(self.bagID, self:GetID())
 
     if info ~= nil then
         self:SetItemButtonTexture(info.iconFileID)
@@ -116,14 +116,14 @@ function BetterCombinedBagsItemButtonMixin:UpdateSearchOverlay()
     end
 
     local search = string.lower(box:GetText())
-    local info = addon.GetItemInfo(btn.bagID, btn:GetID())
+    local info = C_Container.GetContainerItemInfo(self.bagID, self:GetID())
 
     if info ~= nil then
         local itemName = string.lower(info.itemName)
         if string.find(itemName, search) then
-            btn.searchOverlay:Hide()
+            self.searchOverlay:Hide()
         else
-            btn.searchOverlay:Show()
+            self.searchOverlay:Show()
         end
     end
 end
