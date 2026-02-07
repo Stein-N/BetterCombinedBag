@@ -102,12 +102,18 @@ end
 function CharacterFrameModule:Init()
     self:SetupItemButtons()
 
+    -- ############################## --
+    --         Event Registry         --
+    -- ############################## --
+    addon.AddEvent("PLAYER_EQUIPMENT_CHANGED", self.UpdateItemButtons)
+
+    -- ############################## --
+    --          Secure Hooks          --
+    -- ############################## --
     hooksecurefunc(CharacterFrame, "Show", function()
         CharacterFrameModule:SetupItemButtons()
         CharacterFrameModule:UpdateItemButtons()
     end)
-
-    addon.AddEvent("PLAYER_EQUIPMENT_CHANGED", self.UpdateItemButtons)
 end
 
 addon.AddModule(CharacterFrameModule)

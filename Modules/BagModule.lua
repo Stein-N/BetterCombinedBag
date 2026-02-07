@@ -1,4 +1,4 @@
-local _, addon = ...
+local addonName, addon = ...
 BagModule = {}
 
 function BagModule:LoadSettings()
@@ -206,6 +206,7 @@ end
 -- Base function to generate Reagents Buttons
 function BagModule:Init()
     self:LoadSettings()
+    self.blockedCVarChange = false
 
     if self.reagentsButtons == nil then
         self.reagentsButtons = {}
@@ -214,44 +215,60 @@ function BagModule:Init()
             self.reagentsButtons[i] = btn
         end
     end
+
+    -- ############################## --
+    --         Event Registry         --
+    -- ############################## --
+    addon.AddEvent("ADDON_LOADED", function(name)
+        if name == addonName then
+            SetCVar("combinedBags", 1)
+        end
+    end)
+
+    addon.AddEvent("CVAR_UPDATE", function(cvar)
+        if cvar == "combinedBags" and self.blockedCVarChange == false then
+            self.blockedCVarChange = true
+            SetCVar(cvar, 1)
+            print("BetterCombinedBags blocks the change to separate Bags, disable it in the AddOn settings to switch bag to single bags.")
+        else self.blockedCVarChange = false end
+    end)
+
+    -- ############################## --
+    --          Secure Hooks          --
+    -- ############################## --
+    hooksecurefunc(ContainerFrame6, "SetPoint", function(self)
+        BagModule:HideReagentsBag(self)
+    end)
+
+    hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
+        BagModule:CacheRetailButton(self)
+        BagModule:LoadSettings()
+
+        BagModule:UpdateFrameSize(self)
+
+        BagModule:UpdateRetailButtons()
+        BagModule:UpdateReagentsButtons()
+    end)
+
+    hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
+        for _, btn in self:EnumerateValidItems() do
+            BagModule:UpdateItemLevel(btn)
+        end
+    end)
+
+    hooksecurefunc(ContainerFrameCombinedBags, "SetSearchBoxPoint", function(self)
+        local box = _G["BagItemSearchBox"]
+
+        if box then
+            local cWidth, _ = self:GetSize()
+            local bWidth, _ = box:GetSize()
+
+            local x = (cWidth / 2) - (bWidth / 2)
+
+            box:ClearAllPoints()
+            box:SetPoint("TOPLEFT", self, "TOPLEFT", x, -35)
+        end
+    end)
 end
-
--- ############################################################# --
---       Secure Hook for the Combined and Reagents Frame         --
--- ############################################################# --
-
-hooksecurefunc(ContainerFrame6, "SetPoint", function(self)
-    BagModule:HideReagentsBag(self)
-end)
-
-hooksecurefunc(ContainerFrameCombinedBags, "UpdateItemLayout", function(self)
-    BagModule:CacheRetailButton(self)
-    BagModule:LoadSettings()
-
-    BagModule:UpdateFrameSize(self)
-
-    BagModule:UpdateRetailButtons()
-    BagModule:UpdateReagentsButtons()
-end)
-
-hooksecurefunc(ContainerFrameCombinedBags, "Update", function(self)
-    for _, btn in self:EnumerateValidItems() do
-        BagModule:UpdateItemLevel(btn)
-    end
-end)
-
-hooksecurefunc(ContainerFrameCombinedBags, "SetSearchBoxPoint", function(self)
-    local box = _G["BagItemSearchBox"]
-
-    if box then
-        local cWidth, _ = self:GetSize()
-        local bWidth, _ = box:GetSize()
-
-        local x = (cWidth / 2) - (bWidth / 2)
-
-        box:ClearAllPoints()
-        box:SetPoint("TOPLEFT", self, "TOPLEFT", x, -35)
-    end
-end)
 
 addon.AddModule(BagModule)
