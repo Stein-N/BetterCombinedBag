@@ -22,7 +22,7 @@ Settings\SettingsMenu.lua
 Modules\BagModule.lua
 Modules\Bank\BankTabButton.lua
 Modules\Bank\BankModule.lua
-Modules\InspectModule.lua
+Modules\InspectFrameModule.lua
 Modules\CharacterFrameModule.lua
 
 ## Core Logic
