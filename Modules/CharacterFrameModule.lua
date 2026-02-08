@@ -2,12 +2,6 @@ local _, addon = ...
 
 CharacterFrameModule = {}
 
-local slots = {
-    "Head", "Neck", "Shoulder", "Back", "Chest", "Shirt", "Tabard", "Wrist",
-    "Hands", "Waist", "Legs", "Feet", "Finger0", "Finger1", "Trinket0", "Trinket1",
-    "MainHand", "SecondaryHand"
-}
-
 local slotData = {
     ["Head"] = { anchor = "LEFT", parentAnchor = "RIGHT" },
     ["Neck"] = { anchor = "LEFT", parentAnchor = "RIGHT" },
@@ -49,20 +43,21 @@ function CharacterFrameModule:SetupItemButtons()
         btn.GemIcon1:Hide()
 
         btn.GemIcon2 = btn:CreateTexture(nil, "OVERLAY")
-        btn.GemIcon2:SetPoint("TOP"..data.anchor, btn, "TOP"..data.parentAnchor, xPos * 3.2, -2)
+        btn.GemIcon2:SetPoint("TOP"..data.anchor, btn, "TOP"..data.parentAnchor, xPos * 3.1, -2)
         btn.GemIcon2:SetSize(15, 15)
         btn.GemIcon2:Hide()
 
         btn.GemIcon3 = btn:CreateTexture(nil, "OVERLAY")
-        btn.GemIcon3:SetPoint("TOP"..data.anchor, btn, "TOP"..data.parentAnchor, xPos * 6.2, -2)
+        btn.GemIcon3:SetPoint("TOP"..data.anchor, btn, "TOP"..data.parentAnchor, xPos * 5.2, -2)
         btn.GemIcon3:SetSize(15, 15)
         btn.GemIcon3:Hide()
     end
 end
 
 function CharacterFrameModule:UpdateItemButtons()
-    for _, slotName in ipairs(slots) do
+    for slotName, _ in pairs(slotData) do
         local btn = _G["Character"..slotName.."Slot"]
+
         local link = GetInventoryItemLink("player", btn:GetID())
 
         -- Update Enchantment Icon
@@ -110,10 +105,7 @@ function CharacterFrameModule:Init()
     -- ############################## --
     --          Secure Hooks          --
     -- ############################## --
-    hooksecurefunc(CharacterFrame, "Show", function()
-        CharacterFrameModule:SetupItemButtons()
-        CharacterFrameModule:UpdateItemButtons()
-    end)
+    hooksecurefunc(CharacterFrame, "Show", self.UpdateItemButtons)
 end
 
 addon.AddModule(CharacterFrameModule)
