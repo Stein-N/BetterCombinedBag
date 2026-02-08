@@ -61,7 +61,7 @@ function CharacterFrameModule:UpdateItemButtons()
         local link = GetInventoryItemLink("player", btn:GetID())
 
         -- Update Enchantment Icon
-        if addon.IsItemEnchanted(link) then
+        if BCB_Settings.itemGemsEnchantment and addon.IsItemEnchanted(link)then
             btn.EnchantedIcon:Show()
         else
             btn.EnchantedIcon:Hide()
@@ -72,7 +72,7 @@ function CharacterFrameModule:UpdateItemButtons()
         for i = 1, 3 do
             local gemIconID = gemData[i]
             local icon = btn["GemIcon"..i]
-            if gemIconID ~= nil then
+            if BCB_Settings.itemGemsEnchantment and gemIconID ~= nil then
                 icon:SetTexture(gemIconID)
                 icon:Show()
             else

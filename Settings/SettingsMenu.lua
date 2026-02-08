@@ -105,8 +105,9 @@ function addon.BuildSettingsPage()
     local header = GetLang()["header"]
 
     CreateHeader(header.general)
-    CreateCheckbox("itemSync")
+    --CreateCheckbox("itemSync")
     CreateCheckbox("addReagentsBag")
+    CreateCheckbox("itemGemsEnchantment")
     CreateCheckboxDropdown(
             addon.Settings.itemLevel,
             function() return Getter("itemLevel") end,

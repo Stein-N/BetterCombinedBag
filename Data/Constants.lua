@@ -2,9 +2,10 @@ local _, addon = ...
 
 addon.Settings = {
     -- General Settings
-    --itemSync = { key = "itemSync", default = true },
+    itemSync = { key = "itemSync", default = true },
     addReagentsBag = { key = "addReagentsBag", default = false },
     itemLevel = { key = "itemLevel", default = 0 },
+    itemGemsEnchantment = { key = "itemGemsEnchantment", default = false },
     itemLevelShow = { key = "itemLevelShow", default = false },
     itemLevelColor = { key = "itemLevelColor", default = false },
     itemLevelScale = { key = "itemLevelScale", default = 125 },
@@ -36,6 +37,7 @@ addon.Locale = {
         -- General Settings
         itemSync = { label = "Item Sync", tooltip = "Enable to synchronize item data across characters and display it in item tooltips." },
         itemLevel = { label = "Show Item Level", tooltip = "Choose whether the item level is shown in the selected frames." },
+        itemGemsEnchantment = { label = "Show Enchantment and Gems", tooltip = "Adds an enchantment symbol and all applied gems next to the item in Character and Inspect Frame." },
         addReagentsBag = { label = "Add Reagents Bag", tooltip = "Adds the reagents bag to the combined bag frame instead of having an extra frame." },
         itemLevelShow = { label = "Show Item Level", tooltip = "Choose whether the item level is shown in the selected frames." },
         itemLevelColor = { label = "Color Item Level", tooltip = "Color the item level in the rarity color of the item." },
