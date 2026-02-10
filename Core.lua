@@ -1,5 +1,4 @@
 local addonName, addon = ...
-BCB_Settings = {}
 
 local f = CreateFrame("Frame")
 f:RegisterAllEvents()
