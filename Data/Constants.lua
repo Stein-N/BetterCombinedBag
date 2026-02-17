@@ -32,7 +32,6 @@ addon.Locale = {
             bagFrame = { label = "Bag Settings", tooltip = "Adjust the Settings for Bag Frame" },
             bankFrame = { label = "Bank Settings", tooltip = "Adjust the Settings for Bank Frame" }
         },
-        anchor = { tl = "Top Left", tr = "Top Right", bl = "Bottom Left", br = "Bottom Right" },
 
         -- General Settings
         itemSync = { label = "Item Sync", tooltip = "Enable to synchronize item data across characters and display it in item tooltips." },
