@@ -12,9 +12,11 @@ f:SetScript("OnEvent", function(_, event, ...)
         SetCVar("combinedBags", 1)
 
         -- Initialize all Modules
-        for _, module in pairs(addon.Modules) do
-            if module.Init ~= nil then
-                module:Init()
+        if addon.Modules ~= nil then
+            for _, module in pairs(addon.Modules) do
+                if module.Init ~= nil then
+                    module:Init()
+                end
             end
         end
     end
