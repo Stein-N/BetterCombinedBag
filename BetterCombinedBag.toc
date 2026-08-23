@@ -1,7 +1,7 @@
 ## Interface: 120100
 ## Title: BetterCombinedBag
 ## Version: 5.0.0
-## Author: xStopho
+## Author: Morthen
 ## Notes: A simple and lightweight enhancement for the default combined bag.
 ## SavedVariables: BCB_Inventory
 ## SavedVariablesPerCharacter: BCB_Settings
