@@ -7,7 +7,6 @@ ns.defaults = {
     itemLevel       = false, -- print item level on weapons and armor
     itemLevelColor  = false, -- tint that text with the item quality color
     itemLevelScale  = 125,   -- percent
-    flatButtons     = false, -- square, flat slots instead of Blizzard's beveled art
 
     -- Tooltip
     itemCounts      = true,  -- list which characters are holding the item
@@ -43,7 +42,6 @@ f:SetScript("OnEvent", function(self, event, arg)
         self:UnregisterEvent("ADDON_LOADED")
 
         LoadSettings()
-        ns.InitSkin()
         ns.InitBag()
         ns.InitTooltip()
         ns.InitOptions()

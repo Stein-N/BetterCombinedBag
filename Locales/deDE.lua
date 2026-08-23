@@ -14,8 +14,6 @@ L.header_bag_desc      = "Legt fest, wie die Tasche ihre Plätze anordnet."
 -- General
 L.addReagentsBag       = "Materialtasche einfügen"
 L.addReagentsBag_desc  = "Zeigt die Materialtasche innerhalb der kombinierten Tasche an, statt in einem eigenen Fenster."
-L.flatButtons          = "Flache Taschenplätze"
-L.flatButtons_desc     = "Ersetzt Blizzards abgeschrägte Platzgrafik durch flache, eckige Plätze mit einem dünnen Rand in der Qualitätsfarbe des Gegenstands."
 L.itemLevel            = "Gegenstandsstufe anzeigen"
 L.itemLevel_desc       = "Zeigt die Gegenstandsstufe auf Waffen und Rüstung an."
 L.itemLevelColor       = "Gegenstandsstufe einfärben"

@@ -15,8 +15,6 @@ local L = {
     -- General
     addReagentsBag       = "Add Reagent Bag",
     addReagentsBag_desc  = "Draw the reagent bag inside the combined bag instead of in its own window.",
-    flatButtons          = "Flat Item Buttons",
-    flatButtons_desc     = "Replace Blizzard's beveled slot art with flat, square buttons and a thin border in the item's quality color.",
     itemLevel            = "Show Item Level",
     itemLevel_desc       = "Show the item level on weapons and armor.",
     itemLevelColor       = "Color Item Level",
