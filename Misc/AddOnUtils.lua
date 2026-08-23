@@ -1,8 +1,6 @@
 local _, addon = ...
 
--- TODO: Needs rewrite or cleanup
-
--- Add Modules that
+-- Add Modules that get initialized on ADDON_LOADED
 function addon.AddModule(module)
     if addon.Modules == nil then
         addon.Modules = {}
@@ -68,40 +66,8 @@ function addon.GetItemLevelFromItemLink(itemLink)
     return nil
 end
 
-function addon.IsItemEnchanted(itemLink)
-    if itemLink ~= nil then
-        local tooltipData = C_TooltipInfo.GetHyperlink(itemLink)
-        if tooltipData ~= nil and tooltipData.lines ~= nil then
-            for _, data in ipairs(tooltipData.lines) do
-                if data.type == Enum.TooltipDataLineType.ItemEnchantmentPermanent then
-                    return true
-                end
-            end
-        end
-    end
-
-    return false
-end
-
-function addon.GetGemsFromItemLink(itemLink)
-    local gemData = {}
-    local gemIndex = 1
-    if itemLink ~= nil then
-        local tooltipData = C_TooltipInfo.GetHyperlink(itemLink)
-        if tooltipData ~= nil and tooltipData.lines ~= nil then
-            for _, data in ipairs(tooltipData.lines) do
-                if data.type == Enum.TooltipDataLineType.GemSocket then
-                    gemData[gemIndex] = data.gemIcon
-                    gemIndex = gemIndex + 1
-                end
-            end
-        end
-    end
-
-    return gemData
-end
-
 -- Check if the ItemLevel should be shown for the given bagId
+-- Bag: 0-5 (backpack + bags + reagent bag), Bank: 6-17 (character bank + warband bank)
 function addon.CanShowItemLevel(bagId)
     if bagId >= 0 and bagId <= 5 then
         return BCB_Settings.showFor.bag

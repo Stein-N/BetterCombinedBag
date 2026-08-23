@@ -3,25 +3,6 @@ local name, addon = ...
 local _category, _layout = Settings.RegisterVerticalLayoutCategory(name)
 local _lang = GetLocale()
 
-local function InitSettings()
-    for _, value in pairs(addon.Settings) do
-        if value and value.key then
-            local key = value.key
-
-            if BCB_Settings[key] == nil then
-                BCB_Settings[key] = value.default
-            end
-        end
-    end
-
-    if BCB_Settings.showFor == nil then
-        BCB_Settings.showFor = {}
-        for _, value in pairs(addon.ItemLevelLabels) do
-            BCB_Settings.showFor[value] = false
-        end
-    end
-end
-
 local function GetLang()
     return addon.Locale[_lang] or addon.Locale.enUS
 end
@@ -87,8 +68,6 @@ end
 local function Setter(key, active, table, value)
     BCB_Settings[key] = value
 
-    if not BCB_Settings[active] then BCB_Settings[active] = {} end
-
     for i = #table, 1, -1 do
         if (value - (2^(i-1))) >= 0 then
             BCB_Settings[active][table[i]] = true
@@ -100,14 +79,10 @@ local function Setter(key, active, table, value)
 end
 
 function addon.BuildSettingsPage()
-    InitSettings()
-
     local header = GetLang()["header"]
 
     CreateHeader(header.general)
-    --CreateCheckbox("itemSync")
     CreateCheckbox("addReagentsBag")
-    CreateCheckbox("itemGemsEnchantment")
     CreateCheckboxDropdown(
             addon.Settings.itemLevel,
             function() return Getter("itemLevel") end,
@@ -116,14 +91,12 @@ function addon.BuildSettingsPage()
     )
     CreateCheckbox("itemLevelColor")
     CreateSlider("itemLevelScale", 50, 200, 5, "%")
-    CreateCheckbox("separateFrame")
 
     CreateHeader(header.bagFrame)
     CreateCheckbox("bagSplitBags")
     CreateSlider("bagColumns", 10, 38, 1, "")
     CreateSlider("bagBorderPadding", 0, 50, 1, "px")
     CreateSlider("bagItemPadding", 0, 50, 1, "px")
-    CreateSlider("bagBagPadding", 0, 50, 1, "px")
     CreateSlider("bagReagentsPadding", 0, 50, 1, "px")
 
     CreateHeader(header.bankFrame)

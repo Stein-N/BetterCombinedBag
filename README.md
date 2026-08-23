@@ -12,7 +12,7 @@ This addon extends the default bag interface with several useful features:
 
 **Item Level Color**: Provides an option to color the item level text based on the item's quality (Common, Uncommon, Rare, Epic, Legendary).
 
-**Bag Sync**: Synchronizes your inventory across all your characters. When you hover over an item, you can hold Shift to see a tooltip list of how many of that item are on your other characters.
+**Bank Support**: Shows item levels in the character and warband bank as well, including an "Everything" tab that lists every bank tab's items on one screen.
 
 **Reagent Bag Integration**: Attaches the reagent bag directly to the combined backpack frame, so you only have one single, unified bag window.
 

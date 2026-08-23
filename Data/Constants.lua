@@ -2,11 +2,8 @@ local _, addon = ...
 
 addon.Settings = {
     -- General Settings
-    itemSync = { key = "itemSync", default = true },
     addReagentsBag = { key = "addReagentsBag", default = false },
     itemLevel = { key = "itemLevel", default = 0 },
-    itemGemsEnchantment = { key = "itemGemsEnchantment", default = false },
-    itemLevelShow = { key = "itemLevelShow", default = false },
     itemLevelColor = { key = "itemLevelColor", default = false },
     itemLevelScale = { key = "itemLevelScale", default = 125 },
 
@@ -22,23 +19,19 @@ addon.Settings = {
     bankItemPadding = { key = "bankItemPadding", default = 0 }
 }
 
-addon.ItemLevelLabels = { "bag", "bank", "character", "inspect" }
+addon.ItemLevelLabels = { "bag", "bank" }
 
 addon.Locale = {
     enUS = {
         header = {
             general = { label = "General", tooltip = "General Quality of Life settings" },
-            frame = { label = "Frame Settings", tooltip = "Adjust the Settings for Bag and Bank Frames" },
             bagFrame = { label = "Bag Settings", tooltip = "Adjust the Settings for Bag Frame" },
             bankFrame = { label = "Bank Settings", tooltip = "Adjust the Settings for Bank Frame" }
         },
 
         -- General Settings
-        itemSync = { label = "Item Sync", tooltip = "Enable to synchronize item data across characters and display it in item tooltips." },
-        itemLevel = { label = "Show Item Level", tooltip = "Choose whether the item level is shown in the selected frames." },
-        itemGemsEnchantment = { label = "Show Enchantment and Gems", tooltip = "Adds an enchantment symbol and all applied gems next to the item in Character and Inspect Frame." },
         addReagentsBag = { label = "Add Reagents Bag", tooltip = "Adds the reagents bag to the combined bag frame instead of having an extra frame." },
-        itemLevelShow = { label = "Show Item Level", tooltip = "Choose whether the item level is shown in the selected frames." },
+        itemLevel = { label = "Show Item Level", tooltip = "Choose whether the item level is shown in the selected frames." },
         itemLevelColor = { label = "Color Item Level", tooltip = "Color the item level in the rarity color of the item." },
         itemLevelScale = { label = "Item Level Scale", tooltip = "Adjust the scale of the item level text." },
 
@@ -49,14 +42,12 @@ addon.Locale = {
         bagItemPadding = { label = "Item Padding", tooltip = "Adjust the space between items." },
         bagReagentsPadding = { label = "Reagents Bag Padding", tooltip = "Add extra space between the item bag and the reagent bag." },
 
-        -- Bank Frame Settings -- Currently Unused
+        -- Bank Frame Settings
         bankBorderPadding = { label = "Border Padding", tooltip = "Adjust the space between items and the frame border." },
         bankItemPadding = { label = "Item Padding", tooltip = "Adjust the space between items." },
 
         -- Checkbox Dropdown Labels/Tooltips
         bag = { label = "Bag Frame", tooltip = "Show item levels for bag items" },
-        bank = { label = "Bank Frame", tooltip = "Show item levels for bank items." },
-        character = { label = "Character Frame", tooltip = "Show item levels inside the character frame" },
-        inspect = { label = "Inspect Frame", tooltip = "Show item levels inside inspected character frame" }
+        bank = { label = "Bank Frame", tooltip = "Show item levels for bank items." }
     }
 }

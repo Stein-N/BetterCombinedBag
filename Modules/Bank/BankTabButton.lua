@@ -1,6 +1,6 @@
 local name, addon = ...
 
-BetterCombinedTabButtonMixin = {}
+local BetterCombinedTabButtonMixin = {}
 
 local iconTexture = "interface/icons/ability_bossashvane_icon03"
 local tabData = {

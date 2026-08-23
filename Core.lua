@@ -1,31 +1,29 @@
 local addonName, addon = ...
-BCB_Settings = {}
 
 local f = CreateFrame("Frame")
 f:RegisterEvent("ADDON_LOADED")
 
 f:SetScript("OnEvent", function(_, event, ...)
-    local name = ...
-    if event == "ADDON_LOADED" and name == addonName then
+    if event == "ADDON_LOADED" and (...) == addonName then
         addon.BuildSettingsPage()
+
         -- Force CombinedBags to be enabled
         SetCVar("combinedBags", 1)
 
-        -- Register needed Events from Modules
-        if addon.Events ~= nil then
-            for eventName, _ in ipairs(addon.Events) do
-                if eventName ~= nil and eventName ~= "" then
-                    f:RegisterEvent(eventName)
-                end
-            end
-        end
-
-        -- Initialize all Modules
+        -- Initialize all Modules. This is also where Modules register the
+        -- Events they need via addon.AddEvent(event, func).
         if addon.Modules ~= nil then
             for _, module in pairs(addon.Modules) do
                 if module.Init ~= nil then
                     module:Init()
                 end
+            end
+        end
+
+        -- Register every Event requested by Modules on this frame
+        if addon.Events ~= nil then
+            for eventName in pairs(addon.Events) do
+                f:RegisterEvent(eventName)
             end
         end
 
@@ -36,7 +34,7 @@ f:SetScript("OnEvent", function(_, event, ...)
     -- They need to be registered via addon.AddEvent(event, function)
     if addon.Events ~= nil and addon.Events[event] ~= nil then
         for _, func in ipairs(addon.Events[event]) do
-            if func ~= nil then func(...) end
+            func(...)
         end
     end
 end)

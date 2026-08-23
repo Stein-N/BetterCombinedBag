@@ -1,12 +1,12 @@
-local addonName, addon = ...
-BagModule = {}
+local _, addon = ...
+local BagModule = {}
 
 function BagModule:LoadSettings()
-    self.borderPadding = BCB_Settings.bagBorderPadding + 7
-    self.itemPadding = BCB_Settings.bagItemPadding + 4
-    self.splitBags = BCB_Settings.bagSplitBags
-    self.reagentsPadding = BCB_Settings.bagReagentsPadding
-    self.addReagentsBag = BCB_Settings.addReagentsBag
+    self.borderPadding = addon.db.Settings.bagBorderPadding + 7
+    self.itemPadding = addon.db.Settings.bagItemPadding + 4
+    self.splitBags = addon.db.Settings.bagSplitBags
+    self.reagentsPadding = addon.db.Settings.bagReagentsPadding
+    self.addReagentsBag = addon.db.Settings.addReagentsBag
     self.btnSize = 37
     self:SetColumns()
 
@@ -219,12 +219,6 @@ function BagModule:Init()
     -- ############################## --
     --         Event Registry         --
     -- ############################## --
-    addon.AddEvent("ADDON_LOADED", function(name)
-        if name == addonName then
-            SetCVar("combinedBags", 1)
-        end
-    end)
-
     addon.AddEvent("CVAR_UPDATE", function(cvar)
         if cvar == "combinedBags" and self.blockedCVarChange == false then
             self.blockedCVarChange = true

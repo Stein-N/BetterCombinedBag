@@ -1,14 +1,13 @@
-## Interface: 120000, 120001
+## Interface: 120100
 ## Title: BetterCombinedBag
-## Version: 3.2.0
+## Version: 4.0.0
 ## Author: xStopho
-## Notes: A Simple and Lightweight Bag AddOn for WoW Retail
-## Dependencies: Blizzard_InspectUI
-## SavedVariables: BCB_ItemSync
+## Notes: A Simple and Lightweight Bag and Bank AddOn for WoW Retail
 ## SavedVariablesPerCharacter: BCB_Settings
 ## Category: Inventory
 
 ## Data
+Data\DataHandler.lua
 Data\Constants.lua
 
 ## Util classes
@@ -22,8 +21,6 @@ Settings\SettingsMenu.lua
 Modules\BagModule.lua
 Modules\Bank\BankTabButton.lua
 Modules\Bank\BankModule.lua
-Modules\InspectFrameModule.lua
-Modules\CharacterFrameModule.lua
 
 ## Core Logic
 Core.lua
