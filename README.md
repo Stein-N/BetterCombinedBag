@@ -1,29 +1,56 @@
-### 🌟BetterCombinedBag
+### 🌟 BetterCombinedBag
 
-BetterCombinedBag is a simple and lightweight addon for World of Warcraft (Retail) that enhances the default combined backpack without completely replacing it. It provides you with more control over your bag's appearance and functionality through targeted customizations and quality-of-life improvements.
+BetterCombinedBag is a simple and lightweight addon for World of Warcraft (Retail) that enhances the default combined backpack without replacing it. It gives you more control over your bag's layout and information through targeted customizations, while keeping the look and feel of the default Blizzard UI.
 
-This addon is ideal for players who like the look and feel of the default Blizzard UI but want more control and information without installing a complete bag replacement addon.
+It hooks the frame Blizzard already draws instead of building its own bag, so there are no extra frames, no polling, and only three event registrations while the bag is open.
 
-### ✨ Key Features
+### ✨ Features
 
-This addon extends the default bag interface with several useful features:
+**Reagent Bag Integration**: Draws the reagent bag inside the combined backpack, so you only have one single, unified bag window.
 
-**Item Level Display**: Shows the item level of equipable items directly on their icon in your bag.
+**Flexible Column Layout**: Define the number of item columns (Columns) to customize the width of your bag.
 
-**Item Level Color**: Provides an option to color the item level text based on the item's quality (Common, Uncommon, Rare, Epic, Legendary).
+**Split Bags**: Each bag starts on a new row, regardless of the space left in the previous one, for better visual organization.
 
-**Bank Support**: Shows item levels in the character and warband bank as well, including an "Everything" tab that lists every bank tab's items on one screen.
+**Adjustable Padding**: Precisely adjust the space between individual items (Item Padding), the space between the items and the frame border (Border Padding), and the gap above the reagent bag.
 
-**Reagent Bag Integration**: Attaches the reagent bag directly to the combined backpack frame, so you only have one single, unified bag window.
+**Item Level Display**: Shows the item level of weapons and armor directly on their icon, optionally colored by item quality and scaled to your liking.
 
-**Flexible Column Layout**: You can define the number of item columns (Items per row) to customize the width of your bag to your liking.
+**Character Item Counts**: Item tooltips list every character holding that item and how many, with names in their class color. Your own count is read live; alt counts are recorded whenever that character's bags change, so an alt shows up once you have played it with the addon enabled. Bag contents only, bank not included.
 
-**Split Bags**: Provides an option to have each bag start in a new row, regardless of the space left in the previous one, allowing for better visual organization.
-
-**Adjustable Padding**: Allows for precise adjustment of the space between individual items (Item Padding) and the space between the items and the frame border (Border Padding).
+Every setting applies immediately, even with the bag open.
 
 ### ⚙️ Configuration
 
-All settings can be easily configured through the standard in-game addon options menu:
+All settings can be configured through the standard in-game addon options menu:
 
 `Esc` > `Options` > `AddOns` > `BetterCombinedBag`
+
+Settings are stored per character. Recorded item counts are stored account-wide, so every character sees the same list.
+
+### 📋 Notes
+
+The addon keeps the `combinedBags` CVar enabled, since everything it does hangs off the combined bag frame. Disable the addon if you want separate bag windows.
+
+### 🌍 Localization
+
+Available in **English** and **German**. Every user-facing string lives in `Locales/`, one file per language.
+
+`enUS.lua` is the base table and is always loaded. Each other locale file bails out immediately unless it matches the client, then overrides only the keys it translates:
+
+```lua
+if GetLocale() ~= "frFR" then return end
+
+local _, ns = ...
+local L = ns.L
+
+L.splitBags = "Séparer les sacs"
+```
+
+Anything a locale leaves out keeps its English wording, so a partial translation is always safe to ship. Adding a language means dropping in one file and listing it in the `.toc` after `enUS.lua` — no code changes.
+
+Labels come from `L[key]` and tooltips from `L[key .. "_desc"]`, where `key` is the setting name. A key no locale defines renders as its own name instead of erroring, which makes a gap easy to spot.
+
+### 🎯 Compatibility
+
+Built for **Retail 12.1** (`## Interface: 120100`).

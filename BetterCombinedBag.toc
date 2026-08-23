@@ -1,26 +1,17 @@
 ## Interface: 120100
 ## Title: BetterCombinedBag
-## Version: 4.0.0
+## Version: 5.0.0
 ## Author: xStopho
-## Notes: A Simple and Lightweight Bag and Bank AddOn for WoW Retail
+## Notes: A simple and lightweight enhancement for the default combined bag.
+## SavedVariables: BCB_Inventory
 ## SavedVariablesPerCharacter: BCB_Settings
 ## Category: Inventory
 
-## Data
-Data\DataHandler.lua
-Data\Constants.lua
+# Localization: enUS is the base, every other file overrides only what it translates
+Locales\enUS.lua
+Locales\deDE.lua
 
-## Util classes
-Misc\AddOnUtils.lua
-Misc\BagItemButton.lua
-
-## Settings
-Settings\SettingsMenu.lua
-
-## Modules
-Modules\BagModule.lua
-Modules\Bank\BankTabButton.lua
-Modules\Bank\BankModule.lua
-
-## Core Logic
 Core.lua
+Bag.lua
+Tooltip.lua
+Options.lua
