@@ -14,9 +14,11 @@ It hooks the frame Blizzard already draws instead of building its own bag, so th
 
 **Adjustable Padding**: Precisely adjust the space between individual items (Item Padding), the space between the items and the frame border (Border Padding), and the gap above the reagent bag.
 
+**Flat Item Buttons**: Swaps Blizzard's beveled, rounded slot art for flat square buttons with a thin border in the item's quality color. Off by default, and toggling it back restores the stock look without a reload.
+
 **Item Level Display**: Shows the item level of weapons and armor directly on their icon, optionally colored by item quality and scaled to your liking.
 
-**Character Item Counts**: Item tooltips list every character holding that item and how many, with names in their class color. Your own count is read live; alt counts are recorded whenever that character's bags change, so an alt shows up once you have played it with the addon enabled. Bag contents only, bank not included.
+**Character Item Counts**: Item tooltips list every character holding that item and how many, with names in their class color. Your own count is read live; alt counts are recorded whenever that character's bags change, so an alt shows up once you have played it with the addon enabled. Only stackable items are tracked, since gear is one-per-slot noise in an alt list. Bag contents only, bank not included.
 
 Every setting applies immediately, even with the bag open.
 

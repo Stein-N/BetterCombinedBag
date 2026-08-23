@@ -10,6 +10,28 @@ local db, me, realm
 -- Reused, so building a tooltip does not allocate a table every time.
 local others = {}
 
+-- Max stack size is a fixed property of an item, so one lookup per item ID per
+-- session is enough no matter how often the bags are rescanned.
+local stackable = {}
+
+-- Gear and other one-per-slot items are noise in an alt list, so they are
+-- neither recorded nor shown.
+local function IsStackable(itemID)
+    local known = stackable[itemID]
+
+    if known == nil then
+        local maxStack = select(8, C_Item.GetItemInfo(itemID))
+        -- Not in the client's cache yet: skip it this pass rather than caching
+        -- an answer we cannot trust. Anything in a bag is normally cached.
+        if not maxStack then return false end
+
+        known = maxStack > 1
+        stackable[itemID] = known
+    end
+
+    return known
+end
+
 -- Recording -----------------------------------------------------------------
 
 -- Item IDs are numbers and "class" is a string, so both live in one flat table
@@ -27,7 +49,7 @@ local function Store()
     for bag = 0, LAST_BAG do
         for slot = 1, GetNumSlots(bag) do
             local info = GetSlotInfo(bag, slot)
-            if info then
+            if info and IsStackable(info.itemID) then
                 entry[info.itemID] = (entry[info.itemID] or 0) + info.stackCount
             end
         end
@@ -56,7 +78,7 @@ local function AddItemCounts(tooltip, data)
     if tooltip ~= GameTooltip and tooltip ~= ItemRefTooltip then return end
 
     local itemID = data and data.id
-    if not itemID then return end
+    if not itemID or not IsStackable(itemID) then return end
 
     wipe(others)
     for key, entry in pairs(BCB_Inventory) do

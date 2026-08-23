@@ -14,6 +14,8 @@ L.header_bag_desc      = "Legt fest, wie die Tasche ihre Plätze anordnet."
 -- General
 L.addReagentsBag       = "Materialtasche einfügen"
 L.addReagentsBag_desc  = "Zeigt die Materialtasche innerhalb der kombinierten Tasche an, statt in einem eigenen Fenster."
+L.flatButtons          = "Flache Taschenplätze"
+L.flatButtons_desc     = "Ersetzt Blizzards abgeschrägte Platzgrafik durch flache, eckige Plätze mit einem dünnen Rand in der Qualitätsfarbe des Gegenstands."
 L.itemLevel            = "Gegenstandsstufe anzeigen"
 L.itemLevel_desc       = "Zeigt die Gegenstandsstufe auf Waffen und Rüstung an."
 L.itemLevelColor       = "Gegenstandsstufe einfärben"
@@ -23,7 +25,7 @@ L.itemLevelScale_desc  = "Größe des Textes der Gegenstandsstufe."
 
 -- Tooltip
 L.itemCounts           = "Gegenstandsanzahl der Charaktere anzeigen"
-L.itemCounts_desc      = "Listet im Tooltip alle Charaktere auf, die den Gegenstand besitzen, und wie viele. Die Werte werden aktualisiert, sobald sich die Taschen des jeweiligen Charakters ändern."
+L.itemCounts_desc      = "Listet im Tooltip alle Charaktere auf, die den Gegenstand besitzen, und wie viele. Die Werte werden aktualisiert, sobald sich die Taschen des jeweiligen Charakters ändern. Es werden nur stapelbare Gegenstände erfasst."
 
 -- Bag settings
 L.splitBags            = "Taschen trennen"

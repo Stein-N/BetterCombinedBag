@@ -41,6 +41,7 @@ function ns.InitOptions()
 
     AddHeader("header_general")
     AddCheckbox("addReagentsBag")
+    AddCheckbox("flatButtons")
     AddCheckbox("itemLevel")
     AddCheckbox("itemLevelColor")
     AddSlider("itemLevelScale", 50, 200, 5, "%")

@@ -13,7 +13,7 @@ local GetSlotInfo = C_Container.GetContainerItemInfo
 local db, frame
 local itemButtons = { [0] = {}, {}, {}, {}, {} }
 local reagentButtons
-local levelShown = false
+local levelShown, skinned = false, false
 
 -- Item level ----------------------------------------------------------------
 
@@ -63,13 +63,17 @@ local function SetItemLevel(button, info)
     levelShown = true
 end
 
-local function RefreshItemLevels()
-    -- Nothing to draw and nothing left over from before: skip the walk.
-    if not (db.itemLevel or levelShown) then return end
+-- One walk drives both overlays. Each feature also gets a "was on last time"
+-- flag, so switching one off still runs the single pass that clears it.
+local function RefreshButtons()
+    if not (db.itemLevel or levelShown or db.flatButtons or skinned) then return end
     levelShown = false
+    skinned = db.flatButtons
 
     for _, button in frame:EnumerateValidItems() do
-        SetItemLevel(button, GetSlotInfo(button:GetBagID(), button:GetID()))
+        local info = GetSlotInfo(button:GetBagID(), button:GetID())
+        SetItemLevel(button, info)
+        ns.SkinButton(button, info and info.quality)
     end
 end
 
@@ -96,6 +100,8 @@ local function UpdateReagentSlot(button)
         ClearItemCraftingQualityOverlay(button)
         button.searchOverlay:Hide()
     end
+
+    ns.SkinButton(button, info and info.quality)
 end
 
 local function UpdateReagentSlots()
@@ -147,9 +153,13 @@ local function EnsureReagentSlots(count)
         local button = CreateFrame("ItemButton", ADDON .. "ReagentSlot" .. i, frame,
                 "ContainerFrameItemButtonTemplate")
 
-        local background = button:CreateTexture(nil, "BACKGROUND")
+        -- Named so the skin can fade it along with Blizzard's own slot art, and
+        -- pinned to a negative sublevel so it is always drawn behind the icon
+        -- rather than wherever creation order happens to put it.
+        local background = button:CreateTexture(nil, "BACKGROUND", nil, -1)
         background:SetAllPoints()
         background:SetAtlas("bags-item-slot64", TextureKitConstants.IgnoreAtlasSize)
+        button.BCBSlot = background
 
         -- Silence the template's own event handling; we update these by hand.
         button:UnregisterAllEvents()
@@ -311,7 +321,7 @@ end
 function ns.Refresh()
     if frame:IsShown() then
         ApplyLayout()
-        RefreshItemLevels()
+        RefreshButtons()
     end
 end
 
@@ -320,7 +330,7 @@ function ns.InitBag()
     frame = ContainerFrameCombinedBags
 
     hooksecurefunc(frame, "UpdateItemLayout", ApplyLayout)
-    hooksecurefunc(frame, "Update", RefreshItemLevels)
+    hooksecurefunc(frame, "Update", RefreshButtons)
     hooksecurefunc(frame, "SetSearchBoxPoint", CenterSearchBox)
     hooksecurefunc(ContainerFrame6, "SetPoint", KeepReagentFrameHidden)
 end

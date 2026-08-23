@@ -15,6 +15,8 @@ local L = {
     -- General
     addReagentsBag       = "Add Reagent Bag",
     addReagentsBag_desc  = "Draw the reagent bag inside the combined bag instead of in its own window.",
+    flatButtons          = "Flat Item Buttons",
+    flatButtons_desc     = "Replace Blizzard's beveled slot art with flat, square buttons and a thin border in the item's quality color.",
     itemLevel            = "Show Item Level",
     itemLevel_desc       = "Show the item level on weapons and armor.",
     itemLevelColor       = "Color Item Level",
@@ -24,7 +26,7 @@ local L = {
 
     -- Tooltip
     itemCounts           = "Show Character Item Counts",
-    itemCounts_desc      = "List every character holding the item, and how many, on its tooltip. Alt counts are recorded whenever that character's bags change.",
+    itemCounts_desc      = "List every character holding the item, and how many, on its tooltip. Alt counts are recorded whenever that character's bags change. Only stackable items are tracked.",
 
     -- Bag settings
     splitBags            = "Split Bags",

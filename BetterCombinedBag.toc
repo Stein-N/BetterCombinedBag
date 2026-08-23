@@ -12,6 +12,7 @@ Locales\enUS.lua
 Locales\deDE.lua
 
 Core.lua
+Skin.lua
 Bag.lua
 Tooltip.lua
 Options.lua
