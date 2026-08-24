@@ -6,13 +6,11 @@ It hooks the frame Blizzard already draws instead of building its own bag, so th
 
 ### ✨ Features
 
-**Reagent Bag Integration**: Draws the reagent bag inside the combined backpack, so you only have one single, unified bag window.
+**Reagent Bag Integration**: Draws the reagent bag inside the combined backpack, so you only have one single, unified bag window, with a divider line marking where the reagent section starts.
 
 **Flexible Column Layout**: Define the number of item columns (Columns) to customize the width of your bag.
 
 **Split Bags**: Each bag starts on a new row, regardless of the space left in the previous one, for better visual organization.
-
-**Adjustable Padding**: Precisely adjust the space between individual items (Item Padding), the space between the items and the frame border (Border Padding), and the gap above the reagent bag.
 
 **Item Level Display**: Shows the item level of weapons and armor directly on their icon, optionally colored by item quality and scaled to your liking.
 

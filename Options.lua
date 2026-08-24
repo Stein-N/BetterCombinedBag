@@ -25,7 +25,7 @@ local function AddCheckbox(key)
     Settings.CreateCheckbox(category, AddSetting(key), L[key .. "_desc"])
 end
 
--- The suffix stays a literal: "%" and "px" read the same in every language.
+-- The suffix stays a literal: "%" reads the same in every language.
 local function AddSlider(key, min, max, stepSize, suffix)
     local options = Settings.CreateSliderOptions(min, max, stepSize)
     options:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right, function(value)
@@ -51,9 +51,6 @@ function ns.InitOptions()
     AddHeader("header_bag")
     AddCheckbox("splitBags")
     AddSlider("columns", 10, 38, 1, "")
-    AddSlider("borderPadding", 0, 50, 1, "px")
-    AddSlider("itemPadding", 0, 50, 1, "px")
-    AddSlider("reagentsPadding", 0, 50, 1, "px")
 
     Settings.RegisterAddOnCategory(category)
 end

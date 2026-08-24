@@ -1,18 +1,22 @@
 local ADDON, ns = ...
 
 local BUTTON_SIZE     = 37 -- Blizzard's container item button
+local ITEM_GAP        = 4  -- space between two slots
+local STEP            = BUTTON_SIZE + ITEM_GAP
+local BORDER          = 7  -- space between the slots and the frame edge
 local LAST_BAG        = 4  -- backpack (0) plus the four equipped bag slots
 local REAGENT_BAG     = Enum.BagIndex.ReagentBag
 local HEADER_HEIGHT   = 60 -- title bar and search row above the first slot
 local CHROME_HEIGHT   = 90 -- everything above and below the slots
 local CURRENCY_HEIGHT = 20
+local DIVIDER_HEIGHT  = 12 -- row the reagent bag divider sits on
 
 local GetNumSlots = C_Container.GetContainerNumSlots
 local GetSlotInfo = C_Container.GetContainerItemInfo
 
 local db, frame
 local itemButtons = { [0] = {}, {}, {}, {}, {} }
-local reagentButtons
+local reagentButtons, reagentDivider
 local levelShown = false
 
 -- Item level ----------------------------------------------------------------
@@ -169,7 +173,7 @@ end
 
 -- Layout --------------------------------------------------------------------
 
-local columns, border, step, column, posX, posY
+local columns, column, posX, posY
 
 local function Place(button)
     button:ClearAllPoints()
@@ -177,16 +181,35 @@ local function Place(button)
 
     column = column + 1
     if column < columns then
-        posX = posX + step
+        posX = posX + STEP
     else
-        column, posX, posY = 0, border, posY - step
+        column, posX, posY = 0, BORDER, posY - STEP
     end
 end
 
 local function BreakRow()
     if column ~= 0 then
-        column, posX, posY = 0, border, posY - step
+        column, posX, posY = 0, BORDER, posY - STEP
     end
+end
+
+-- Without a line above them the reagent slots read as one more row of the last
+-- bag. It spans the slot area, centered in the row it reserves.
+local function PlaceDivider()
+    if not reagentDivider then
+        reagentDivider = frame:CreateTexture(nil, "ARTWORK")
+        reagentDivider:SetColorTexture(0.7, 0.7, 0.7, 0.5)
+        reagentDivider:SetHeight(1)
+    end
+
+    local y = posY - (DIVIDER_HEIGHT / 2) + 2
+
+    reagentDivider:ClearAllPoints()
+    reagentDivider:SetPoint("TOPLEFT", BORDER, y)
+    reagentDivider:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -BORDER, y)
+    reagentDivider:Show()
+
+    posY = posY - DIVIDER_HEIGHT
 end
 
 local function WidestBag(withReagents)
@@ -234,19 +257,15 @@ local function ApplyLayout()
         if widest > 0 and widest < columns then columns = widest end
     end
 
-    local gap = db.itemPadding + 4
-    border = db.borderPadding + 7
-    step = BUTTON_SIZE + gap
-
-    local height = CountRows(withReagents) * step - gap + CHROME_HEIGHT
+    local height = CountRows(withReagents) * STEP - ITEM_GAP + CHROME_HEIGHT
     if withReagents then
-        height = height + db.reagentsPadding
+        height = height + DIVIDER_HEIGHT
     end
     if C_CurrencyInfo.GetBackpackCurrencyInfo(1) then
         height = height + CURRENCY_HEIGHT
     end
 
-    frame:SetSize(columns * step - gap + border * 2, height)
+    frame:SetSize(columns * STEP - ITEM_GAP + BORDER * 2, height)
 
     -- Blizzard reuses and reshuffles its buttons, so re-index them by bag and
     -- slot before walking the bags in display order.
@@ -255,7 +274,7 @@ local function ApplyLayout()
         if slots then slots[button:GetID()] = button end
     end
 
-    column, posX, posY = 0, border, -HEADER_HEIGHT
+    column, posX, posY = 0, BORDER, -HEADER_HEIGHT
 
     for bag = 0, LAST_BAG do
         local slots = itemButtons[bag]
@@ -270,7 +289,9 @@ local function ApplyLayout()
     if withReagents then
         EnsureReagentSlots(reagentSlots)
         BreakRow()
-        posY = posY - db.reagentsPadding
+        PlaceDivider()
+    elseif reagentDivider then
+        reagentDivider:Hide()
     end
 
     for i = 1, reagentButtons and #reagentButtons or 0 do

@@ -5,7 +5,7 @@
 ## Notes: A simple and lightweight enhancement for the default combined bag.
 ## SavedVariables: BCB_Inventory
 ## SavedVariablesPerCharacter: BCB_Settings
-## Category: Inventory
+## Category: Morthen UI
 
 # Localization: enUS is the base, every other file overrides only what it translates
 Locales\enUS.lua

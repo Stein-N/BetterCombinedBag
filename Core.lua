@@ -3,20 +3,17 @@ local ADDON, ns = ...
 -- Every stored setting, with the value used when a profile does not have one.
 ns.defaults = {
     -- General
-    addReagentsBag  = false, -- draw the reagent bag inside the combined bag
-    itemLevel       = false, -- print item level on weapons and armor
-    itemLevelColor  = false, -- tint that text with the item quality color
-    itemLevelScale  = 125,   -- percent
+    addReagentsBag = false, -- draw the reagent bag inside the combined bag
+    itemLevel      = false, -- print item level on weapons and armor
+    itemLevelColor = false, -- tint that text with the item quality color
+    itemLevelScale = 125,   -- percent
 
     -- Tooltip
-    itemCounts      = true,  -- list which characters are holding the item
+    itemCounts     = true,  -- list which characters are holding the item
 
     -- Layout
-    splitBags       = true,  -- every bag starts on a fresh row
-    columns         = 10,
-    borderPadding   = 0,
-    itemPadding     = 0,
-    reagentsPadding = 10,
+    splitBags      = true,  -- every bag starts on a fresh row
+    columns        = 10,
 }
 
 local function LoadSettings()
